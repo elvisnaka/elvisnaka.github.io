@@ -414,7 +414,7 @@ me rindo dulce, me rindo, vida mía.</strong></div>
   <p class="foot-meta">
     ELVIS NAKA ES UN PROYECTO DE FICCIÓN MUSICAL<br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 01:25</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 01:40</span>
   </p>
 </footer>
 
@@ -507,7 +507,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-0125";
+const VERSION_LOCAL = "2026-07-25-0140";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -556,7 +556,11 @@ if (tr){
   let idx = 0;
   function abre(i){ idx = (i + fotos.length) % fotos.length; visorImg.src = fotos[idx].src; visorImg.alt = fotos[idx].alt; visor.classList.add('abierto'); document.body.style.overflow='hidden'; }
   function cierra(){ visor.classList.remove('abierto'); document.body.style.overflow=''; }
-  fotos.forEach((im,i)=> im.addEventListener('click', ()=> abre(i)));
+  fotos.forEach((im,i)=>{
+    im.style.cursor='pointer';
+    im.addEventListener('click', ()=> abre(i));
+    if (im.parentElement) im.parentElement.addEventListener('click', ()=> abre(i));
+  });
   visor.querySelector('.visor-cerrar').addEventListener('click', cierra);
   visor.querySelector('.visor-prev').addEventListener('click', e=>{ e.stopPropagation(); abre(idx-1); });
   visor.querySelector('.visor-siguiente').addEventListener('click', e=>{ e.stopPropagation(); abre(idx+1); });
