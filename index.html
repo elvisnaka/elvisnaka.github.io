@@ -384,7 +384,7 @@ nadie dirá que no lo intentamos.</strong></div>
 <!-- ============ TRACKLIST ============ -->
 <section id="tracklist" class="pasillo">
   <div class="wrap">
-    <p class="sec-label">Las nueve canciones</p>
+    <p class="sec-label">Las canciones</p>
     <div id="tracks"><!-- generado por JS --></div>
   </div>
 </section>
@@ -473,7 +473,7 @@ nadie dirá que no lo intentamos.</strong></div>
   <p class="foot-meta">
     ELVIS NAKA ES UN PROYECTO DE FICCIÓN MUSICAL<br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 03:10</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 03:25</span>
   </p>
 </footer>
 
@@ -499,7 +499,8 @@ const tracks = [
   {n:"06", t:"Caramelos robados",           d:"Amor de adolescencia, dulce y canalla.",                   audio:"", single:false},
   {n:"07", t:"No me mires así",             d:"Miedo a que te quieran de verdad.",                        audio:"", single:false},
   {n:"08", t:"Flores en el desguace",       d:"Belleza donde nadie mira.",                                audio:"", single:false},
-  {n:"09", t:"Entre bombones (reprise)",    d:"El cierre, en directo, con risas al final.",               audio:"", single:false}
+  {n:"09", t:"Entre bombones (reprise)",    d:"El cierre, en directo, con risas al final.",               audio:"", single:false},
+  {n:"10", t:"Ángela",                      d:"Nadie dirá que no lo intentamos.",                         audio:"", single:false, arriba:"#cardAN"}
 ];
 
 const fmt = s => isNaN(s) ? "0:00" : `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,"0")}`;
@@ -566,7 +567,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-0310";
+const VERSION_LOCAL = "2026-07-25-0325";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
