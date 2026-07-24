@@ -440,6 +440,73 @@ nadie dirá que no lo intentamos.</strong></div>
       </div>
       </div>
     </div>
+
+    <div class="single-card cerrada" id="cardLV" style="margin-top:56px">
+      <div class="card-cabecera">
+        <h3 class="titulo-bombillas">La chica de la lavandería</h3>
+        <button class="abrir-btn" type="button">Abrir</button>
+      </div>
+      <div class="card-contenido">
+      <figure class="single-img">
+        <img src="naka-02-v3.jpg" alt="Elvis Naka en el camerino con la Telecaster">
+      </figure>
+      <div>
+        <h3 class="single-title">La chica de la lavandería</h3>
+        <p class="single-desc">«Centrifuga mis inviernos... y me deja limpio así.» Amor de barrio en clave de lavadora: guitarra sola, pie marcando el suelo y armónica de acompañante.</p>
+        <p class="single-cta">Para escucharla, pincha aquí <span class="cta-arrow">↓</span></p>
+        <div class="player" data-src="la-lavanderia.mp3">
+          <div class="p-row">
+            <button class="p-btn" aria-label="Reproducir La chica de la lavandería"><span class="tri"></span></button>
+            <h3 class="p-title">La chica de la lavandería</h3>
+          </div>
+          <div class="p-body">
+            <div class="p-bar"><div class="p-fill"></div></div>
+            <div class="p-time"><span class="p-cur">0:00</span><span class="p-dur">–:––</span></div>
+            <a class="p-dl" href="la-lavanderia.mp3" download>Descargar la canción</a>
+            <div class="contador" aria-live="polite">♪ <span class="num" id="numLV">…</span> escuchas</div>
+          </div>
+        </div>
+        <div class="letra">
+          <h4>La letra</h4>
+          <div class="letra-cols">Llegué con dos bolsas de diciembre,
+manchas que no quiero explicar.
+Ella masca chicle y me sonríe:
+"aquí todo se puede lavar".
+
+Le pago en monedas de otra época,
+me guarda la máquina mejor.
+Y mientras da vueltas mi pasado
+me habla del tiempo... y del amor.
+
+<strong>La chica de la lavandería
+tiene espuma en la mirada, no me quiero ir.
+La chica de la lavandería
+centrifuga mis inviernos... y me deja limpio así.</strong>
+
+Hay tipos que se dejan la chaqueta
+solo por volverla a recoger.
+Yo ya no sé qué ropa traigo sucia
+y qué traigo por volverla a ver.
+
+<strong>La chica de la lavandería
+tiene espuma en la mirada, no me quiero ir.
+La chica de la lavandería
+centrifuga mis inviernos... y me deja limpio así.</strong>
+
+Cuarenta minutos dura un programa.
+Cuarenta minutos de mirar de reojo.
+Nunca la niebla olió tan bien
+como aquí dentro, a suavizante y a peligro.
+
+<strong>La chica de la lavandería
+tiene espuma en la mirada, no me quiero ir.
+La chica de la lavandería
+centrifuga mis inviernos, plancha mis heridas...
+y me deja limpio, limpio así.</strong></div>
+        </div>
+      </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -535,7 +602,7 @@ nadie dirá que no lo intentamos.</strong></div>
   <p class="foot-meta">
     ELVIS NAKA ES UN PROYECTO DE FICCIÓN MUSICAL<br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 05:05</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 05:45</span>
   </p>
 </footer>
 
@@ -554,7 +621,7 @@ nadie dirá que no lo intentamos.</strong></div>
    ========================================================== */
 const tracks = [
   {n:"01", t:"Entre bombones",              d:"Un lobo perdido en la confitería.",                        audio:"", single:false, arriba:"#cardEB"},
-  {n:"02", t:"La chica de la lavandería",   d:"Centrifuga inviernos. Deja limpio.",                       audio:"", single:false},
+  {n:"02", t:"La chica de la lavandería",   d:"Centrifuga inviernos. Deja limpio.",                       audio:"", single:false, arriba:"#cardLV"},
   {n:"03", t:"Bailo mal",                  d:"Nadie en esta pista se lo toma tan en serio.",             audio:"", single:true},
   {n:"04", t:"El pájaro de junio del 80",   d:"Yo guardo el invierno, tú guarda el volar.",               audio:"", single:false},
   {n:"05", t:"Domingo sin guerra",          d:"La primera mañana en calma de su vida.",                   audio:"", single:false},
@@ -616,7 +683,7 @@ document.querySelectorAll('.player').forEach(pl => {
     if (current && current !== audio){ current.pause(); document.querySelectorAll('.p-btn').forEach(b=>b.classList.remove('playing')); }
     if (audio.paused){
       const p = audio.play();
-      if (p) p.then(()=>{ btn.classList.add('playing'); current = audio; if (pl.dataset.src.includes('bailar-mal')) cuentaEscucha(); else if (pl.dataset.src.includes('entre-bombones')) cuentaEB(); else if (pl.dataset.src.includes('angela')) cuentaAN(); else if (pl.dataset.src.includes('polizon')) cuentaPO(); })
+      if (p) p.then(()=>{ btn.classList.add('playing'); current = audio; if (pl.dataset.src.includes('bailar-mal')) cuentaEscucha(); else if (pl.dataset.src.includes('entre-bombones')) cuentaEB(); else if (pl.dataset.src.includes('angela')) cuentaAN(); else if (pl.dataset.src.includes('polizon')) cuentaPO(); else if (pl.dataset.src.includes('lavanderia')) cuentaLV(); })
              .catch(err => { console.error('No se pudo reproducir:', err); alert('No se pudo reproducir el audio. Comprueba que la carpeta "audio" está junto a index.html.'); });
       else { btn.classList.add('playing'); current = audio; }
     }
@@ -630,7 +697,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-0505";
+const VERSION_LOCAL = "2026-07-25-0545";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -652,6 +719,17 @@ function cuentaEscucha(){
   if (escuchaContada) return; escuchaContada = true;
   fetch(API_CONT + '/up').then(r=>r.json()).then(d=>pintaEscuchas(d.count||0)).catch(()=>{});
 }
+
+/* Contador de La lavandería */
+const BASE_LV = 100;
+const API_LV = 'https://api.counterapi.dev/v1/elvisnaka-oscarindole/lavanderia';
+function pintaLV(n){ const e=document.getElementById('numLV'); if(e) e.textContent = (BASE_LV + n).toLocaleString('es-ES'); }
+let lvContada = false;
+function cuentaLV(){
+  if (lvContada) return; lvContada = true;
+  fetch(API_LV + '/up').then(r=>r.json()).then(d=>pintaLV(d.count||0)).catch(()=>{});
+}
+fetch(API_LV).then(r=>r.json()).then(d=>pintaLV(d.count||0)).catch(()=>{ const e=document.getElementById('numLV'); if(e) e.textContent = BASE_LV.toLocaleString('es-ES') + '+'; });
 
 /* Contador de El polizón */
 const BASE_PO = 120;
