@@ -165,6 +165,19 @@ blockquote cite{display:block;margin-top:12px;font-family:var(--mono);font-style
 .grid img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/5;transition:transform .8s ease,filter .8s ease;filter:saturate(.85)}
 .grid figure:hover img{transform:scale(1.04);filter:saturate(1)}
 
+/* ---------- TARJETAS PLEGABLES ---------- */
+.card-cabecera{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;gap:20px;padding:6px 0;text-align:center}
+.titulo-bombillas{font-family:var(--display);font-size:clamp(2.6rem,9vw,5rem);line-height:1;text-transform:uppercase;letter-spacing:.05em;
+  background-image:radial-gradient(circle, #fff3c9 0 2.6px, rgba(255,243,201,0) 3.4px), linear-gradient(180deg,#f7c65f,#9c6218);
+  background-size:13px 13px, 100% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 16px rgba(247,198,95,.5)) drop-shadow(0 1px 2px rgba(0,0,0,.8))}
+.abrir-btn{font-family:var(--mono);letter-spacing:.3em;font-size:.82rem;text-transform:uppercase;padding:13px 34px;border:1px solid var(--lampara);background:transparent;color:var(--lampara);cursor:pointer;border-radius:999px;transition:background .3s,color .3s}
+.abrir-btn:hover{background:var(--lampara);color:var(--noche)}
+.card-contenido{display:contents}
+.single-card.cerrada .card-contenido{display:none}
+.single-card.cerrada{box-shadow:0 0 40px rgba(224,49,47,.14),inset 0 0 40px rgba(224,49,47,.04)}
+
 /* ---------- VISOR A PANTALLA COMPLETA ---------- */
 .visor{position:fixed;inset:0;background:rgba(5,8,12,.96);z-index:1000;display:none;align-items:center;justify-content:center}
 .visor.abierto{display:flex}
@@ -206,7 +219,12 @@ footer::before{content:"";position:absolute;left:50%;bottom:-140px;transform:tra
 <!-- ============ SINGLE DE ADELANTO ============ -->
 <section id="single" class="single">
   <div class="wrap">
-    <div class="single-card">
+    <div class="single-card cerrada" id="cardBM">
+      <div class="card-cabecera">
+        <h3 class="titulo-bombillas">Bailo mal</h3>
+        <button class="abrir-btn" type="button">Abrir</button>
+      </div>
+      <div class="card-contenido">
       <figure class="single-img">
         <img src="naka-04-v3.jpg" alt="Elvis Naka tocando la Telecaster en el escenario, entre luces">
       </figure>
@@ -258,9 +276,15 @@ Progreso.
 Pero si esto es hacerlo mal,
 quiero que me enseñes a bailar mejor.</strong></div>
       </div>
+      </div>
     </div>
 
-    <div class="single-card" id="cardEB" style="margin-top:56px">
+    <div class="single-card cerrada" id="cardEB" style="margin-top:56px">
+      <div class="card-cabecera">
+        <h3 class="titulo-bombillas">Entre bombones</h3>
+        <button class="abrir-btn" type="button">Abrir</button>
+      </div>
+      <div class="card-contenido">
       <figure class="single-img">
         <img src="naka-06-v3.jpg" alt="Elvis Naka ante el micrófono vintage, terciopelo rojo al fondo">
       </figure>
@@ -318,9 +342,15 @@ un lobo manso en la confitería.
 Entre bombones
 me rindo dulce, me rindo, vida mía.</strong></div>
       </div>
+      </div>
     </div>
 
-    <div class="single-card" id="cardAN" style="margin-top:56px">
+    <div class="single-card cerrada" id="cardAN" style="margin-top:56px">
+      <div class="card-cabecera">
+        <h3 class="titulo-bombillas">Ángela</h3>
+        <button class="abrir-btn" type="button">Abrir</button>
+      </div>
+      <div class="card-contenido">
       <figure class="single-img">
         <img src="naka-03-v3.jpg" alt="Elvis Naka en una calle nocturna junto a los carteles de conciertos">
       </figure>
@@ -376,6 +406,7 @@ ya se van las nubes de esta casa.
 Ángela, Ángela,
 sin blanca en el abrigo, pero mira:
 nadie dirá que no lo intentamos.</strong></div>
+      </div>
       </div>
     </div>
   </div>
@@ -473,7 +504,7 @@ nadie dirá que no lo intentamos.</strong></div>
   <p class="foot-meta">
     ELVIS NAKA ES UN PROYECTO DE FICCIÓN MUSICAL<br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 03:25</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 03:55</span>
   </p>
 </footer>
 
@@ -567,7 +598,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-0325";
+const VERSION_LOCAL = "2026-07-25-0355";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -612,6 +643,25 @@ function cuentaEB(){
 }
 
 fetch(API_EB).then(r=>r.json()).then(d=>pintaEB(d.count||0)).catch(()=>{ const e=document.getElementById('numEB'); if(e) e.textContent = BASE_EB.toLocaleString('es-ES') + '+'; });
+
+/* Tarjetas plegables */
+document.querySelectorAll('.abrir-btn').forEach(b => b.addEventListener('click', () => {
+  const c = b.closest('.single-card');
+  const cerrada = c.classList.toggle('cerrada');
+  b.textContent = cerrada ? 'Abrir' : 'Cerrar';
+  if (!cerrada) c.scrollIntoView({behavior:'smooth', block:'start'});
+}));
+function abreTarjeta(){
+  const id = location.hash.replace('#','');
+  if (!id) return;
+  const c = document.getElementById(id);
+  if (c && c.classList.contains('single-card') && c.classList.contains('cerrada')) {
+    c.classList.remove('cerrada');
+    const b = c.querySelector('.abrir-btn'); if (b) b.textContent = 'Cerrar';
+  }
+}
+window.addEventListener('hashchange', abreTarjeta);
+abreTarjeta();
 
 /* Pasador */
 const tr = document.getElementById('slTrack');
