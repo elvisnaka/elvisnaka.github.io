@@ -410,6 +410,35 @@ nadie dirá que no lo intentamos.</strong></div>
       </div>
       </div>
     </div>
+
+    <div class="single-card cerrada" id="cardPO" style="margin-top:56px">
+      <div class="card-cabecera">
+        <h3 class="titulo-bombillas">El polizón</h3>
+        <button class="abrir-btn" type="button">Abrir</button>
+      </div>
+      <div class="card-contenido">
+      <figure class="single-img">
+        <img src="naka-05-v3.jpg" alt="Elvis Naka con la Telecaster ante el micrófono vintage">
+      </figure>
+      <div>
+        <h3 class="single-title">El polizón</h3>
+        <p class="single-desc">«Yo era el polizón de la bodega.» La canción del que aprendió a viajar escondido — hasta que un día bajó a tierra.</p>
+        <p class="single-cta">Para escucharla, pincha aquí <span class="cta-arrow">↓</span></p>
+        <div class="player" data-src="el-polizon.mp3">
+          <div class="p-row">
+            <button class="p-btn" aria-label="Reproducir El polizón"><span class="tri"></span></button>
+            <h3 class="p-title">El polizón</h3>
+          </div>
+          <div class="p-body">
+            <div class="p-bar"><div class="p-fill"></div></div>
+            <div class="p-time"><span class="p-cur">0:00</span><span class="p-dur">–:––</span></div>
+            <a class="p-dl" href="el-polizon.mp3" download>Descargar la canción</a>
+            <div class="contador" aria-live="polite">♪ <span class="num" id="numPO">…</span> escuchas</div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -505,7 +534,7 @@ nadie dirá que no lo intentamos.</strong></div>
   <p class="foot-meta">
     ELVIS NAKA ES UN PROYECTO DE FICCIÓN MUSICAL<br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 04:15</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 04:45</span>
   </p>
 </footer>
 
@@ -532,7 +561,8 @@ const tracks = [
   {n:"07", t:"No me mires así",             d:"Miedo a que te quieran de verdad.",                        audio:"", single:false},
   {n:"08", t:"Flores en el desguace",       d:"Belleza donde nadie mira.",                                audio:"", single:false},
   {n:"09", t:"Entre bombones (reprise)",    d:"El cierre, en directo, con risas al final.",               audio:"", single:false},
-  {n:"10", t:"Ángela",                      d:"Nadie dirá que no lo intentamos.",                         audio:"", single:false, arriba:"#cardAN"}
+  {n:"10", t:"Ángela",                      d:"Nadie dirá que no lo intentamos.",                         audio:"", single:false, arriba:"#cardAN"},
+  {n:"11", t:"El polizón",                  d:"El que aprendió a viajar escondido.",                      audio:"", single:false, arriba:"#cardPO"}
 ];
 
 const fmt = s => isNaN(s) ? "0:00" : `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,"0")}`;
@@ -585,7 +615,7 @@ document.querySelectorAll('.player').forEach(pl => {
     if (current && current !== audio){ current.pause(); document.querySelectorAll('.p-btn').forEach(b=>b.classList.remove('playing')); }
     if (audio.paused){
       const p = audio.play();
-      if (p) p.then(()=>{ btn.classList.add('playing'); current = audio; if (pl.dataset.src.includes('bailar-mal')) cuentaEscucha(); else if (pl.dataset.src.includes('entre-bombones')) cuentaEB(); else if (pl.dataset.src.includes('angela')) cuentaAN(); })
+      if (p) p.then(()=>{ btn.classList.add('playing'); current = audio; if (pl.dataset.src.includes('bailar-mal')) cuentaEscucha(); else if (pl.dataset.src.includes('entre-bombones')) cuentaEB(); else if (pl.dataset.src.includes('angela')) cuentaAN(); else if (pl.dataset.src.includes('polizon')) cuentaPO(); })
              .catch(err => { console.error('No se pudo reproducir:', err); alert('No se pudo reproducir el audio. Comprueba que la carpeta "audio" está junto a index.html.'); });
       else { btn.classList.add('playing'); current = audio; }
     }
@@ -599,7 +629,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-0415";
+const VERSION_LOCAL = "2026-07-25-0445";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -621,6 +651,17 @@ function cuentaEscucha(){
   if (escuchaContada) return; escuchaContada = true;
   fetch(API_CONT + '/up').then(r=>r.json()).then(d=>pintaEscuchas(d.count||0)).catch(()=>{});
 }
+
+/* Contador de El polizón */
+const BASE_PO = 120;
+const API_PO = 'https://api.counterapi.dev/v1/elvisnaka-oscarindole/polizon';
+function pintaPO(n){ const e=document.getElementById('numPO'); if(e) e.textContent = (BASE_PO + n).toLocaleString('es-ES'); }
+let poContada = false;
+function cuentaPO(){
+  if (poContada) return; poContada = true;
+  fetch(API_PO + '/up').then(r=>r.json()).then(d=>pintaPO(d.count||0)).catch(()=>{});
+}
+fetch(API_PO).then(r=>r.json()).then(d=>pintaPO(d.count||0)).catch(()=>{ const e=document.getElementById('numPO'); if(e) e.textContent = BASE_PO.toLocaleString('es-ES') + '+'; });
 
 /* Contador de Ángela */
 const BASE_AN = 150;
