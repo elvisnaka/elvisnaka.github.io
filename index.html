@@ -319,6 +319,65 @@ Entre bombones
 me rindo dulce, me rindo, vida mía.</strong></div>
       </div>
     </div>
+
+    <div class="single-card" id="cardAN" style="margin-top:56px">
+      <figure class="single-img">
+        <img src="naka-03-v3.jpg" alt="Elvis Naka en una calle nocturna junto a los carteles de conciertos">
+      </figure>
+      <div>
+        <h3 class="single-title">Ángela</h3>
+        <p class="single-desc">«Nadie dirá que no lo intentamos.» Una despedida que se baila: rocanrol de tom-toms galopantes con el corazón roto y la frente alta.</p>
+        <p class="single-cta">Para escucharla, pincha aquí <span class="cta-arrow">↓</span></p>
+        <div class="player" data-src="angela.mp3">
+          <div class="p-row">
+            <button class="p-btn" aria-label="Reproducir Ángela"><span class="tri"></span></button>
+            <h3 class="p-title">Ángela</h3>
+          </div>
+          <div class="p-body">
+            <div class="p-bar"><div class="p-fill"></div></div>
+            <div class="p-time"><span class="p-cur">0:00</span><span class="p-dur">–:––</span></div>
+            <a class="p-dl" href="angela.mp3" download>Descargar la canción</a>
+            <div class="contador" aria-live="polite">♪ <span class="num" id="numAN">…</span> escuchas</div>
+          </div>
+        </div>
+      <div class="letra">
+        <h4>La letra</h4>
+        <div class="letra-cols">Ángela, se apaga la verbena,
+recogen ya las luces del portal.
+Bailamos sin monedas la condena
+de querernos sin un sitio donde estar.
+
+<strong>Ángela, Ángela,
+¿cuándo se irán las nubes de esta casa?
+Ángela, Ángela,
+sin blanca en el abrigo y sin mañana,
+nadie dirá que no lo intentamos.</strong>
+
+Los sueños que tuvimos tan a mano
+se nos volvieron humo en el balcón.
+Guardamos el amor en una lata
+y la lata sonaba a canción.
+
+<strong>Ángela, Ángela,
+¿cuándo se irán las nubes de esta casa?
+Ángela, Ángela,
+sin blanca en el abrigo y sin mañana,
+nadie dirá que no lo intentamos.</strong>
+
+Déjame decírtelo bajito,
+que esto no lo escuche ni el reloj:
+no hay culpables en el parte,
+solo dos que llegaron sin llegar.
+Seca esos ojos, que estar vivo
+también se puede bailar.
+
+<strong>Ángela, Ángela,
+ya se van las nubes de esta casa.
+Ángela, Ángela,
+sin blanca en el abrigo, pero mira:
+nadie dirá que no lo intentamos.</strong></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -414,7 +473,7 @@ me rindo dulce, me rindo, vida mía.</strong></div>
   <p class="foot-meta">
     ELVIS NAKA ES UN PROYECTO DE FICCIÓN MUSICAL<br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 02:40</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 03:10</span>
   </p>
 </footer>
 
@@ -493,7 +552,7 @@ document.querySelectorAll('.player').forEach(pl => {
     if (current && current !== audio){ current.pause(); document.querySelectorAll('.p-btn').forEach(b=>b.classList.remove('playing')); }
     if (audio.paused){
       const p = audio.play();
-      if (p) p.then(()=>{ btn.classList.add('playing'); current = audio; if (pl.dataset.src.includes('bailar-mal')) cuentaEscucha(); else if (pl.dataset.src.includes('entre-bombones')) cuentaEB(); })
+      if (p) p.then(()=>{ btn.classList.add('playing'); current = audio; if (pl.dataset.src.includes('bailar-mal')) cuentaEscucha(); else if (pl.dataset.src.includes('entre-bombones')) cuentaEB(); else if (pl.dataset.src.includes('angela')) cuentaAN(); })
              .catch(err => { console.error('No se pudo reproducir:', err); alert('No se pudo reproducir el audio. Comprueba que la carpeta "audio" está junto a index.html.'); });
       else { btn.classList.add('playing'); current = audio; }
     }
@@ -507,7 +566,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-0240";
+const VERSION_LOCAL = "2026-07-25-0310";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -529,6 +588,17 @@ function cuentaEscucha(){
   if (escuchaContada) return; escuchaContada = true;
   fetch(API_CONT + '/up').then(r=>r.json()).then(d=>pintaEscuchas(d.count||0)).catch(()=>{});
 }
+
+/* Contador de Ángela */
+const BASE_AN = 150;
+const API_AN = 'https://api.counterapi.dev/v1/elvisnaka-oscarindole/angela';
+function pintaAN(n){ const e=document.getElementById('numAN'); if(e) e.textContent = (BASE_AN + n).toLocaleString('es-ES'); }
+let anContada = false;
+function cuentaAN(){
+  if (anContada) return; anContada = true;
+  fetch(API_AN + '/up').then(r=>r.json()).then(d=>pintaAN(d.count||0)).catch(()=>{});
+}
+fetch(API_AN).then(r=>r.json()).then(d=>pintaAN(d.count||0)).catch(()=>{ const e=document.getElementById('numAN'); if(e) e.textContent = BASE_AN.toLocaleString('es-ES') + '+'; });
 
 /* Contador de Entre bombones */
 const BASE_EB = 200;
