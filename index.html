@@ -165,6 +165,16 @@ blockquote cite{display:block;margin-top:12px;font-family:var(--mono);font-style
 .grid img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/5;transition:transform .8s ease,filter .8s ease;filter:saturate(.85)}
 .grid figure:hover img{transform:scale(1.04);filter:saturate(1)}
 
+/* ---------- VISOR A PANTALLA COMPLETA ---------- */
+.visor{position:fixed;inset:0;background:rgba(5,8,12,.96);z-index:1000;display:none;align-items:center;justify-content:center}
+.visor.abierto{display:flex}
+.visor img{max-width:96vw;max-height:88vh;object-fit:contain;box-shadow:0 0 80px rgba(0,0,0,.8)}
+.visor-cerrar{position:absolute;top:18px;right:18px;width:48px;height:48px;border-radius:50%;border:1px solid rgba(232,228,220,.4);background:rgba(10,17,24,.7);color:#e8e4dc;font-size:1.4rem;cursor:pointer;display:grid;place-items:center}
+.visor-nav{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;border:1px solid var(--lampara);background:rgba(10,17,24,.75);color:var(--lampara);font-size:1.5rem;cursor:pointer;display:grid;place-items:center}
+.visor-prev{left:14px}.visor-siguiente{right:14px}
+.visor-nav:hover,.visor-cerrar:hover{background:var(--lampara);color:var(--noche)}
+.sl-track figure{cursor:zoom-in}
+
 /* ---------- FOOTER ---------- */
 footer{position:relative;padding:140px 24px 60px;text-align:center;overflow:hidden}
 footer::before{content:"";position:absolute;left:50%;bottom:-140px;transform:translateX(-50%);width:640px;height:420px;background:radial-gradient(ellipse at center,rgba(201,143,69,.22),rgba(201,143,69,.06) 45%,transparent 70%);pointer-events:none}
@@ -404,9 +414,16 @@ me rindo dulce, me rindo, vida mía.</strong></div>
   <p class="foot-meta">
     ELVIS NAKA ES UN PROYECTO DE FICCIÓN MUSICAL<br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 01:00</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 01:25</span>
   </p>
 </footer>
+
+<div class="visor" id="visor" role="dialog" aria-label="Foto a pantalla completa">
+  <button class="visor-cerrar" aria-label="Cerrar">✕</button>
+  <button class="visor-nav visor-prev" aria-label="Anterior">‹</button>
+  <img id="visorImg" src="" alt="Foto de Elvis Naka a pantalla completa">
+  <button class="visor-nav visor-siguiente" aria-label="Siguiente">›</button>
+</div>
 
 <script>
 /* ==========================================================
@@ -490,7 +507,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-0100";
+const VERSION_LOCAL = "2026-07-25-0125";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -531,6 +548,20 @@ if (tr){
   const paso = () => tr.querySelector('figure').getBoundingClientRect().width + 14;
   document.querySelector('.sl-prev').addEventListener('click', ()=> tr.scrollBy({left:-paso()}));
   document.querySelector('.sl-next').addEventListener('click', ()=> tr.scrollBy({left:paso()}));
+
+  /* Visor a pantalla completa */
+  const visor = document.getElementById('visor');
+  const visorImg = document.getElementById('visorImg');
+  const fotos = Array.from(tr.querySelectorAll('img'));
+  let idx = 0;
+  function abre(i){ idx = (i + fotos.length) % fotos.length; visorImg.src = fotos[idx].src; visorImg.alt = fotos[idx].alt; visor.classList.add('abierto'); document.body.style.overflow='hidden'; }
+  function cierra(){ visor.classList.remove('abierto'); document.body.style.overflow=''; }
+  fotos.forEach((im,i)=> im.addEventListener('click', ()=> abre(i)));
+  visor.querySelector('.visor-cerrar').addEventListener('click', cierra);
+  visor.querySelector('.visor-prev').addEventListener('click', e=>{ e.stopPropagation(); abre(idx-1); });
+  visor.querySelector('.visor-siguiente').addEventListener('click', e=>{ e.stopPropagation(); abre(idx+1); });
+  visor.addEventListener('click', e=>{ if (e.target === visor) cierra(); });
+  document.addEventListener('keydown', e=>{ if(!visor.classList.contains('abierto')) return; if(e.key==='Escape') cierra(); if(e.key==='ArrowLeft') abre(idx-1); if(e.key==='ArrowRight') abre(idx+1); });
 }
 </script>
 </body>
