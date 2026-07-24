@@ -198,7 +198,7 @@ blockquote cite{display:block;margin-top:12px;font-family:var(--mono);font-style
 /* ---------- GRACIAS (banda) ---------- */
 .gracias{position:relative;overflow:hidden}
 .gracias img{width:100%;display:block}
-.gracias .titulo-bombillas{position:absolute;top:4%;left:0;right:0;text-align:center;font-size:clamp(2.6rem,10vw,6rem);margin:0}
+.gracias .titulo-bombillas{position:absolute;top:3%;left:4%;right:4%;text-align:center;font-size:clamp(3rem,15vw,9rem);letter-spacing:.02em;margin:0;white-space:nowrap}
 
 /* ---------- FOOTER ---------- */
 footer{position:relative;padding:110px 0 60px;text-align:center;overflow:hidden}
@@ -614,12 +614,11 @@ y me deja limpio, limpio así.</strong></div>
     <img src="banda-gracias.jpg" alt="La banda de Elvis Naka al completo sobre el escenario" loading="lazy">
     <h2 class="titulo-bombillas">¡Gracias!</h2>
   </figure>
-  <p class="foot-mast">Elvis Naka</p>
   <p class="foot-line">«Entre bombones» — se publica canción a canción.<br>Vuelve pronto.</p>
   <p class="foot-meta">
     ELVIS NAKA ES UN PROYECTO DE FICCIÓN MUSICAL<br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 06:55</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 07:15</span>
   </p>
 </footer>
 
@@ -714,7 +713,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-0655";
+const VERSION_LOCAL = "2026-07-25-0715";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
