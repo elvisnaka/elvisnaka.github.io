@@ -195,8 +195,14 @@ blockquote cite{display:block;margin-top:12px;font-family:var(--mono);font-style
 .visor-nav:hover,.visor-cerrar:hover{background:var(--lampara);color:var(--noche)}
 .sl-track figure{cursor:zoom-in}
 
+/* ---------- GRACIAS (banda) ---------- */
+.gracias{position:relative;overflow:hidden}
+.gracias img{width:100%;display:block}
+.gracias .titulo-bombillas{position:absolute;top:4%;left:0;right:0;text-align:center;font-size:clamp(2.6rem,10vw,6rem);margin:0}
+
 /* ---------- FOOTER ---------- */
-footer{position:relative;padding:140px 24px 60px;text-align:center;overflow:hidden}
+footer{position:relative;padding:110px 0 60px;text-align:center;overflow:hidden}
+footer .foot-meta,footer .foot-line,footer .foot-mast{padding:0 24px}
 footer::before{content:"";position:absolute;left:50%;bottom:-140px;transform:translateX(-50%);width:640px;height:420px;background:radial-gradient(ellipse at center,rgba(201,143,69,.22),rgba(201,143,69,.06) 45%,transparent 70%);pointer-events:none}
 .foot-mast{font-family:var(--display);font-size:clamp(2rem,7vw,4.4rem);text-transform:uppercase;color:var(--camiseta)}
 .foot-line{font-family:var(--serif);font-style:italic;color:var(--lampara);margin-top:14px;font-size:2.1rem;line-height:1.4;text-align:center}
@@ -604,12 +610,16 @@ y me deja limpio, limpio así.</strong></div>
 
 <!-- ============ FOOTER ============ -->
 <footer>
+  <figure class="gracias">
+    <img src="banda-gracias.jpg" alt="La banda de Elvis Naka al completo sobre el escenario" loading="lazy">
+    <h2 class="titulo-bombillas">¡Gracias!</h2>
+  </figure>
   <p class="foot-mast">Elvis Naka</p>
   <p class="foot-line">«Entre bombones» — se publica canción a canción.<br>Vuelve pronto.</p>
   <p class="foot-meta">
     ELVIS NAKA ES UN PROYECTO DE FICCIÓN MUSICAL<br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 06:30</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 06:55</span>
   </p>
 </footer>
 
@@ -704,7 +714,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-0630";
+const VERSION_LOCAL = "2026-07-25-0655";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
