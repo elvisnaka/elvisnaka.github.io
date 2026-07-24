@@ -10,13 +10,13 @@
 <meta property="og:title" content="ELVIS NAKA — Entre bombones">
 <meta property="og:description" content="Canciones de amor de un lobo manso. Escucha y descarga el LP.">
 <meta property="og:url" content="https://elvisnaka.github.io/">
-<meta property="og:image" content="https://elvisnaka.github.io/naka-hero-v3.jpg">
+<meta property="og:image" content="https://elvisnaka.github.io/naka-hero-v4.jpg">
 <meta property="og:image:width" content="928">
 <meta property="og:image:height" content="1152">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ELVIS NAKA — Entre bombones">
 <meta name="twitter:description" content="Canciones de amor de un lobo manso. Escucha y descarga el LP.">
-<meta name="twitter:image" content="https://elvisnaka.github.io/naka-hero-v3.jpg">
+<meta name="twitter:image" content="https://elvisnaka.github.io/naka-hero-v4.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -44,17 +44,17 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;op
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E")}
 
 /* ---------- HERO ---------- */
-.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;isolation:isolate}
+.hero{position:relative;min-height:100svh;isolation:isolate}
 .hero-img{position:absolute;inset:0;z-index:-1;overflow:hidden}
 .hero-img img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(28px) brightness(.45) saturate(.8);transform:scale(1.1)}
 .hero-img img.main{position:relative;width:100%;height:100%;object-fit:contain;object-position:center top;filter:saturate(.9)}
-.hero-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,17,24,0) 0%,rgba(10,17,24,0) 55%,rgba(10,17,24,.85) 88%,var(--noche) 100%)}
+.hero-img::after{content:"";position:absolute;inset:0;background:transparent}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-.hero-inner{width:100%;padding:0 24px 8vh;text-align:center}
-.eyebrow{font-family:var(--mono);font-size:clamp(.85rem,2.2vw,1.1rem);letter-spacing:.4em;text-transform:uppercase;color:var(--ventana);margin-bottom:14px}
+.hero-inner{position:absolute;left:0;right:0;bottom:5vh;padding:0 24px;text-align:center;z-index:2}
+.eyebrow{font-family:var(--mono);font-size:clamp(.85rem,2.2vw,1.1rem);letter-spacing:.4em;text-transform:uppercase;color:#fff;margin-bottom:14px;text-shadow:0 2px 18px rgba(0,0,0,.85)}
 h1.masthead{font-family:var(--display);font-size:clamp(3.4rem,13vw,10.5rem);line-height:.92;letter-spacing:.015em;text-transform:uppercase;color:var(--camiseta);text-shadow:0 2px 40px rgba(0,0,0,.6)}
 .album-line{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:center;gap:14px 26px;margin-top:14px}
-.album-title{font-family:var(--serif);font-style:italic;font-size:clamp(2rem,6vw,3.4rem);color:var(--lampara)}
+.album-title{font-family:var(--serif);font-style:italic;font-size:clamp(2rem,6vw,3.4rem);color:#fff;text-shadow:0 2px 22px rgba(0,0,0,.85)}
 .album-tag{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;color:var(--ventana)}
 
 /* ---------- SECCIONES ---------- */
@@ -177,8 +177,8 @@ footer::before{content:"";position:absolute;left:50%;bottom:-140px;transform:tra
 <!-- ============ HERO ============ -->
 <header class="hero">
   <div class="hero-img">
-    <img class="bg" src="naka-hero-v3.jpg" alt="" aria-hidden="true">
-    <img class="main" src="naka-hero-v3.jpg" alt="Póster de Elvis Naka con su nombre en letras de bombillas encendidas, apoyado en la pared del pasillo con su guitarra">
+    <img class="bg" src="naka-hero-v4.jpg" alt="" aria-hidden="true">
+    <img class="main" src="naka-hero-v4.jpg" alt="Póster de Elvis Naka con su nombre en letras de bombillas encendidas, apoyado en la pared del pasillo con su guitarra">
   </div>
   <div class="hero-inner wrap">
     <h1 class="sr-only">Elvis Naka</h1>
@@ -379,7 +379,7 @@ me rindo dulce, me rindo, vida mía.</strong></div>
     <div class="slider">
       <button class="sl-btn sl-prev" aria-label="Anterior">‹</button>
       <div class="sl-track" id="slTrack">
-        <figure><img src="naka-hero-v3.jpg" alt="Elvis Naka en el escenario bajo la marquesina de bombillas con su nombre" loading="lazy"></figure>
+        <figure><img src="naka-hero-v4.jpg" alt="Elvis Naka en el escenario bajo la marquesina de bombillas con su nombre" loading="lazy"></figure>
         
         <figure><img src="naka-05-v3.jpg" alt="Elvis Naka con la Telecaster ante el micrófono vintage" loading="lazy"></figure>
         <figure><img src="naka-04-v3.jpg" alt="Elvis Naka tocando entre luces de escenario" loading="lazy"></figure>
@@ -400,7 +400,7 @@ me rindo dulce, me rindo, vida mía.</strong></div>
   <p class="foot-meta">
     ELVIS NAKA ES UN PROYECTO DE FICCIÓN MUSICAL<br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 00:10</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 00:35</span>
   </p>
 </footer>
 
@@ -486,7 +486,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-0010";
+const VERSION_LOCAL = "2026-07-25-0035";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
