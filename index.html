@@ -172,6 +172,10 @@ blockquote cite{display:block;margin-top:12px;font-family:var(--mono);font-style
 .comp-btn:hover{color:var(--noche);background:var(--lampara);transform:scale(1.08)}
 .comp-btn svg{width:24px;height:24px;fill:currentColor}
 
+/* ---------- PASTILLA ÚLTIMA CANCIÓN ---------- */
+.single-card{position:relative}
+.ultima{position:absolute;top:-16px;left:14px;transform:rotate(-6deg);background:#e0312f;color:#fff;font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;padding:9px 18px;border-radius:999px;box-shadow:0 4px 18px rgba(224,49,47,.45);z-index:3}
+
 /* ---------- TARJETAS PLEGABLES ---------- */
 .card-cabecera{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;gap:20px;padding:6px 0;text-align:center}
 .titulo-bombillas{font-family:var(--display);font-size:clamp(2.6rem,9vw,5rem);line-height:1;text-transform:uppercase;letter-spacing:.05em;
@@ -472,6 +476,7 @@ nadie dirá que no lo intentamos.</strong></div>
     </div>
 
     <div class="single-card cerrada" id="cardLV" style="margin-top:56px">
+      <span class="ultima">Última canción subida</span>
       <div class="card-cabecera">
         <h3 class="titulo-bombillas">La chica de la lavandería</h3>
         <button class="abrir-btn" type="button">Abrir</button>
@@ -667,7 +672,7 @@ y me deja limpio, limpio, limpio a mí.</strong></div>
     NINGÚN RETORNO ECONÓMICO.<br>
     <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 17:10</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 17:45</span>
   </p>
 </footer>
 
@@ -762,7 +767,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-1710";
+const VERSION_LOCAL = "2026-07-25-1745";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
