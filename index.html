@@ -654,7 +654,7 @@ y me deja limpio, limpio, limpio a mí.</strong></div>
   <p class="foot-meta">
     ELVIS NAKA ES UN PROYECTO DE FICCIÓN MUSICAL<br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 12:15</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 13:00</span>
   </p>
 </footer>
 
@@ -749,7 +749,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-1215";
+const VERSION_LOCAL = "2026-07-25-1300";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -868,6 +868,14 @@ function abreTarjeta(){
 }
 window.addEventListener('hashchange', abreTarjeta);
 abreTarjeta();
+
+/* Corrección de desplazamiento: re-anclar tras la carga de imágenes */
+function reAncla(){
+  if (!location.hash) return;
+  const el = document.getElementById(location.hash.slice(1));
+  if (el) el.scrollIntoView({block:'start'});
+}
+window.addEventListener('load', () => { reAncla(); setTimeout(reAncla, 600); setTimeout(reAncla, 1500); });
 
 /* Pasador */
 const tr = document.getElementById('slTrack');
