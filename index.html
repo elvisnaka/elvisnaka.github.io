@@ -476,7 +476,6 @@ nadie dirá que no lo intentamos.</strong></div>
     </div>
 
     <div class="single-card cerrada" id="cardLV" style="margin-top:56px">
-      <span class="ultima">Última canción subida</span>
       <div class="card-cabecera">
         <h3 class="titulo-bombillas">La chica de la lavandería</h3>
         <button class="abrir-btn" type="button">Abrir</button>
@@ -537,6 +536,74 @@ Nunca esperar olió tan bien...
 me sonríe y se me olvida hasta salir.
 La chica de la lavandería me sonríe...
 y me deja limpio, limpio, limpio a mí.</strong></div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <div class="single-card cerrada" id="cardPJ" style="margin-top:56px">
+      <span class="ultima">Última canción subida</span>
+      <div class="card-cabecera">
+        <h3 class="titulo-bombillas">El pájaro de junio del 80</h3>
+        <button class="abrir-btn" type="button">Abrir</button>
+      </div>
+      <div class="card-contenido">
+      <figure class="single-img">
+        <img src="naka-01-v3.jpg" alt="Elvis Naka de espaldas en el escenario de un teatro vacío">
+      </figure>
+      <div>
+        <h3 class="single-title">El pájaro de junio del 80</h3>
+        <p class="single-desc">«Yo guardo el invierno, tú guarda el volar.» La balada desnuda del disco: voz, guitarra con trémolo y una armónica que llega de lejos, como un pájaro.</p>
+        <p class="single-cta">Para escucharla, pincha aquí <span class="cta-arrow">↓</span></p>
+        <div class="player" data-src="el-pajaro.mp3">
+          <div class="p-row">
+            <button class="p-btn" aria-label="Reproducir El pájaro de junio del 80"><span class="tri"></span></button>
+            <h3 class="p-title">El pájaro de junio del 80</h3>
+          </div>
+          <div class="p-body">
+            <div class="p-bar"><div class="p-fill"></div></div>
+            <div class="p-time"><span class="p-cur">0:00</span><span class="p-dur">–:––</span></div>
+            <a class="p-dl" href="el-pajaro.mp3" download>Descargar la canción</a>
+            <div class="contador" aria-live="polite">♪ <span class="num" id="numPJ">…</span> escuchas</div>
+          </div>
+        </div>
+        <div class="letra">
+          <h4>La letra</h4>
+          <div class="letra-cols">Nunca te he hablado del pájaro
+que había en mi calle a contraluz.
+Volaba bajo, siempre bajo,
+rozando el suelo — como yo.
+
+Le tocó el viento de cara
+y un alambre para descansar.
+Se sabía todas las canciones
+que en mi casa no se podían cantar.
+
+<strong>Vuela, pájaro, vuela,
+que junio del ochenta no te alcance ya.
+Vuela, pájaro, vuela:
+yo guardo el invierno, tú guarda el volar.</strong>
+
+Se fue quedando sin veranos,
+cada vez más cerca del suelo.
+Una tarde cerró los ojos dentro
+y el cielo no vino a preguntar.
+
+<strong>Vuela, pájaro, vuela,
+que junio del ochenta no te alcance ya.
+Vuela, pájaro, vuela:
+yo guardo el invierno, tú guarda el volar.</strong>
+
+No se puede abrazar a un recuerdo.
+Lo sé porque lo intento.
+Pero esta noche tú me escuchas...
+y pesa un poco menos. Solo un poco.
+Con eso vale.
+
+<strong>Vuela, pájaro, vuela,
+donde junio del ochenta no pueda llegar.
+Vuela, pájaro, vuela:
+sus canciones ya sé a quién cantar.</strong></div>
         </div>
       </div>
       </div>
@@ -672,7 +739,7 @@ y me deja limpio, limpio, limpio a mí.</strong></div>
     NINGÚN RETORNO ECONÓMICO.<br>
     <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 17:45</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 18:40</span>
   </p>
 </footer>
 
@@ -693,7 +760,7 @@ const tracks = [
   {n:"01", t:"Entre bombones",              d:"Un lobo perdido en la confitería.",                        audio:"", single:false, arriba:"#cardEB"},
   {n:"02", t:"La chica de la lavandería",   d:"Lava penas con las sábanas.",                       audio:"", single:false, arriba:"#cardLV"},
   {n:"03", t:"Bailo mal",                  d:"Nadie en esta pista se lo toma tan en serio.",             audio:"", single:true},
-  {n:"04", t:"El pájaro de junio del 80",   d:"Yo guardo el invierno, tú guarda el volar.",               audio:"", single:false},
+  {n:"04", t:"El pájaro de junio del 80",   d:"Yo guardo el invierno, tú guarda el volar.",               audio:"", single:false, arriba:"#cardPJ"},
   {n:"05", t:"Domingo sin guerra",          d:"La primera mañana en calma de su vida.",                   audio:"", single:false},
   {n:"06", t:"Caramelos robados",           d:"Amor de adolescencia, dulce y canalla.",                   audio:"", single:false},
   {n:"07", t:"No me mires así",             d:"Miedo a que te quieran de verdad.",                        audio:"", single:false},
@@ -753,7 +820,7 @@ document.querySelectorAll('.player').forEach(pl => {
     if (current && current !== audio){ current.pause(); document.querySelectorAll('.p-btn').forEach(b=>b.classList.remove('playing')); }
     if (audio.paused){
       const p = audio.play();
-      if (p) p.then(()=>{ btn.classList.add('playing'); current = audio; if (pl.dataset.src.includes('bailar-mal')) cuentaEscucha(); else if (pl.dataset.src.includes('entre-bombones')) cuentaEB(); else if (pl.dataset.src.includes('angela')) cuentaAN(); else if (pl.dataset.src.includes('polizon')) cuentaPO(); else if (pl.dataset.src.includes('lavanderia')) cuentaLV(); })
+      if (p) p.then(()=>{ btn.classList.add('playing'); current = audio; if (pl.dataset.src.includes('bailar-mal')) cuentaEscucha(); else if (pl.dataset.src.includes('entre-bombones')) cuentaEB(); else if (pl.dataset.src.includes('angela')) cuentaAN(); else if (pl.dataset.src.includes('polizon')) cuentaPO(); else if (pl.dataset.src.includes('lavanderia')) cuentaLV(); else if (pl.dataset.src.includes('pajaro')) cuentaPJ(); })
              .catch(err => { console.error('No se pudo reproducir:', err); alert('No se pudo reproducir el audio. Comprueba que la carpeta "audio" está junto a index.html.'); });
       else { btn.classList.add('playing'); current = audio; }
     }
@@ -767,7 +834,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-1745";
+const VERSION_LOCAL = "2026-07-25-1840";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -789,6 +856,17 @@ function cuentaEscucha(){
   if (escuchaContada) return; escuchaContada = true;
   fetch(API_CONT + '/up').then(r=>r.json()).then(d=>pintaEscuchas(d.count||0)).catch(()=>{});
 }
+
+/* Contador de El pájaro */
+const BASE_PJ = 90;
+const API_PJ = 'https://api.counterapi.dev/v1/elvisnaka-oscarindole/pajaro';
+function pintaPJ(n){ const e=document.getElementById('numPJ'); if(e) e.textContent = (BASE_PJ + n).toLocaleString('es-ES'); }
+let pjContada = false;
+function cuentaPJ(){
+  if (pjContada) return; pjContada = true;
+  fetch(API_PJ + '/up').then(r=>r.json()).then(d=>pintaPJ(d.count||0)).catch(()=>{});
+}
+fetch(API_PJ).then(r=>r.json()).then(d=>pintaPJ(d.count||0)).catch(()=>{ const e=document.getElementById('numPJ'); if(e) e.textContent = BASE_PJ.toLocaleString('es-ES') + '+'; });
 
 /* Contador de La lavandería */
 const BASE_LV = 100;
