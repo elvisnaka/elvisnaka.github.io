@@ -222,7 +222,8 @@ footer::before{content:"";position:absolute;left:50%;bottom:-140px;transform:tra
 .advisory-img{display:block;width:min(240px,60vw);margin:34px auto 22px}
 .foot-line{font-family:var(--serif);font-style:italic;color:var(--lampara);margin-top:14px;font-size:2.1rem;line-height:1.5;text-align:center}
 .foot-line .vuelve{color:#e0312f;font-style:normal;font-family:var(--display);letter-spacing:.03em;text-shadow:0 0 22px rgba(224,49,47,.45)}
-.foot-meta{font-family:var(--mono);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ventana);margin-top:44px;line-height:2}
+.foot-meta{font-family:var(--mono);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ventana);margin-top:44px;line-height:2.1}
+.foot-meta .meta-sep{color:rgba(201,143,69,.55);letter-spacing:0}
 
 :focus-visible{outline:2px solid var(--lampara);outline-offset:3px}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.grid img{transition:none}}
@@ -656,11 +657,17 @@ y me deja limpio, limpio, limpio a mí.</strong></div>
   <p class="foot-line">«Entre bombones»<br>se publica canción a canción.<br><span class="vuelve">¡Vuelve pronto!</span></p>
   <img class="advisory-img" src="advisory4.jpg" alt="Parental Advisory — Explicit Content" loading="lazy">
   <p class="foot-meta">
-    ELVIS NAKA ES UN PROYECTO DE FICCIÓN Y FRICCIÓN MUSICAL<br>
-    CREADO CON LA ÚNICA IDEA DE PASARLO BIEN.<br>
-    NO SE PRETENDE NINGÚN RETORNO ECONÓMICO.<br>
+    ELVIS NAKA<br>
+    ES UN PROYECTO DE<br>
+    FICCIÓN Y FRICCIÓN MUSICAL<br>
+    CREADO CON LA ÚNICA IDEA<br>
+    DE PASARLO BIEN.<br>
+    <span class="meta-sep">—</span><br>
+    NO SE PRETENDE<br>
+    NINGÚN RETORNO ECONÓMICO.<br>
+    <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 16:50</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 17:10</span>
   </p>
 </footer>
 
@@ -755,7 +762,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-1650";
+const VERSION_LOCAL = "2026-07-25-1710";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
