@@ -629,7 +629,6 @@ sus canciones ya sé a quién cantar.</strong></div>
     </div>
 
     <div class="single-card cerrada" id="cardAC" style="margin-top:56px">
-      <span class="ultima">Última canción subida</span>
       <div class="card-cabecera">
         <h3 class="titulo-bombillas">Algunas chicas</h3>
         <button class="abrir-btn" type="button">Abrir</button>
@@ -687,6 +686,75 @@ Some girls... nunca me volveréis a ver:
 flores en el desguace de mi piel.</strong>
 
 Some girls... some girls...</div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <div class="single-card cerrada" id="cardCR" style="margin-top:56px">
+      <span class="ultima">Última canción subida</span>
+      <div class="card-cabecera">
+        <h3 class="titulo-bombillas">Caramelos robados</h3>
+        <button class="abrir-btn" type="button">Abrir</button>
+      </div>
+      <div class="card-contenido">
+      <figure class="single-img">
+        <img src="naka-04-v3.jpg" alt="Elvis Naka tocando la Telecaster en el escenario, entre luces">
+      </figure>
+      <div>
+        <h3 class="single-title">Caramelos robados</h3>
+        <p class="single-desc">«Porque son inventados... ¡tú no los has probado!» El himno bailable del que no tuvo dulces y se los inventó — y de paso, una vida.</p>
+        <p class="single-cta">Para bailarla, pincha aquí <span class="cta-arrow">↓</span></p>
+        <div class="player" data-src="caramelos-robados.mp3">
+          <div class="p-row">
+            <button class="p-btn" aria-label="Reproducir Caramelos robados"><span class="tri"></span></button>
+            <h3 class="p-title">Caramelos robados</h3>
+          </div>
+          <div class="p-body">
+            <div class="p-bar"><div class="p-fill"></div></div>
+            <div class="p-time"><span class="p-cur">0:00</span><span class="p-dur">–:––</span></div>
+            <a class="p-dl" href="caramelos-robados.mp3" download>Descargar la canción</a>
+            <div class="contador" aria-live="polite">♪ <span class="num" id="numCR">…</span> escuchas</div>
+          </div>
+        </div>
+        <div class="letra">
+          <h4>La letra</h4>
+          <div class="letra-cols">Escaparate de la luna,
+bolsillos de papel:
+lo que no me dio la vida...
+¡me lo inventé!
+
+<strong>¡Caramelos, caramelos robados,
+tan ricos, dulces o salados!
+Porque son inventados...
+¡tú no los has probado!</strong>
+
+<strong>¡Caramelos, caramelos robados,
+tan ricos, dulces o salados!
+Porque son inventados...
+¡tú no los has probado!</strong>
+
+¡Na na na, na-na-na-ná!
+¡Na na na, na-na-na-ná!
+
+Con el hambre por maestra
+y el cielo por mostrador,
+monté en mi cabeza
+una fábrica de ilusión.
+
+<strong>¡Caramelos, caramelos robados,
+tan ricos, dulces o salados!
+Porque son inventados...
+¡tú no los has probado!</strong>
+
+¡Y al que diga que no se puede...
+que venga y pruebe uno!
+
+<strong>¡Caramelos, caramelos robados,
+tan ricos, dulces o salados!
+Porque son inventados...
+¡tú no los has probado!
+¡Tú no los has probado!</strong></div>
         </div>
       </div>
       </div>
@@ -822,7 +890,7 @@ Some girls... some girls...</div>
     NINGÚN RETORNO ECONÓMICO.<br>
     <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 21:30</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 22:15</span>
   </p>
 </footer>
 
@@ -845,7 +913,7 @@ const tracks = [
   {n:"03", t:"Bailo mal",                  d:"Nadie en esta pista se lo toma tan en serio.",             audio:"", single:true},
   {n:"04", t:"El pájaro de junio del 80",   d:"Yo guardo el invierno, tú guarda el volar.",               audio:"", single:false, arriba:"#cardPJ"},
   {n:"05", t:"Domingo sin guerra",          d:"La primera mañana en calma de su vida.",                   audio:"", single:false},
-  {n:"06", t:"Caramelos robados",           d:"Amor de adolescencia, dulce y canalla.",                   audio:"", single:false},
+  {n:"06", t:"Caramelos robados",           d:"Porque son inventados.",                                   audio:"", single:false, arriba:"#cardCR"},
   {n:"07", t:"No me mires así",             d:"Miedo a que te quieran de verdad.",                        audio:"", single:false},
   {n:"08", t:"Algunas chicas",              d:"No recuerdo todos sus nombres.",                           audio:"", single:false, arriba:"#cardAC"},
   {n:"09", t:"Entre bombones (reprise)",    d:"El cierre, en directo, con risas al final.",               audio:"", single:false},
@@ -903,7 +971,7 @@ document.querySelectorAll('.player').forEach(pl => {
     if (current && current !== audio){ current.pause(); document.querySelectorAll('.p-btn').forEach(b=>b.classList.remove('playing')); }
     if (audio.paused){
       const p = audio.play();
-      if (p) p.then(()=>{ btn.classList.add('playing'); current = audio; if (pl.dataset.src.includes('bailar-mal')) cuentaEscucha(); else if (pl.dataset.src.includes('entre-bombones')) cuentaEB(); else if (pl.dataset.src.includes('angela')) cuentaAN(); else if (pl.dataset.src.includes('polizon')) cuentaPO(); else if (pl.dataset.src.includes('lavanderia')) cuentaLV(); else if (pl.dataset.src.includes('pajaro')) cuentaPJ(); else if (pl.dataset.src.includes('algunas-chicas')) cuentaAC(); })
+      if (p) p.then(()=>{ btn.classList.add('playing'); current = audio; if (pl.dataset.src.includes('bailar-mal')) cuentaEscucha(); else if (pl.dataset.src.includes('entre-bombones')) cuentaEB(); else if (pl.dataset.src.includes('angela')) cuentaAN(); else if (pl.dataset.src.includes('polizon')) cuentaPO(); else if (pl.dataset.src.includes('lavanderia')) cuentaLV(); else if (pl.dataset.src.includes('pajaro')) cuentaPJ(); else if (pl.dataset.src.includes('algunas-chicas')) cuentaAC(); else if (pl.dataset.src.includes('caramelos')) cuentaCR(); })
              .catch(err => { console.error('No se pudo reproducir:', err); alert('No se pudo reproducir el audio. Comprueba que la carpeta "audio" está junto a index.html.'); });
       else { btn.classList.add('playing'); current = audio; }
     }
@@ -917,7 +985,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-2130";
+const VERSION_LOCAL = "2026-07-25-2215";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -1063,7 +1131,8 @@ const CANCIONES_CFG = {
   polizon:       {base:120, num:'numPO',       card:'cardPO'},
   lavanderia:    {base:100, num:'numLV',       card:'cardLV'},
   pajaro:        {base:90,  num:'numPJ',       card:'cardPJ'},
-  algunaschicas: {base:80,  num:'numAC',       card:'cardAC'}
+  algunaschicas: {base:80,  num:'numAC',       card:'cardAC'},
+  caramelos:     {base:70,  num:'numCR',       card:'cardCR'}
 };
 function nakaCount(d){
   if (!d) return null;
@@ -1105,6 +1174,8 @@ cuentaLV = function(){ if (lvContada) return; lvContada = true; nakaSuma('lavand
 cuentaPJ = function(){ if (pjContada) return; pjContada = true; nakaSuma('pajaro'); };
 let acContada = false;
 function cuentaAC(){ if (acContada) return; acContada = true; nakaSuma('algunaschicas'); }
+let crContada = false;
+function cuentaCR(){ if (crContada) return; crContada = true; nakaSuma('caramelos'); }
 
 /* Puntuación con estrellas + ventana de gracias */
 const modalG = document.createElement('div');
