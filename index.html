@@ -172,6 +172,26 @@ blockquote cite{display:block;margin-top:12px;font-family:var(--mono);font-style
 .comp-btn:hover{color:var(--noche);background:var(--lampara);transform:scale(1.08)}
 .comp-btn svg{width:24px;height:24px;fill:currentColor}
 
+/* ---------- ESTRELLAS ---------- */
+.puntuar{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:18px}
+.punt-etq{font-family:var(--mono);font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ventana)}
+.estrellas{display:flex;gap:8px}
+.estrella{width:40px;height:40px;background:none;border:none;cursor:pointer;font-size:1.9rem;line-height:1;color:rgba(201,143,69,.35);transition:color .15s,transform .15s;padding:0}
+.estrella:hover{transform:scale(1.15)}
+.estrella.llena{color:var(--lampara);text-shadow:0 0 14px rgba(201,143,69,.5)}
+.puntuar.votada .estrella{cursor:default}
+.punt-gracias{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--lampara)}
+
+/* ---------- VENTANA GRACIAS ---------- */
+.modal-gracias{position:fixed;inset:0;background:rgba(5,8,12,.9);z-index:1200;display:none;align-items:center;justify-content:center;padding:24px}
+.modal-gracias.abierta{display:flex}
+.mg-caja{background:var(--noche);border:1px solid #e0312f;box-shadow:0 0 60px rgba(224,49,47,.35);max-width:420px;width:100%;padding:38px 30px;text-align:center;position:relative}
+.mg-cerrar{position:absolute;top:12px;right:12px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(232,228,220,.35);background:transparent;color:#e8e4dc;font-size:1.1rem;cursor:pointer}
+.mg-titulo{font-family:var(--display);font-size:1.7rem;text-transform:uppercase;margin-bottom:12px;color:#fff}
+.mg-texto{font-family:var(--serif);font-style:italic;color:var(--niebla);font-size:1.05rem;line-height:1.6;margin-bottom:24px}
+.mg-cta{display:inline-block;font-family:var(--mono);font-size:.8rem;letter-spacing:.24em;text-transform:uppercase;padding:15px 28px;border:1px solid #e0312f;color:#fff;background:rgba(224,49,47,.2);text-decoration:none;border-radius:4px;transition:background .3s}
+.mg-cta:hover{background:#e0312f}
+
 /* ---------- PASTILLA ÚLTIMA CANCIÓN ---------- */
 .single-card{position:relative}
 .ultima{position:absolute;top:-16px;left:14px;transform:rotate(-6deg);background:#e0312f;color:#fff;font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;padding:9px 18px;border-radius:999px;box-shadow:0 4px 18px rgba(224,49,47,.45);z-index:3}
@@ -739,7 +759,7 @@ sus canciones ya sé a quién cantar.</strong></div>
     NINGÚN RETORNO ECONÓMICO.<br>
     <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 18:40</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 19:30</span>
   </p>
 </footer>
 
@@ -834,7 +854,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-1840";
+const VERSION_LOCAL = "2026-07-25-1930";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -850,7 +870,7 @@ const BASE_ESCUCHAS = 350;
 const API_CONT = 'https://api.counterapi.dev/v1/elvisnaka-oscarindole/bailomal';
 const elNum = document.getElementById('numEscuchas');
 function pintaEscuchas(n){ if(elNum) elNum.textContent = (BASE_ESCUCHAS + n).toLocaleString('es-ES'); }
-fetch(API_CONT).then(r=>r.json()).then(d=>pintaEscuchas(d.count||0)).catch(()=>{ if(elNum) elNum.textContent = BASE_ESCUCHAS.toLocaleString('es-ES') + '+'; });
+
 let escuchaContada = false;
 function cuentaEscucha(){
   if (escuchaContada) return; escuchaContada = true;
@@ -866,7 +886,7 @@ function cuentaPJ(){
   if (pjContada) return; pjContada = true;
   fetch(API_PJ + '/up').then(r=>r.json()).then(d=>pintaPJ(d.count||0)).catch(()=>{});
 }
-fetch(API_PJ).then(r=>r.json()).then(d=>pintaPJ(d.count||0)).catch(()=>{ const e=document.getElementById('numPJ'); if(e) e.textContent = BASE_PJ.toLocaleString('es-ES') + '+'; });
+
 
 /* Contador de La lavandería */
 const BASE_LV = 100;
@@ -877,7 +897,7 @@ function cuentaLV(){
   if (lvContada) return; lvContada = true;
   fetch(API_LV + '/up').then(r=>r.json()).then(d=>pintaLV(d.count||0)).catch(()=>{});
 }
-fetch(API_LV).then(r=>r.json()).then(d=>pintaLV(d.count||0)).catch(()=>{ const e=document.getElementById('numLV'); if(e) e.textContent = BASE_LV.toLocaleString('es-ES') + '+'; });
+
 
 /* Contador de El polizón */
 const BASE_PO = 120;
@@ -888,7 +908,7 @@ function cuentaPO(){
   if (poContada) return; poContada = true;
   fetch(API_PO + '/up').then(r=>r.json()).then(d=>pintaPO(d.count||0)).catch(()=>{});
 }
-fetch(API_PO).then(r=>r.json()).then(d=>pintaPO(d.count||0)).catch(()=>{ const e=document.getElementById('numPO'); if(e) e.textContent = BASE_PO.toLocaleString('es-ES') + '+'; });
+
 
 /* Contador de Ángela */
 const BASE_AN = 150;
@@ -899,7 +919,7 @@ function cuentaAN(){
   if (anContada) return; anContada = true;
   fetch(API_AN + '/up').then(r=>r.json()).then(d=>pintaAN(d.count||0)).catch(()=>{});
 }
-fetch(API_AN).then(r=>r.json()).then(d=>pintaAN(d.count||0)).catch(()=>{ const e=document.getElementById('numAN'); if(e) e.textContent = BASE_AN.toLocaleString('es-ES') + '+'; });
+
 
 /* Contador de Entre bombones */
 const BASE_EB = 200;
@@ -911,7 +931,7 @@ function cuentaEB(){
   fetch(API_EB + '/up').then(r=>r.json()).then(d=>pintaEB(d.count||0)).catch(()=>{});
 }
 
-fetch(API_EB).then(r=>r.json()).then(d=>pintaEB(d.count||0)).catch(()=>{ const e=document.getElementById('numEB'); if(e) e.textContent = BASE_EB.toLocaleString('es-ES') + '+'; });
+
 
 /* Compartir en redes */
 const ICONOS = {
@@ -970,6 +990,100 @@ document.querySelectorAll('.single-card[id]').forEach(card => {
     });
   }));
 })();
+
+/* Contadores: lectura robusta con memoria local */
+const NAKA_API = 'https://api.counterapi.dev/v1/elvisnaka-oscarindole/';
+const CANCIONES_CFG = {
+  bailomal:      {base:350, num:'numEscuchas', card:'cardBM'},
+  entrebombones: {base:200, num:'numEB',       card:'cardEB'},
+  angela:        {base:150, num:'numAN',       card:'cardAN'},
+  polizon:       {base:120, num:'numPO',       card:'cardPO'},
+  lavanderia:    {base:100, num:'numLV',       card:'cardLV'},
+  pajaro:        {base:90,  num:'numPJ',       card:'cardPJ'}
+};
+function nakaCount(d){
+  if (!d) return null;
+  if (typeof d.count === 'number') return d.count;
+  if (typeof d.Count === 'number') return d.Count;
+  if (typeof d.value === 'number') return d.value;
+  if (d.data && typeof d.data.count === 'number') return d.data.count;
+  return null;
+}
+function pintaTotal(clave){
+  const cfg = CANCIONES_CFG[clave];
+  const e = document.getElementById(cfg.num);
+  if (!e) return;
+  const guardado = parseInt(localStorage.getItem('naka-cnt-' + clave) || '0', 10);
+  e.textContent = (cfg.base + guardado).toLocaleString('es-ES');
+}
+function actualizaTotal(clave, n){
+  if (typeof n !== 'number') return;
+  localStorage.setItem('naka-cnt-' + clave, String(n));
+  pintaTotal(clave);
+}
+Object.keys(CANCIONES_CFG).forEach(clave => {
+  pintaTotal(clave); // al abrir: base + último recuento conocido
+  fetch(NAKA_API + clave, {cache:'no-store'}).then(r=>r.json())
+    .then(d => actualizaTotal(clave, nakaCount(d)))
+    .catch(()=>{});
+});
+/* los conteos al pulsar play usan también la vía robusta */
+function nakaSuma(clave){
+  fetch(NAKA_API + clave + '/up').then(r=>r.json())
+    .then(d => actualizaTotal(clave, nakaCount(d)))
+    .catch(()=>{});
+}
+cuentaEscucha = function(){ if (escuchaContada) return; escuchaContada = true; nakaSuma('bailomal'); };
+cuentaEB = function(){ if (ebContada) return; ebContada = true; nakaSuma('entrebombones'); };
+cuentaAN = function(){ if (anContada) return; anContada = true; nakaSuma('angela'); };
+cuentaPO = function(){ if (poContada) return; poContada = true; nakaSuma('polizon'); };
+cuentaLV = function(){ if (lvContada) return; lvContada = true; nakaSuma('lavanderia'); };
+cuentaPJ = function(){ if (pjContada) return; pjContada = true; nakaSuma('pajaro'); };
+
+/* Puntuación con estrellas + ventana de gracias */
+const modalG = document.createElement('div');
+modalG.className = 'modal-gracias';
+modalG.innerHTML = '<div class="mg-caja">'
+  + '<button class="mg-cerrar" aria-label="Cerrar">✕</button>'
+  + '<h3 class="mg-titulo">¡Muchas gracias<br>por tu aportación!</h3>'
+  + '<p class="mg-texto">Tu puntuación ayuda a que el lobo siga cantando.</p>'
+  + '<a class="mg-cta" href="#tienda">Pide tu camiseta gratis</a>'
+  + '</div>';
+document.body.appendChild(modalG);
+function cierraModalG(){ modalG.classList.remove('abierta'); }
+modalG.querySelector('.mg-cerrar').addEventListener('click', cierraModalG);
+modalG.querySelector('.mg-cta').addEventListener('click', cierraModalG);
+modalG.addEventListener('click', e => { if (e.target === modalG) cierraModalG(); });
+
+Object.keys(CANCIONES_CFG).forEach(clave => {
+  const cfg = CANCIONES_CFG[clave];
+  const card = document.getElementById(cfg.card);
+  if (!card) return;
+  const cuerpo = card.querySelector('.p-body');
+  if (!cuerpo) return;
+  const bloque = document.createElement('div');
+  bloque.className = 'puntuar';
+  const voto = parseInt(localStorage.getItem('naka-voto-' + clave) || '0', 10);
+  let estrellasHtml = '';
+  for (let i = 1; i <= 5; i++) estrellasHtml += '<button class="estrella" data-v="' + i + '" aria-label="' + i + ' estrellas">★</button>';
+  bloque.innerHTML = '<span class="punt-etq">' + (voto ? 'Tu puntuación' : 'Puntúa la canción') + '</span>'
+    + '<div class="estrellas">' + estrellasHtml + '</div>'
+    + (voto ? '<span class="punt-gracias">¡Gracias!</span>' : '');
+  const pinta = v => bloque.querySelectorAll('.estrella').forEach(b => b.classList.toggle('llena', parseInt(b.dataset.v,10) <= v));
+  if (voto) { bloque.classList.add('votada'); pinta(voto); }
+  bloque.querySelectorAll('.estrella').forEach(b => b.addEventListener('click', () => {
+    if (bloque.classList.contains('votada')) return;
+    const v = parseInt(b.dataset.v, 10);
+    bloque.classList.add('votada');
+    pinta(v);
+    localStorage.setItem('naka-voto-' + clave, String(v));
+    bloque.querySelector('.punt-etq').textContent = 'Tu puntuación';
+    fetch(NAKA_API + clave + '-s' + v + '/up').catch(()=>{});
+    modalG.classList.add('abierta');
+  }));
+  const comp = cuerpo.querySelector('.compartir');
+  if (comp) cuerpo.insertBefore(bloque, comp); else cuerpo.appendChild(bloque);
+});
 
 /* Tarjetas plegables */
 document.querySelectorAll('.abrir-btn').forEach(b => b.addEventListener('click', () => {
