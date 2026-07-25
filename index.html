@@ -465,7 +465,7 @@ nadie dirá que no lo intentamos.</strong></div>
       </figure>
       <div>
         <h3 class="single-title">La chica de la lavandería</h3>
-        <p class="single-desc">«Dobla mis penas con las sábanas... y me deja limpio así.» Amor de barrio en clave de lavadora: guitarra sola, pie marcando el suelo y armónica de acompañante.</p>
+        <p class="single-desc">«Lava mis penas con las sábanas.» Amor de barrio en clave de lavadora: guitarra sola, pie marcando el suelo y armónica de acompañante.</p>
         <p class="single-cta">Para escucharla, pincha aquí <span class="cta-arrow">↓</span></p>
         <div class="player" data-src="la-lavanderia-v3.mp3">
           <div class="p-row">
@@ -481,43 +481,37 @@ nadie dirá que no lo intentamos.</strong></div>
         </div>
         <div class="letra">
           <h4>La letra</h4>
-          <div class="letra-cols">Llegué con dos bolsas de diciembre,
+          <div class="letra-cols">Hoy llego con dos bolsas de diciembre,
 manchas que no quiero explicar.
 Ella masca chicle y me sonríe:
 "aquí todo se puede lavar".
 
-Le pago con calderilla y con excusas,
-me guarda la máquina mejor.
-Y mientras da vueltas mi pasado
-me habla del tiempo... y del amor.
+Le pago con calderilla por tardar más,
+y mientras da vueltas mi pasado
+me habla del tiempo... y de la vida.
+A mí me da igual de qué me hable:
+solo quiero oírla.
 
 <strong>La chica de la lavandería
-me sonríe y se me olvida hasta salir.
+me sonríe y se me olvida hasta qué hago aquí.
 La chica de la lavandería
-dobla mis penas con las sábanas...
-y me deja limpio así.</strong>
+lava mis penas con las sábanas...</strong>
 
 Hay tipos que se dejan la chaqueta
-solo por volverla a recoger.
-Yo ya no sé qué ropa traigo sucia
-y qué traigo por volverla a ver.
+solo por volver a recogerla.
+Yo ya no sé qué ropa traigo sucia o limpia,
+o qué traigo por volver a verla.
 
 <strong>La chica de la lavandería
 me sonríe y se me olvida hasta salir.
 La chica de la lavandería
-dobla mis penas con las sábanas...
-y me deja limpio así.</strong>
+lava mis penas con las sábanas...</strong>
 
 Cuarenta minutos dura un programa.
 Cuarenta minutos de mirar de reojo.
-Nunca esperar olió tan bien
-como aquí dentro, a suavizante y a peligro.
+Nunca esperar olió tan bien...
 
-<strong>La chica de la lavandería
-me sonríe y se me olvida hasta salir.
-La chica de la lavandería
-dobla mis penas con las sábanas, me plancha el corazón...
-y me deja limpio, limpio así.</strong></div>
+<strong>La chica de la lavandería.</strong></div>
         </div>
       </div>
       </div>
@@ -620,7 +614,7 @@ y me deja limpio, limpio así.</strong></div>
   <p class="foot-meta">
     ELVIS NAKA ES UN PROYECTO DE FICCIÓN MUSICAL<br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 10:10</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 10:35</span>
   </p>
 </footer>
 
@@ -639,7 +633,7 @@ y me deja limpio, limpio así.</strong></div>
    ========================================================== */
 const tracks = [
   {n:"01", t:"Entre bombones",              d:"Un lobo perdido en la confitería.",                        audio:"", single:false, arriba:"#cardEB"},
-  {n:"02", t:"La chica de la lavandería",   d:"Dobla penas con las sábanas.",                       audio:"", single:false, arriba:"#cardLV"},
+  {n:"02", t:"La chica de la lavandería",   d:"Lava penas con las sábanas.",                       audio:"", single:false, arriba:"#cardLV"},
   {n:"03", t:"Bailo mal",                  d:"Nadie en esta pista se lo toma tan en serio.",             audio:"", single:true},
   {n:"04", t:"El pájaro de junio del 80",   d:"Yo guardo el invierno, tú guarda el volar.",               audio:"", single:false},
   {n:"05", t:"Domingo sin guerra",          d:"La primera mañana en calma de su vida.",                   audio:"", single:false},
@@ -715,7 +709,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-1010";
+const VERSION_LOCAL = "2026-07-25-1035";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
