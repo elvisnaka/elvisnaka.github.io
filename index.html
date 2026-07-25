@@ -219,9 +219,7 @@ footer{position:relative;padding:110px 0 60px;text-align:center;overflow:hidden}
 footer .foot-meta,footer .foot-line,footer .foot-mast{padding:0 24px}
 footer::before{content:"";position:absolute;left:50%;bottom:-140px;transform:translateX(-50%);width:640px;height:420px;background:radial-gradient(ellipse at center,rgba(201,143,69,.22),rgba(201,143,69,.06) 45%,transparent 70%);pointer-events:none}
 .foot-mast{font-family:var(--display);font-size:clamp(2rem,7vw,4.4rem);text-transform:uppercase;color:var(--camiseta)}
-.advisory{display:inline-flex;flex-direction:column;align-items:center;background:#fff;color:#000;border:3px solid #000;padding:10px 22px 8px;margin:34px auto 22px;line-height:1}
-.advisory .adv-l1{font-family:var(--display);font-size:1.35rem;text-transform:uppercase;letter-spacing:.06em}
-.advisory .adv-l2{font-family:var(--display);font-size:.62rem;text-transform:uppercase;letter-spacing:.14em;margin-top:7px;border-top:2px solid #000;padding-top:5px;width:100%;text-align:center}
+.advisory-img{display:block;width:min(240px,60vw);margin:34px auto 22px}
 .foot-line{font-family:var(--serif);font-style:italic;color:var(--lampara);margin-top:14px;font-size:2.1rem;line-height:1.5;text-align:center}
 .foot-line .vuelve{color:#e0312f;font-style:normal;font-family:var(--display);letter-spacing:.03em;text-shadow:0 0 22px rgba(224,49,47,.45)}
 .foot-meta{font-family:var(--mono);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ventana);margin-top:44px;line-height:2}
@@ -656,17 +654,13 @@ y me deja limpio, limpio, limpio a mí.</strong></div>
     <h2 class="titulo-bombillas">¡Gracias!</h2>
   </figure>
   <p class="foot-line">«Entre bombones»<br>se publica canción a canción.<br><span class="vuelve">¡Vuelve pronto!</span></p>
-  <div class="advisory" aria-hidden="true">
-    <span class="adv-l1">Parental</span>
-    <span class="adv-l1">Advisory</span>
-    <span class="adv-l2">Explicit Content</span>
-  </div>
+  <img class="advisory-img" src="advisory.jpg" alt="Parental Advisory — Explicit Content" loading="lazy">
   <p class="foot-meta">
     ELVIS NAKA ES UN PROYECTO DE FICCIÓN Y FRICCIÓN MUSICAL<br>
     CREADO CON LA ÚNICA IDEA DE PASARLO BIEN.<br>
     NO SE PRETENDE NINGÚN RETORNO ECONÓMICO.<br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 15:35</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 16:00</span>
   </p>
 </footer>
 
@@ -761,7 +755,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-1535";
+const VERSION_LOCAL = "2026-07-25-1600";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
