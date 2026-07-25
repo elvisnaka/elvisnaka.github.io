@@ -219,7 +219,8 @@ footer{position:relative;padding:110px 0 60px;text-align:center;overflow:hidden}
 footer .foot-meta,footer .foot-line,footer .foot-mast{padding:0 24px}
 footer::before{content:"";position:absolute;left:50%;bottom:-140px;transform:translateX(-50%);width:640px;height:420px;background:radial-gradient(ellipse at center,rgba(201,143,69,.22),rgba(201,143,69,.06) 45%,transparent 70%);pointer-events:none}
 .foot-mast{font-family:var(--display);font-size:clamp(2rem,7vw,4.4rem);text-transform:uppercase;color:var(--camiseta)}
-.foot-line{font-family:var(--serif);font-style:italic;color:var(--lampara);margin-top:14px;font-size:2.1rem;line-height:1.4;text-align:center}
+.foot-line{font-family:var(--serif);font-style:italic;color:var(--lampara);margin-top:14px;font-size:2.1rem;line-height:1.5;text-align:center}
+.foot-line .vuelve{color:#e0312f;font-style:normal;font-family:var(--display);letter-spacing:.03em;text-shadow:0 0 22px rgba(224,49,47,.45)}
 .foot-meta{font-family:var(--mono);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ventana);margin-top:44px;line-height:2}
 
 :focus-visible{outline:2px solid var(--lampara);outline-offset:3px}
@@ -651,11 +652,11 @@ y me deja limpio, limpio, limpio a mí.</strong></div>
     <img src="banda-gracias.jpg" alt="La banda de Elvis Naka al completo sobre el escenario" loading="lazy">
     <h2 class="titulo-bombillas">¡Gracias!</h2>
   </figure>
-  <p class="foot-line">«Entre bombones» — se publica canción a canción.<br>Vuelve pronto.</p>
+  <p class="foot-line">«Entre bombones»<br>se publica canción a canción.<br><span class="vuelve">¡Vuelve pronto!</span></p>
   <p class="foot-meta">
     ELVIS NAKA ES UN PROYECTO DE FICCIÓN MUSICAL<br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 14:45</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 15:10</span>
   </p>
 </footer>
 
@@ -750,7 +751,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-1445";
+const VERSION_LOCAL = "2026-07-25-1510";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
