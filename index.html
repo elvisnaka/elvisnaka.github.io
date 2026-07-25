@@ -562,7 +562,6 @@ y me deja limpio, limpio, limpio a mí.</strong></div>
     </div>
 
     <div class="single-card cerrada" id="cardPJ" style="margin-top:56px">
-      <span class="ultima">Última canción subida</span>
       <div class="card-cabecera">
         <h3 class="titulo-bombillas">El pájaro de junio del 80</h3>
         <button class="abrir-btn" type="button">Abrir</button>
@@ -624,6 +623,70 @@ Con eso vale.
 donde junio del ochenta no pueda llegar.
 Vuela, pájaro, vuela:
 sus canciones ya sé a quién cantar.</strong></div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <div class="single-card cerrada" id="cardAC" style="margin-top:56px">
+      <span class="ultima">Última canción subida</span>
+      <div class="card-cabecera">
+        <h3 class="titulo-bombillas">Algunas chicas</h3>
+        <button class="abrir-btn" type="button">Abrir</button>
+      </div>
+      <div class="card-contenido">
+      <figure class="single-img">
+        <img src="naka-07-v3.jpg" alt="Retrato de Elvis Naka con una ceja apenas levantada">
+      </figure>
+      <div>
+        <h3 class="single-title">Algunas chicas</h3>
+        <p class="single-desc">«Some girls... no recuerdo todos sus nombres.» El desfile de las que quedaron en los arcenes: rumba canalla, piano de taberna y un riff que no se olvida.</p>
+        <p class="single-cta">Para escucharla, pincha aquí <span class="cta-arrow">↓</span></p>
+        <div class="player" data-src="algunas-chicas.mp3">
+          <div class="p-row">
+            <button class="p-btn" aria-label="Reproducir Algunas chicas"><span class="tri"></span></button>
+            <h3 class="p-title">Algunas chicas</h3>
+          </div>
+          <div class="p-body">
+            <div class="p-bar"><div class="p-fill"></div></div>
+            <div class="p-time"><span class="p-cur">0:00</span><span class="p-dur">–:––</span></div>
+            <a class="p-dl" href="algunas-chicas.mp3" download>Descargar la canción</a>
+            <div class="contador" aria-live="polite">♪ <span class="num" id="numAC">…</span> escuchas</div>
+          </div>
+        </div>
+        <div class="letra">
+          <h4>La letra</h4>
+          <div class="letra-cols">Una era abril en enero,
+otra, un incendio con DNI.
+Una me leyó la mano...
+y no le gustó el porvenir.
+
+A una le debo un paraguas,
+a otra, la mitad de una canción.
+Alguna me dejó propina...
+y alguna me dejó la lección.
+
+<strong>Ya lo decían los Stones:
+some girls... no recuerdo todos sus nombres.
+Some girls... nunca me volveréis a ver:
+flores en el desguace de mi piel.</strong>
+
+Se quedaron en los arcenes
+donde no paran los autobuses:
+margaritas de gasolinera...
+que crecen aunque nadie las cuide.
+
+<strong>Ya lo decían los Stones:
+some girls... no recuerdo todos sus nombres.
+Some girls... nunca me volveréis a ver:
+flores en el desguace de mi piel.</strong>
+
+<strong>Ya lo decían los Stones:
+some girls... no recuerdo todos sus nombres.
+Some girls... nunca me volveréis a ver:
+flores en el desguace de mi piel.</strong>
+
+Some girls... some girls...</div>
         </div>
       </div>
       </div>
@@ -759,7 +822,7 @@ sus canciones ya sé a quién cantar.</strong></div>
     NINGÚN RETORNO ECONÓMICO.<br>
     <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 19:30</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 21:00</span>
   </p>
 </footer>
 
@@ -784,7 +847,7 @@ const tracks = [
   {n:"05", t:"Domingo sin guerra",          d:"La primera mañana en calma de su vida.",                   audio:"", single:false},
   {n:"06", t:"Caramelos robados",           d:"Amor de adolescencia, dulce y canalla.",                   audio:"", single:false},
   {n:"07", t:"No me mires así",             d:"Miedo a que te quieran de verdad.",                        audio:"", single:false},
-  {n:"08", t:"Flores en el desguace",       d:"Belleza donde nadie mira.",                                audio:"", single:false},
+  {n:"08", t:"Algunas chicas",              d:"No recuerdo todos sus nombres.",                           audio:"", single:false, arriba:"#cardAC"},
   {n:"09", t:"Entre bombones (reprise)",    d:"El cierre, en directo, con risas al final.",               audio:"", single:false},
   {n:"10", t:"Ángela",                      d:"Nadie dirá que no lo intentamos.",                         audio:"", single:false, arriba:"#cardAN"},
   {n:"11", t:"El polizón",                  d:"El que aprendió a viajar escondido.",                      audio:"", single:false, arriba:"#cardPO"}
@@ -840,7 +903,7 @@ document.querySelectorAll('.player').forEach(pl => {
     if (current && current !== audio){ current.pause(); document.querySelectorAll('.p-btn').forEach(b=>b.classList.remove('playing')); }
     if (audio.paused){
       const p = audio.play();
-      if (p) p.then(()=>{ btn.classList.add('playing'); current = audio; if (pl.dataset.src.includes('bailar-mal')) cuentaEscucha(); else if (pl.dataset.src.includes('entre-bombones')) cuentaEB(); else if (pl.dataset.src.includes('angela')) cuentaAN(); else if (pl.dataset.src.includes('polizon')) cuentaPO(); else if (pl.dataset.src.includes('lavanderia')) cuentaLV(); else if (pl.dataset.src.includes('pajaro')) cuentaPJ(); })
+      if (p) p.then(()=>{ btn.classList.add('playing'); current = audio; if (pl.dataset.src.includes('bailar-mal')) cuentaEscucha(); else if (pl.dataset.src.includes('entre-bombones')) cuentaEB(); else if (pl.dataset.src.includes('angela')) cuentaAN(); else if (pl.dataset.src.includes('polizon')) cuentaPO(); else if (pl.dataset.src.includes('lavanderia')) cuentaLV(); else if (pl.dataset.src.includes('pajaro')) cuentaPJ(); else if (pl.dataset.src.includes('algunas-chicas')) cuentaAC(); })
              .catch(err => { console.error('No se pudo reproducir:', err); alert('No se pudo reproducir el audio. Comprueba que la carpeta "audio" está junto a index.html.'); });
       else { btn.classList.add('playing'); current = audio; }
     }
@@ -854,7 +917,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-1930";
+const VERSION_LOCAL = "2026-07-25-2100";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -999,7 +1062,8 @@ const CANCIONES_CFG = {
   angela:        {base:150, num:'numAN',       card:'cardAN'},
   polizon:       {base:120, num:'numPO',       card:'cardPO'},
   lavanderia:    {base:100, num:'numLV',       card:'cardLV'},
-  pajaro:        {base:90,  num:'numPJ',       card:'cardPJ'}
+  pajaro:        {base:90,  num:'numPJ',       card:'cardPJ'},
+  algunaschicas: {base:80,  num:'numAC',       card:'cardAC'}
 };
 function nakaCount(d){
   if (!d) return null;
@@ -1039,6 +1103,8 @@ cuentaAN = function(){ if (anContada) return; anContada = true; nakaSuma('angela
 cuentaPO = function(){ if (poContada) return; poContada = true; nakaSuma('polizon'); };
 cuentaLV = function(){ if (lvContada) return; lvContada = true; nakaSuma('lavanderia'); };
 cuentaPJ = function(){ if (pjContada) return; pjContada = true; nakaSuma('pajaro'); };
+let acContada = false;
+function cuentaAC(){ if (acContada) return; acContada = true; nakaSuma('algunaschicas'); }
 
 /* Puntuación con estrellas + ventana de gracias */
 const modalG = document.createElement('div');
