@@ -465,9 +465,9 @@ nadie dirá que no lo intentamos.</strong></div>
       </figure>
       <div>
         <h3 class="single-title">La chica de la lavandería</h3>
-        <p class="single-desc">«Centrifuga mis inviernos... y me deja limpio así.» Amor de barrio en clave de lavadora: guitarra sola, pie marcando el suelo y armónica de acompañante.</p>
+        <p class="single-desc">«Dobla mis penas con las sábanas... y me deja limpio así.» Amor de barrio en clave de lavadora: guitarra sola, pie marcando el suelo y armónica de acompañante.</p>
         <p class="single-cta">Para escucharla, pincha aquí <span class="cta-arrow">↓</span></p>
-        <div class="player" data-src="la-lavanderia.mp3">
+        <div class="player" data-src="la-lavanderia-v2.mp3">
           <div class="p-row">
             <button class="p-btn" aria-label="Reproducir La chica de la lavandería"><span class="tri"></span></button>
             <h3 class="p-title">La chica de la lavandería</h3>
@@ -475,7 +475,7 @@ nadie dirá que no lo intentamos.</strong></div>
           <div class="p-body">
             <div class="p-bar"><div class="p-fill"></div></div>
             <div class="p-time"><span class="p-cur">0:00</span><span class="p-dur">–:––</span></div>
-            <a class="p-dl" href="la-lavanderia.mp3" download>Descargar la canción</a>
+            <a class="p-dl" href="la-lavanderia-v2.mp3" download>Descargar la canción</a>
             <div class="contador" aria-live="polite">♪ <span class="num" id="numLV">…</span> escuchas</div>
           </div>
         </div>
@@ -486,15 +486,16 @@ manchas que no quiero explicar.
 Ella masca chicle y me sonríe:
 "aquí todo se puede lavar".
 
-Le pago en monedas de otra época,
+Le pago con calderilla y con excusas,
 me guarda la máquina mejor.
 Y mientras da vueltas mi pasado
 me habla del tiempo... y del amor.
 
 <strong>La chica de la lavandería
-tiene espuma en la mirada, no me quiero ir.
+me sonríe y se me olvida hasta salir.
 La chica de la lavandería
-centrifuga mis inviernos... y me deja limpio así.</strong>
+dobla mis penas con las sábanas...
+y me deja limpio así.</strong>
 
 Hay tipos que se dejan la chaqueta
 solo por volverla a recoger.
@@ -502,19 +503,20 @@ Yo ya no sé qué ropa traigo sucia
 y qué traigo por volverla a ver.
 
 <strong>La chica de la lavandería
-tiene espuma en la mirada, no me quiero ir.
+me sonríe y se me olvida hasta salir.
 La chica de la lavandería
-centrifuga mis inviernos... y me deja limpio así.</strong>
+dobla mis penas con las sábanas...
+y me deja limpio así.</strong>
 
 Cuarenta minutos dura un programa.
 Cuarenta minutos de mirar de reojo.
-Nunca la niebla olió tan bien
+Nunca esperar olió tan bien
 como aquí dentro, a suavizante y a peligro.
 
 <strong>La chica de la lavandería
-tiene espuma en la mirada, no me quiero ir.
+me sonríe y se me olvida hasta salir.
 La chica de la lavandería
-centrifuga mis inviernos, plancha mis heridas...
+dobla mis penas con las sábanas, me plancha el corazón...
 y me deja limpio, limpio así.</strong></div>
         </div>
       </div>
@@ -618,7 +620,7 @@ y me deja limpio, limpio así.</strong></div>
   <p class="foot-meta">
     ELVIS NAKA ES UN PROYECTO DE FICCIÓN MUSICAL<br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 07:15</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 09:40</span>
   </p>
 </footer>
 
@@ -637,7 +639,7 @@ y me deja limpio, limpio así.</strong></div>
    ========================================================== */
 const tracks = [
   {n:"01", t:"Entre bombones",              d:"Un lobo perdido en la confitería.",                        audio:"", single:false, arriba:"#cardEB"},
-  {n:"02", t:"La chica de la lavandería",   d:"Centrifuga inviernos. Deja limpio.",                       audio:"", single:false, arriba:"#cardLV"},
+  {n:"02", t:"La chica de la lavandería",   d:"Dobla penas con las sábanas.",                       audio:"", single:false, arriba:"#cardLV"},
   {n:"03", t:"Bailo mal",                  d:"Nadie en esta pista se lo toma tan en serio.",             audio:"", single:true},
   {n:"04", t:"El pájaro de junio del 80",   d:"Yo guardo el invierno, tú guarda el volar.",               audio:"", single:false},
   {n:"05", t:"Domingo sin guerra",          d:"La primera mañana en calma de su vida.",                   audio:"", single:false},
@@ -713,7 +715,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-0715";
+const VERSION_LOCAL = "2026-07-25-0940";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
