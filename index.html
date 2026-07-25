@@ -166,11 +166,11 @@ blockquote cite{display:block;margin-top:12px;font-family:var(--mono);font-style
 .grid figure:hover img{transform:scale(1.04);filter:saturate(1)}
 
 /* ---------- COMPARTIR ---------- */
-.compartir{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px;align-items:center}
-.comp-etq{font-family:var(--mono);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ventana);margin-right:2px}
-.comp-btn{width:42px;height:42px;border-radius:50%;border:1px solid rgba(126,151,168,.35);display:grid;place-items:center;color:var(--ventana);background:transparent;cursor:pointer;text-decoration:none;transition:color .3s,border-color .3s,background .3s}
-.comp-btn:hover{color:var(--noche);border-color:var(--lampara);background:var(--lampara)}
-.comp-btn svg{width:19px;height:19px;fill:currentColor}
+.compartir{display:flex;flex-wrap:wrap;gap:16px;margin-top:28px;align-items:center;justify-content:center;padding:20px 16px;border:1px dashed rgba(201,143,69,.55);border-radius:12px;background:rgba(201,143,69,.07)}
+.comp-etq{display:block;width:100%;text-align:center;font-family:var(--mono);font-size:.85rem;letter-spacing:.3em;text-transform:uppercase;color:var(--lampara);margin-bottom:2px;text-shadow:0 0 16px rgba(201,143,69,.4)}
+.comp-btn{width:54px;height:54px;border-radius:50%;border:1.5px solid var(--lampara);display:grid;place-items:center;color:var(--lampara);background:rgba(10,17,24,.5);cursor:pointer;text-decoration:none;transition:color .3s,background .3s,transform .2s;box-shadow:0 0 14px rgba(201,143,69,.2)}
+.comp-btn:hover{color:var(--noche);background:var(--lampara);transform:scale(1.08)}
+.comp-btn svg{width:24px;height:24px;fill:currentColor}
 
 /* ---------- TARJETAS PLEGABLES ---------- */
 .card-cabecera{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;gap:20px;padding:6px 0;text-align:center}
@@ -617,7 +617,7 @@ y me deja limpio, limpio, limpio a mí.</strong></div>
   <p class="foot-meta">
     ELVIS NAKA ES UN PROYECTO DE FICCIÓN MUSICAL<br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 10:50</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 11:10</span>
   </p>
 </footer>
 
@@ -712,7 +712,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-1050";
+const VERSION_LOCAL = "2026-07-25-1110";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -798,7 +798,7 @@ document.querySelectorAll('.single-card[id]').forEach(card => {
   const eU = encodeURIComponent(url), eT = encodeURIComponent(texto);
   const fila = document.createElement('div');
   fila.className = 'compartir';
-  fila.innerHTML = '<span class="comp-etq">Compartir</span>'
+  fila.innerHTML = '<span class="comp-etq">♪ Comparte la canción</span>'
     + '<a class="comp-btn" target="_blank" rel="noopener" aria-label="Compartir por WhatsApp" href="https://wa.me/?text=' + eT + '%20' + eU + '">' + ICONOS.whatsapp + '</a>'
     + '<a class="comp-btn" target="_blank" rel="noopener" aria-label="Compartir en Facebook" href="https://www.facebook.com/sharer/sharer.php?u=' + eU + '">' + ICONOS.facebook + '</a>'
     + '<a class="comp-btn" target="_blank" rel="noopener" aria-label="Compartir en X" href="https://twitter.com/intent/tweet?text=' + eT + '&url=' + eU + '">' + ICONOS.x + '</a>'
