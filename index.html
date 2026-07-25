@@ -195,6 +195,18 @@ blockquote cite{display:block;margin-top:12px;font-family:var(--mono);font-style
 .visor-nav:hover,.visor-cerrar:hover{background:var(--lampara);color:var(--noche)}
 .sl-track figure{cursor:zoom-in}
 
+/* ---------- TIENDA ---------- */
+.producto{border:1px solid rgba(224,49,47,.5);box-shadow:0 0 40px rgba(224,49,47,.14),inset 0 0 40px rgba(224,49,47,.04);padding:34px 28px}
+.prod-fotos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:26px}
+.prod-fotos img{width:100%;height:100%;object-fit:cover;aspect-ratio:1/1.05;cursor:pointer;transition:transform .3s}
+.prod-fotos img:hover{transform:scale(1.02)}
+.prod-nombre{font-family:var(--display);font-size:clamp(1.6rem,4.5vw,2.4rem);text-transform:uppercase;letter-spacing:.03em;margin-bottom:10px}
+.prod-desc{font-family:var(--serif);font-style:italic;color:var(--niebla);font-size:1.05rem;line-height:1.7;margin-bottom:8px}
+.prod-detalle{font-family:var(--mono);font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ventana);margin-bottom:22px}
+.prod-cta{display:inline-block;font-family:var(--mono);font-size:.85rem;letter-spacing:.28em;text-transform:uppercase;padding:16px 34px;border:1px solid #e0312f;color:#fff;background:rgba(224,49,47,.18);text-decoration:none;border-radius:4px;transition:background .3s}
+.prod-cta:hover{background:#e0312f}
+@media(min-width:840px){.producto{display:grid;grid-template-columns:1.1fr .9fr;gap:38px;align-items:center}.prod-fotos{margin-bottom:0}}
+
 /* ---------- GRACIAS (banda) ---------- */
 .gracias{position:relative;overflow:hidden}
 .gracias img{width:100%;display:block}
@@ -608,6 +620,28 @@ y me deja limpio, limpio, limpio a mí.</strong></div>
 </section>
 
 <!-- ============ FOOTER ============ -->
+
+<!-- ============ LA TIENDA ============ -->
+<section id="tienda">
+  <div class="wrap">
+    <p class="sec-label">La tienda</p>
+    <div class="producto">
+      <div class="prod-fotos">
+        <img src="camiseta-3.jpg" alt="Elvis Naka con la camiseta oficial del logo, apoyado en la pared con la Telecaster">
+        <img src="camiseta-4.jpg" alt="Elvis Naka con la camiseta oficial y la guitarra al hombro">
+        <img src="camiseta-1.jpg" alt="Camiseta negra con el logotipo circular de Elvis Naka en blanco">
+        <img src="camiseta-2.jpg" alt="Camiseta de Elvis Naka doblada">
+      </div>
+      <div>
+        <h3 class="prod-nombre">La camiseta</h3>
+        <p class="prod-desc">Negra, con el sello psicodélico de ELVIS NAKA en blanco serigrafiado en el pecho. La misma que lleva él. No hay más ropa en el armario de este proyecto: solo esta.</p>
+        <p class="prod-detalle">Tallas S · M · L · XL · XXL — Envío a convenir</p>
+        <a class="prod-cta" href="mailto:elvisnaka26@gmail.com?subject=Pedido%20camiseta%20ELVIS%20NAKA&body=Hola%2C%20quiero%20la%20camiseta%20de%20Elvis%20Naka.%0ATalla%3A%20%0ANombre%3A%20%0ADirecci%C3%B3n%20de%20env%C3%ADo%3A%20">Pedir la camiseta</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <figure class="gracias">
     <img src="banda-gracias.jpg" alt="La banda de Elvis Naka al completo sobre el escenario" loading="lazy">
@@ -617,7 +651,7 @@ y me deja limpio, limpio, limpio a mí.</strong></div>
   <p class="foot-meta">
     ELVIS NAKA ES UN PROYECTO DE FICCIÓN MUSICAL<br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 11:10</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 11:45</span>
   </p>
 </footer>
 
@@ -712,7 +746,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-1110";
+const VERSION_LOCAL = "2026-07-25-1145";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -846,6 +880,7 @@ if (tr){
   let idx = 0;
   function abre(i){ idx = (i + fotos.length) % fotos.length; visorImg.src = fotos[idx].src; visorImg.alt = fotos[idx].alt; visor.classList.add('abierto'); document.body.style.overflow='hidden'; }
   function cierra(){ visor.classList.remove('abierto'); document.body.style.overflow=''; }
+  document.querySelectorAll('.prod-fotos img').forEach(im => fotos.push(im));
   fotos.forEach((im,i)=>{
     im.style.cursor='pointer';
     im.addEventListener('click', ()=> abre(i));
