@@ -886,7 +886,6 @@ Una disculpa para salir de aquí...</strong></div>
     </div>
 
     <div class="single-card cerrada" id="cardEBR" style="margin-top:56px">
-      <span class="ultima">Última canción subida</span>
       <div class="card-cabecera">
         <h3 class="titulo-bombillas">Entre bombones (reprise)</h3>
         <button class="abrir-btn" type="button">Abrir</button>
@@ -926,6 +925,83 @@ Una disculpa para salir de aquí...</strong></div>
       </div>
     </div>
 
+    <div class="single-card cerrada" id="cardMD" style="margin-top:56px">
+      <span class="ultima">Última canción subida</span>
+      <div class="card-cabecera">
+        <h3 class="titulo-bombillas">Más domingos que semanas</h3>
+        <button class="abrir-btn" type="button">Abrir</button>
+      </div>
+      <div class="card-contenido">
+      <figure class="single-img">
+        <img src="naka-domingos.jpg" alt="Elvis Naka sentado en el suelo del salón con la guitarra y un vinilo de los Stones entre las manos, rodeado de discos">
+      </figure>
+      <div>
+        <h3 class="single-title">Más domingos que semanas</h3>
+        <p class="single-desc">«Quédate un disco más.» Un domingo que no se acaba, el vinilo girando despacio y alguien que vuelve cambiado de forma en cada canción.</p>
+        <p class="single-cta">Para escucharla, pincha aquí <span class="cta-arrow">↓</span></p>
+        <div class="player" data-src="mas-domingos-que-semanas.mp3">
+          <div class="p-row">
+            <button class="p-btn" aria-label="Reproducir Más domingos que semanas"><span class="tri"></span></button>
+            <h3 class="p-title">Más domingos que semanas</h3>
+          </div>
+          <div class="p-body">
+            <div class="p-bar"><div class="p-fill"></div></div>
+            <div class="p-time"><span class="p-cur">0:00</span><span class="p-dur">–:––</span></div>
+            <a class="p-dl" href="mas-domingos-que-semanas.mp3" download>Descargar la canción</a>
+            <div class="contador" aria-live="polite">♪ <span class="num" id="numMD">…</span> escuchas</div>
+          </div>
+        </div>
+        <div class="letra">
+          <h4>La letra</h4>
+          <div class="letra-cols">Todo el domingo tirado en el suelo,
+mirando el techo como quien mira el mar.
+Dejo que gire el vinilo despacio
+y que el reloj se olvide de contar.
+
+Suenan los Stones, y los Doors,
+la Velvet me enseña a flotar.
+Bowie me presta un traje de otro planeta,
+T. Rex me deja el cuerpo aquí y el resto vuela ya.
+
+El cuerpo quieto, la cabeza lejos...
+tan lejos que ya casi puedo verte.
+
+<strong>Más domingos que semanas,
+tumbado, mirando al techo,
+preguntándome por ti:
+tenías estilo, belleza y porvenir...
+pero las alturas no son para ti.</strong>
+
+Oh-oh-oh... más domingos que semanas...
+Oh-oh-oh... mirando al techo por ti...
+
+Cambio el disco y cambias tú de forma:
+hoy eres Bowie, mañana serás Jimmy.
+El suelo es frío pero tú me abrigas
+con las canciones que dejaste aquí, para mí.
+
+<strong>Más domingos que semanas,
+tumbado, mirando al techo,
+preguntándome por ti:
+tenías estilo, belleza y porvenir...
+pero las alturas no son para ti.</strong>
+
+Si el domingo no termina,
+tampoco tienes que irte tú.
+Quédate un disco más.
+Quédate un domingo más.
+
+<strong>Más domingos que semanas,
+tumbado, mirando al techo,
+preguntándome por ti:
+tenías estilo, belleza y porvenir...
+pero las alturas no son para ti.
+ES-TE-BAN... estás siempre aquí.</strong></div>
+        </div>
+      </div>
+      </div>
+    </div>
+
     <div class="lp-entero" id="lp">
       <div class="lp-medallon"><img src="ilustracion-naka-navy.png" alt="Ilustración de Elvis Naka con la Telecaster"></div>
       <div class="lp-cuerpo">
@@ -941,7 +1017,7 @@ Una disculpa para salir de aquí...</strong></div>
           <button class="lp-mini" id="lpSig" type="button" aria-label="Siguiente canción"><svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 6l8.5 6L6 18z"/></svg></button>
         </div>
         <details class="lp-pistas">
-          <summary>Ver las 9 canciones ▾</summary>
+          <summary>Ver las 11 canciones ▾</summary>
           <div class="lp-lista" id="lpLista"></div>
         </details>
       </div>
@@ -1151,7 +1227,7 @@ const tracks = [
   {n:"02", t:"La chica de la lavandería",   d:"Lava penas con las sábanas.",                       audio:"", single:false, arriba:"#cardLV"},
   {n:"03", t:"Bailo mal",                  d:"Nadie en esta pista se lo toma tan en serio.",             audio:"", single:true},
   {n:"04", t:"El pájaro de junio del 80",   d:"Yo guardo el invierno, tú guarda el volar.",               audio:"", single:false, arriba:"#cardPJ"},
-  {n:"05", t:"Domingo sin guerra",          d:"La primera mañana en calma de su vida.",                   audio:"", single:false},
+  {n:"05", t:"Más domingos que semanas",    d:"Tenías estilo, belleza y porvenir.",                      audio:"", single:false, arriba:"#cardMD"},
   {n:"06", t:"Caramelos robados",           d:"Porque son inventados.",                                   audio:"", single:false, arriba:"#cardCR"},
   {n:"07", t:"No me mires así",             d:"Una disculpa para salir de aquí.",                        audio:"", single:false, arriba:"#cardNM"},
   {n:"08", t:"Algunas chicas",              d:"No recuerdo todos sus nombres.",                           audio:"", single:false, arriba:"#cardAC"},
@@ -1210,7 +1286,7 @@ document.querySelectorAll('.player').forEach(pl => {
     if (current && current !== audio){ current.pause(); document.querySelectorAll('.p-btn').forEach(b=>b.classList.remove('playing')); }
     if (audio.paused){
       const p = audio.play();
-      if (p) p.then(()=>{ btn.classList.add('playing'); current = audio; if (pl.dataset.src.includes('bailar-mal')) cuentaEscucha(); else if (pl.dataset.src.includes('entre-bombones')) cuentaEB(); else if (pl.dataset.src.includes('angela')) cuentaAN(); else if (pl.dataset.src.includes('polizon')) cuentaPO(); else if (pl.dataset.src.includes('lavanderia')) cuentaLV(); else if (pl.dataset.src.includes('pajaro')) cuentaPJ(); else if (pl.dataset.src.includes('algunas-chicas')) cuentaAC(); else if (pl.dataset.src.includes('caramelos')) cuentaCR(); else if (pl.dataset.src.includes('no-me-mires-asi')) cuentaNM(); else if (pl.dataset.src.includes('entre-bombones-reprise')) cuentaEBR(); })
+      if (p) p.then(()=>{ btn.classList.add('playing'); current = audio; if (pl.dataset.src.includes('bailar-mal')) cuentaEscucha(); else if (pl.dataset.src.includes('mas-domingos')) cuentaMD(); else if (pl.dataset.src.includes('entre-bombones-reprise')) cuentaEBR(); else if (pl.dataset.src.includes('entre-bombones')) cuentaEB(); else if (pl.dataset.src.includes('angela')) cuentaAN(); else if (pl.dataset.src.includes('polizon')) cuentaPO(); else if (pl.dataset.src.includes('lavanderia')) cuentaLV(); else if (pl.dataset.src.includes('pajaro')) cuentaPJ(); else if (pl.dataset.src.includes('algunas-chicas')) cuentaAC(); else if (pl.dataset.src.includes('caramelos')) cuentaCR(); else if (pl.dataset.src.includes('no-me-mires-asi')) cuentaNM(); else if (pl.dataset.src.includes('entre-bombones-reprise')) cuentaEBR(); })
              .catch(err => { console.error('No se pudo reproducir:', err); alert('No se pudo reproducir el audio. Comprueba que la carpeta "audio" está junto a index.html.'); });
       else { btn.classList.add('playing'); current = audio; }
     }
@@ -1224,7 +1300,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-0945";
+const VERSION_LOCAL = "2026-07-26-1005";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -1318,7 +1394,8 @@ document.querySelectorAll('.single-card[id]').forEach(card => {
   if (!cuerpo || !tituloEl) return;
   const titulo = tituloEl.textContent.trim();
   const SLUG_CANCION = {cardBM:'bailo-mal', cardEB:'entre-bombones', cardAN:'angela', cardPO:'el-polizon',
-    cardLV:'la-lavanderia', cardPJ:'el-pajaro', cardAC:'algunas-chicas', cardCR:'caramelos-robados'};
+    cardLV:'la-lavanderia', cardPJ:'el-pajaro', cardAC:'algunas-chicas', cardCR:'caramelos-robados',
+    cardMD:'mas-domingos'};
   const url = SLUG_CANCION[card.id] ? 'https://elvisnaka.github.io/' + SLUG_CANCION[card.id] + '/'
                                     : 'https://elvisnaka.github.io/#' + card.id;
   const texto = 'Escucha «' + titulo + '» de ELVIS NAKA';
@@ -1410,7 +1487,8 @@ const CANCIONES_CFG = {
   algunaschicas: {base:80,  num:'numAC',       card:'cardAC'},
   caramelos:     {base:70,  num:'numCR',       card:'cardCR'},
   nomemiresasi:  {base:60,  num:'numNM',       card:'cardNM'},
-  reprise:       {base:40,  num:'numEBR',      card:'cardEBR'}
+  reprise:       {base:40,  num:'numEBR',      card:'cardEBR'},
+  masdomingos:   {base:30,  num:'numMD',       card:'cardMD'}
 };
 function nakaCount(d){
   if (!d) return null;
@@ -1441,7 +1519,8 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
 /* los conteos al pulsar play usan también la vía robusta */
 const TITULOS_CANCION = {bailomal:'Bailo mal', entrebombones:'Entre bombones', angela:'Ángela',
   polizon:'El polizón', lavanderia:'La chica de la lavandería', pajaro:'El pájaro de junio del 80',
-  algunaschicas:'Algunas chicas', caramelos:'Caramelos robados', nomemiresasi:'No me mires así'};
+  algunaschicas:'Algunas chicas', caramelos:'Caramelos robados', nomemiresasi:'No me mires así',
+  reprise:'Entre bombones (reprise)', masdomingos:'Más domingos que semanas'};
 function avisaEscucha(clave){
   try{
     const cuando = new Date().toLocaleString('es-ES');
@@ -1477,6 +1556,8 @@ let nmContada = false;
 function cuentaNM(){ if (nmContada) return; nmContada = true; nakaSuma('nomemiresasi'); }
 let ebrContada = false;
 function cuentaEBR(){ if (ebrContada) return; ebrContada = true; nakaSuma('reprise'); }
+let mdContada = false;
+function cuentaMD(){ if (mdContada) return; mdContada = true; nakaSuma('masdomingos'); }
 
 /* Puntuación con estrellas + ventana de gracias */
 const modalG = document.createElement('div');
@@ -1536,7 +1617,8 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
     cardAC:{f:'algunas-chicas.mp3',        t:'Algunas chicas',               c:'algunaschicas'},
     cardCR:{f:'caramelos-robados.mp3',     t:'Caramelos robados',            c:'caramelos'},
     cardNM:{f:'no-me-mires-asi.mp3',       t:'No me mires así',              c:'nomemiresasi'},
-    cardEBR:{f:'entre-bombones-reprise.mp3',  t:'Entre bombones (reprise)',     c:'reprise'}
+    cardEBR:{f:'entre-bombones-reprise.mp3',  t:'Entre bombones (reprise)',     c:'reprise'},
+    cardMD:{f:'mas-domingos-que-semanas.mp3', t:'Más domingos que semanas',     c:'masdomingos'}
   };
   /* El orden de reproducción sigue el orden real de las tarjetas en la página */
   const LISTA = Array.from(document.querySelectorAll('#single .single-card[id]'))
