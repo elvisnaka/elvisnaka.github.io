@@ -70,7 +70,6 @@ p em{color:var(--camiseta)}
 .two-col{display:grid;grid-template-columns:1fr;gap:56px;align-items:start}
 @media(min-width:840px){.two-col{grid-template-columns:1.15fr .85fr}}
 .col-img img{border:1px solid rgba(126,151,168,.18)}
-.col-img figcaption{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;color:var(--ventana);margin-top:10px}
 
 /* cita de letra */
 blockquote{border-left:2px solid var(--lampara);padding:6px 0 6px 24px;margin:40px 0;font-style:italic;font-size:1.25rem;line-height:1.6;color:var(--camiseta);max-width:46ch}
@@ -1230,7 +1229,6 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
     </div>
     <figure class="col-img">
       <img src="naka-pasillo.jpg" alt="Elvis Naka mirando atrás en un pasillo de paredes desconchadas, con la Telecaster en la mano y una luz al fondo">
-      <figcaption>ELVIS NAKA · LA SALIDA DEL PASILLO</figcaption>
     </figure>
   </div>
 </section>
@@ -1251,7 +1249,6 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
 
     <figure class="col-img">
       <img src="naka-retrato-letras.jpg" alt="Retrato de Elvis Naka de frente: gorra negra, gafas redondas, barba canosa y pajarita, con el telón rojo al fondo" loading="lazy">
-      <figcaption>ELVIS NAKA · LA CEJA LEVANTADA</figcaption>
     </figure>
   </div>
 </section>
@@ -1263,7 +1260,6 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
   <div class="wrap two-col">
     <figure class="col-img">
       <img src="naka-02-v3.jpg" alt="Elvis Naka en el camerino con tirantes y la Telecaster, entre fundas de guitarra">
-      <figcaption>EL CAMERINO · ANTES DE SALIR</figcaption>
     </figure>
     <div>
       <p class="sec-label">Cómo se hizo</p>
@@ -1517,7 +1513,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-2350";
+const VERSION_LOCAL = "2026-07-27-0030";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
