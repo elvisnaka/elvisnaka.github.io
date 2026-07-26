@@ -319,6 +319,15 @@ audio.addEventListener('timeupdate', () => {
   relleno.style.width = (audio.currentTime/audio.duration*100 || 0) + '%';
   elCur.textContent = fmt(audio.currentTime);
 });
+/* se adelanta el principio de la siguiente para que entre sin espera */
+let yaPrecargada = '';
+audio.addEventListener('timeupdate', () => {
+  if (!audio.duration || audio.currentTime < audio.duration * 0.45) return;
+  const sig = DISCO[i+1];
+  if (!sig || yaPrecargada === sig.f) return;
+  yaPrecargada = sig.f;
+  fetch(sig.f, {headers:{Range:'bytes=0-500000'}}).catch(()=>{});
+});
 audio.addEventListener('ended', () => {
   if (i < DISCO.length - 1) { pon(i+1, true); }
   else {

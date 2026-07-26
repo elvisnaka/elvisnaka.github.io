@@ -1554,7 +1554,7 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
     NINGÚN RETORNO ECONÓMICO.<br>
     <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 27-JUL · 19:00</span>
+    <span style="opacity:.55">VERSIÓN 27-JUL · 20:00</span>
   </p>
   <p><a class="pie-insta" href="https://www.instagram.com/elvisnaka_oficial/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><defs>
       <radialGradient id="igGradPie" cx="30%" cy="107%" r="150%">
@@ -1711,7 +1711,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-27-1900";
+const VERSION_LOCAL = "2026-07-27-2000";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -2062,6 +2062,16 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
   audio.setAttribute('x-webkit-airplay','allow');
   document.body.appendChild(audio);
   audio.addEventListener('timeupdate', () => { elCur.textContent = reloj(audio.currentTime); });
+  /* A mitad de canción se va trayendo el principio de la siguiente,
+     para que el salto sea inmediato y no haya que esperar a que cargue. */
+  let yaPrecargada = '';
+  audio.addEventListener('timeupdate', () => {
+    if (!audio.duration || audio.currentTime < audio.duration * 0.45) return;
+    const sig = LISTA[i+1];
+    if (!sig || yaPrecargada === sig.f) return;
+    yaPrecargada = sig.f;
+    fetch(sig.f, {headers:{Range:'bytes=0-500000'}}).catch(()=>{});
+  });
   audio.addEventListener('loadedmetadata', () => { elDur.textContent = reloj(audio.duration); });
   let i = 0, sonando = false;
   const contadas = {};
