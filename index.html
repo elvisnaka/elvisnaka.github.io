@@ -218,6 +218,19 @@ blockquote cite{display:block;margin-top:12px;font-family:var(--mono);font-style
 .lp-lista button:hover{background:rgba(10,17,24,.12)}
 .lp-lista button.activa{font-weight:700;color:#0a1118;background:rgba(10,17,24,.16)}
 
+/* ---------- MINI CARRUSEL DE FOTOS ---------- */
+.mini-carrusel{margin-bottom:0}
+.mc-grande{position:relative;overflow:hidden;border-radius:4px;background:#000}
+.mc-grande img{width:100%;display:block;aspect-ratio:3/2;object-fit:cover}
+.mc-flecha{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:1px solid var(--lampara);background:rgba(10,17,24,.55);color:var(--lampara);font-size:1.4rem;line-height:1;display:grid;place-items:center;cursor:pointer;transition:background .2s,color .2s}
+.mc-flecha:hover{background:var(--lampara);color:var(--noche)}
+.mc-izq{left:10px}
+.mc-der{right:10px}
+.mc-miniaturas{display:flex;gap:8px;margin-top:10px;overflow-x:auto;padding-bottom:2px}
+.mc-mini{width:66px;height:66px;object-fit:cover;border-radius:4px;cursor:pointer;opacity:.45;transition:opacity .2s,outline .2s;flex:0 0 auto;outline:2px solid transparent;outline-offset:-2px}
+.mc-mini.activa{opacity:1;outline-color:var(--lampara)}
+.mc-mini:hover{opacity:.8}
+
 /* ---------- PASTILLA ÚLTIMA CANCIÓN ---------- */
 .single-card{position:relative}
 .ultima{position:absolute;top:-16px;left:14px;transform:rotate(-6deg);background:#e0312f;color:#fff;font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;padding:9px 18px;border-radius:999px;box-shadow:0 4px 18px rgba(224,49,47,.45);z-index:3}
@@ -803,7 +816,6 @@ Porque son inventados...
       </div>
     </div>
     <div class="single-card cerrada" id="cardNM" style="margin-top:56px">
-      <span class="ultima">Última canción subida</span>
       <div class="card-cabecera">
         <h3 class="titulo-bombillas">No me mires así</h3>
         <button class="abrir-btn" type="button">Abrir</button>
@@ -891,6 +903,47 @@ Una disculpa para salir de aquí...</strong></div>
           <summary>Ver las 9 canciones ▾</summary>
           <div class="lp-lista" id="lpLista"></div>
         </details>
+      </div>
+    </div>
+
+    <div class="single-card cerrada" id="cardEBR" style="margin-top:56px">
+      <span class="ultima">Última canción subida</span>
+      <div class="card-cabecera">
+        <h3 class="titulo-bombillas">Entre bombones (reprise)</h3>
+        <button class="abrir-btn" type="button">Abrir</button>
+      </div>
+      <div class="card-contenido">
+      <div class="mini-carrusel">
+        <div class="mc-grande">
+          <button class="mc-flecha mc-izq" type="button" aria-label="Foto anterior">‹</button>
+          <img class="mc-img" src="reprise-1.jpg" alt="La banda de Elvis Naka en el estudio de grabación, entre risas, guitarras y cervezas">
+          <button class="mc-flecha mc-der" type="button" aria-label="Foto siguiente">›</button>
+        </div>
+        <div class="mc-miniaturas">
+          <img class="mc-mini activa" src="reprise-1.jpg" alt="">
+          <img class="mc-mini" src="reprise-2.jpg" alt="">
+          <img class="mc-mini" src="reprise-3.jpg" alt="">
+          <img class="mc-mini" src="reprise-4.jpg" alt="">
+          <img class="mc-mini" src="reprise-5.jpg" alt="">
+        </div>
+      </div>
+      <div>
+        <h3 class="single-title">Entre bombones (reprise)</h3>
+        <p class="single-desc">«Para, para, para... esto no es así.» El descarte real del ensayo: la banda calentando motores, una interrupción, risas de fondo — y una ronda de cervezas al final.</p>
+        <p class="single-cta">Para reírte con nosotros, pincha aquí <span class="cta-arrow">↓</span></p>
+        <div class="player" data-src="entre-bombones-reprise.mp3">
+          <div class="p-row">
+            <button class="p-btn" aria-label="Reproducir Entre bombones reprise"><span class="tri"></span></button>
+            <h3 class="p-title">Entre bombones (reprise)</h3>
+          </div>
+          <div class="p-body">
+            <div class="p-bar"><div class="p-fill"></div></div>
+            <div class="p-time"><span class="p-cur">0:00</span><span class="p-dur">–:––</span></div>
+            <a class="p-dl" href="entre-bombones-reprise.mp3" download>Descargar la canción</a>
+            <div class="contador" aria-live="polite">♪ <span class="num" id="numEBR">…</span> escuchas</div>
+          </div>
+        </div>
+      </div>
       </div>
     </div>
   </div>
@@ -1101,7 +1154,7 @@ const tracks = [
   {n:"06", t:"Caramelos robados",           d:"Porque son inventados.",                                   audio:"", single:false, arriba:"#cardCR"},
   {n:"07", t:"No me mires así",             d:"Una disculpa para salir de aquí.",                        audio:"", single:false, arriba:"#cardNM"},
   {n:"08", t:"Algunas chicas",              d:"No recuerdo todos sus nombres.",                           audio:"", single:false, arriba:"#cardAC"},
-  {n:"09", t:"Entre bombones (reprise)",    d:"El cierre, en directo, con risas al final.",               audio:"", single:false},
+  {n:"09", t:"Entre bombones (reprise)",    d:"Para, para, para... esto no es así.",                     audio:"", single:false, arriba:"#cardEBR"},
   {n:"10", t:"Ángela",                      d:"Nadie dirá que no lo intentamos.",                         audio:"", single:false, arriba:"#cardAN"},
   {n:"11", t:"El polizón",                  d:"El que aprendió a viajar escondido.",                      audio:"", single:false, arriba:"#cardPO"}
 ];
@@ -1156,7 +1209,7 @@ document.querySelectorAll('.player').forEach(pl => {
     if (current && current !== audio){ current.pause(); document.querySelectorAll('.p-btn').forEach(b=>b.classList.remove('playing')); }
     if (audio.paused){
       const p = audio.play();
-      if (p) p.then(()=>{ btn.classList.add('playing'); current = audio; if (pl.dataset.src.includes('bailar-mal')) cuentaEscucha(); else if (pl.dataset.src.includes('entre-bombones')) cuentaEB(); else if (pl.dataset.src.includes('angela')) cuentaAN(); else if (pl.dataset.src.includes('polizon')) cuentaPO(); else if (pl.dataset.src.includes('lavanderia')) cuentaLV(); else if (pl.dataset.src.includes('pajaro')) cuentaPJ(); else if (pl.dataset.src.includes('algunas-chicas')) cuentaAC(); else if (pl.dataset.src.includes('caramelos')) cuentaCR(); else if (pl.dataset.src.includes('no-me-mires-asi')) cuentaNM(); })
+      if (p) p.then(()=>{ btn.classList.add('playing'); current = audio; if (pl.dataset.src.includes('bailar-mal')) cuentaEscucha(); else if (pl.dataset.src.includes('entre-bombones')) cuentaEB(); else if (pl.dataset.src.includes('angela')) cuentaAN(); else if (pl.dataset.src.includes('polizon')) cuentaPO(); else if (pl.dataset.src.includes('lavanderia')) cuentaLV(); else if (pl.dataset.src.includes('pajaro')) cuentaPJ(); else if (pl.dataset.src.includes('algunas-chicas')) cuentaAC(); else if (pl.dataset.src.includes('caramelos')) cuentaCR(); else if (pl.dataset.src.includes('no-me-mires-asi')) cuentaNM(); else if (pl.dataset.src.includes('entre-bombones-reprise')) cuentaEBR(); })
              .catch(err => { console.error('No se pudo reproducir:', err); alert('No se pudo reproducir el audio. Comprueba que la carpeta "audio" está junto a index.html.'); });
       else { btn.classList.add('playing'); current = audio; }
     }
@@ -1170,7 +1223,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-0840";
+const VERSION_LOCAL = "2026-07-26-0920";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -1355,7 +1408,8 @@ const CANCIONES_CFG = {
   pajaro:        {base:90,  num:'numPJ',       card:'cardPJ'},
   algunaschicas: {base:80,  num:'numAC',       card:'cardAC'},
   caramelos:     {base:70,  num:'numCR',       card:'cardCR'},
-  nomemiresasi:  {base:60,  num:'numNM',       card:'cardNM'}
+  nomemiresasi:  {base:60,  num:'numNM',       card:'cardNM'},
+  reprise:       {base:40,  num:'numEBR',      card:'cardEBR'}
 };
 function nakaCount(d){
   if (!d) return null;
@@ -1420,6 +1474,8 @@ let crContada = false;
 function cuentaCR(){ if (crContada) return; crContada = true; nakaSuma('caramelos'); }
 let nmContada = false;
 function cuentaNM(){ if (nmContada) return; nmContada = true; nakaSuma('nomemiresasi'); }
+let ebrContada = false;
+function cuentaEBR(){ if (ebrContada) return; ebrContada = true; nakaSuma('reprise'); }
 
 /* Puntuación con estrellas + ventana de gracias */
 const modalG = document.createElement('div');
@@ -1478,7 +1534,8 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
     cardPJ:{f:'el-pajaro.mp3',             t:'El pájaro de junio del 80',    c:'pajaro'},
     cardAC:{f:'algunas-chicas.mp3',        t:'Algunas chicas',               c:'algunaschicas'},
     cardCR:{f:'caramelos-robados.mp3',     t:'Caramelos robados',            c:'caramelos'},
-    cardNM:{f:'no-me-mires-asi.mp3',       t:'No me mires así',              c:'nomemiresasi'}
+    cardNM:{f:'no-me-mires-asi.mp3',       t:'No me mires así',              c:'nomemiresasi'},
+    cardEBR:{f:'entre-bombones-reprise.mp3',  t:'Entre bombones (reprise)',     c:'reprise'}
   };
   /* El orden de reproducción sigue el orden real de las tarjetas en la página */
   const LISTA = Array.from(document.querySelectorAll('#single .single-card[id]'))
@@ -1694,6 +1751,21 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
   dibujaOnda();
   audio.addEventListener('play', () => { preparaAnalizador(); if (ctxAudio && ctxAudio.state === 'suspended') ctxAudio.resume(); });
 })();
+
+/* Mini carrusel de fotos (foto grande + miniaturas + flechas) */
+document.querySelectorAll('.mini-carrusel').forEach(car => {
+  const grande = car.querySelector('.mc-img');
+  const minis = Array.from(car.querySelectorAll('.mc-mini'));
+  let idxC = 0;
+  function muestra(n){
+    idxC = (n + minis.length) % minis.length;
+    grande.src = minis[idxC].src;
+    minis.forEach((m,i) => m.classList.toggle('activa', i === idxC));
+  }
+  car.querySelector('.mc-izq').addEventListener('click', () => muestra(idxC - 1));
+  car.querySelector('.mc-der').addEventListener('click', () => muestra(idxC + 1));
+  minis.forEach((m,i) => m.addEventListener('click', () => muestra(i)));
+});
 
 /* Tarjetas plegables */
 document.querySelectorAll('.abrir-btn').forEach(b => b.addEventListener('click', () => {
