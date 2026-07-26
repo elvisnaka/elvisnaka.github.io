@@ -194,7 +194,7 @@ blockquote cite{display:block;margin-top:12px;font-family:var(--mono);font-style
 
 /* ---------- ESCUCHAR EL LP ENTERO ---------- */
 .lp-entero{max-width:640px;margin:80px auto 0;display:flex;flex-direction:column;align-items:center}
-.lp-medallon{flex:0 0 auto;width:clamp(120px,30vw,168px);aspect-ratio:1/1;background:#0a1118;border-radius:50%;border:5px solid #f2cd7f;display:grid;place-items:center;position:relative;z-index:3;margin-bottom:-46px;box-shadow:0 10px 26px rgba(0,0,0,.55),0 0 34px rgba(242,205,127,.4)}
+.lp-medallon{flex:0 0 auto;width:clamp(120px,30vw,168px);aspect-ratio:1/1;background:linear-gradient(180deg,#f2cd7f,#c98f45);border-radius:50%;display:grid;place-items:center;position:relative;z-index:3;margin-bottom:-46px;box-shadow:0 10px 26px rgba(0,0,0,.55),0 0 34px rgba(242,205,127,.35)}
 .lp-medallon img{width:80%;height:80%;object-fit:contain}
 .lp-cuerpo{width:100%;background:linear-gradient(180deg,#f2cd7f,#c98f45);box-shadow:0 0 50px rgba(201,143,69,.35);padding:64px clamp(22px,6vw,32px) 28px;border-radius:16px;text-align:center}
 .lp-btn{justify-content:center}
@@ -787,7 +787,7 @@ Porque son inventados...
     </div>
 
     <div class="lp-entero">
-      <div class="lp-medallon"><img src="ilustracion-naka-oro.png" alt="Ilustración de Elvis Naka con la Telecaster"></div>
+      <div class="lp-medallon"><img src="ilustracion-naka-navy.png" alt="Ilustración de Elvis Naka con la Telecaster"></div>
       <div class="lp-cuerpo">
         <button class="lp-btn" id="lpBtn" type="button">
           <span class="lp-tri" id="lpTri"><span></span></span>
@@ -1104,7 +1104,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-0335";
+const VERSION_LOCAL = "2026-07-26-0350";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
