@@ -399,6 +399,27 @@ footer::before{content:"";position:absolute;left:50%;bottom:-140px;transform:tra
   color:var(--ventana);margin-top:26px;text-align:center}
 body.menu-abierto{overflow:hidden}
 @media(max-width:899px){ .burger{display:grid} }
+
+/* Miniatura de la portada junto al listado (solo escritorio) */
+.pasillo-funda{display:none}
+@media(min-width:900px){
+  .pasillo-cols{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:56px;align-items:start}
+  .pasillo::before{left:34%}
+  .pasillo-funda{display:block;position:sticky;top:60px;text-align:center;padding-top:76px}
+  .pasillo-funda img{width:100%;border-radius:2px;transform:rotate(-3deg);
+    box-shadow:0 20px 46px rgba(0,0,0,.6), 0 0 0 1px rgba(232,228,220,.07)}
+  .pf-titulo{font-family:var(--display);text-transform:uppercase;font-size:1.25rem;
+    color:var(--camiseta);margin:26px 0 8px;letter-spacing:.02em}
+  .pf-dato{font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ventana);margin:0 0 5px}
+  .pf-boton{display:inline-block;margin-top:16px;font-family:var(--mono);font-size:.62rem;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--noche);background:var(--lampara);
+    padding:11px 18px;border-radius:999px;text-decoration:none}
+  .pf-boton:hover{filter:brightness(1.08)}
+}
+@media(min-width:1400px){
+  .pasillo-cols{grid-template-columns:minmax(0,1fr) 290px;gap:70px}
+}
 </style>
 </head>
 <body>
@@ -1181,9 +1202,18 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
 
 <!-- ============ TRACKLIST ============ -->
 <section id="tracklist" class="pasillo">
-  <div class="wrap">
-    <p class="sec-label">Las canciones</p>
-    <div id="tracks"><!-- generado por JS --></div>
+  <div class="wrap pasillo-cols">
+    <div>
+      <p class="sec-label">Las canciones</p>
+      <div id="tracks"><!-- generado por JS --></div>
+    </div>
+    <aside class="pasillo-funda" aria-hidden="true">
+      <img src="portada-lp.jpg" alt="">
+      <p class="pf-titulo">Entre bombones</p>
+      <p class="pf-dato">Naka Records · NR-001</p>
+      <p class="pf-dato">39 min · 11 canciones</p>
+      <a class="pf-boton" href="escuchar/">Escuchar el disco</a>
+    </aside>
   </div>
 </section>
 
@@ -1469,7 +1499,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-2010";
+const VERSION_LOCAL = "2026-07-26-2110";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
