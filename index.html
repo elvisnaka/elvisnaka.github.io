@@ -193,15 +193,15 @@ blockquote cite{display:block;margin-top:12px;font-family:var(--mono);font-style
 .mg-cta:hover{background:#e0312f}
 
 /* ---------- ESCUCHAR EL LP ENTERO ---------- */
-.lp-entero{max-width:640px;margin:0 auto 54px;border:1px solid var(--lampara);background:rgba(201,143,69,.08);box-shadow:0 0 44px rgba(201,143,69,.18);padding:26px 22px;text-align:center;border-radius:10px}
-.lp-btn{display:inline-flex;align-items:center;gap:16px;background:none;border:none;cursor:pointer;color:var(--lampara);font-family:var(--mono);font-size:.92rem;letter-spacing:.26em;text-transform:uppercase}
-.lp-tri{width:60px;height:60px;border-radius:50%;border:2px solid var(--lampara);display:grid;place-items:center;flex:0 0 auto;transition:background .3s,color .3s}
-.lp-btn:hover .lp-tri{background:var(--lampara);color:var(--noche)}
-.lp-tri span{width:0;height:0;border-left:19px solid currentColor;border-top:12px solid transparent;border-bottom:12px solid transparent;margin-left:5px}
-.lp-tri.sonando span{width:16px;height:19px;border:none;border-left:5px solid currentColor;border-right:5px solid currentColor;margin-left:0;background:transparent}
-.lp-ahora{font-family:var(--serif);font-style:italic;color:var(--niebla);margin-top:14px;font-size:1rem;min-height:1.4em}
-.lp-barra{height:3px;background:rgba(201,143,69,.25);margin-top:14px;border-radius:2px;overflow:hidden}
-.lp-relleno{height:100%;width:0;background:var(--lampara)}
+.lp-entero{max-width:640px;margin:64px auto 0;background:linear-gradient(180deg,#f2cd7f,#c98f45);box-shadow:0 0 50px rgba(201,143,69,.35);padding:28px 22px;text-align:center;border-radius:12px}
+.lp-btn{display:inline-flex;align-items:center;gap:16px;background:none;border:none;cursor:pointer;color:#0a1118;font-family:var(--mono);font-size:.95rem;letter-spacing:.26em;text-transform:uppercase;font-weight:700}
+.lp-tri{width:64px;height:64px;border-radius:50%;background:#0a1118;display:grid;place-items:center;flex:0 0 auto;color:#f2cd7f;transition:transform .25s}
+.lp-btn:hover .lp-tri{transform:scale(1.07)}
+.lp-tri span{width:0;height:0;border-left:20px solid currentColor;border-top:13px solid transparent;border-bottom:13px solid transparent;margin-left:5px}
+.lp-tri.sonando span{width:16px;height:20px;border:none;border-left:5px solid currentColor;border-right:5px solid currentColor;margin-left:0;background:transparent}
+.lp-ahora{font-family:var(--serif);font-style:italic;color:#2a1c0c;margin-top:14px;font-size:1.02rem;min-height:1.4em}
+.lp-barra{height:4px;background:rgba(10,17,24,.25);margin-top:14px;border-radius:2px;overflow:hidden}
+.lp-relleno{height:100%;width:0;background:#0a1118}
 
 /* ---------- PASTILLA ÚLTIMA CANCIÓN ---------- */
 .single-card{position:relative}
@@ -284,15 +284,6 @@ footer::before{content:"";position:absolute;left:50%;bottom:-140px;transform:tra
 <!-- ============ SINGLE DE ADELANTO ============ -->
 <section id="single" class="single">
   <div class="wrap">
-    <div class="lp-entero">
-      <button class="lp-btn" id="lpBtn" type="button">
-        <span class="lp-tri" id="lpTri"><span></span></span>
-        <span id="lpTexto">Escuchar el LP entero</span>
-      </button>
-      <p class="lp-ahora" id="lpAhora"></p>
-      <div class="lp-barra"><div class="lp-relleno" id="lpRelleno"></div></div>
-    </div>
-
     <div class="single-card cerrada" id="cardBM">
       <div class="card-cabecera">
         <h3 class="titulo-bombillas">Bailo mal</h3>
@@ -779,6 +770,16 @@ Porque son inventados...
       </div>
       </div>
     </div>
+
+    <div class="lp-entero">
+      <button class="lp-btn" id="lpBtn" type="button">
+        <span class="lp-tri" id="lpTri"><span></span></span>
+        <span id="lpTexto">Escuchar el LP entero</span>
+      </button>
+      <p class="lp-ahora" id="lpAhora"></p>
+      <div class="lp-barra"><div class="lp-relleno" id="lpRelleno"></div></div>
+    </div>
+
   </div>
 </section>
 
@@ -910,7 +911,7 @@ Porque son inventados...
     NINGÚN RETORNO ECONÓMICO.<br>
     <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 26-JUL · 00:10</span>
+    <span style="opacity:.55">VERSIÓN 26-JUL · 00:45</span>
   </p>
 </footer>
 
@@ -1005,7 +1006,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-0010";
+const VERSION_LOCAL = "2026-07-26-0045";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -1310,7 +1311,7 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
     if (audio.duration) relleno.style.width = (audio.currentTime/audio.duration*100) + '%';
   });
   audio.addEventListener('ended', () => {
-    if (i < LISTA.length - 1) pon(i+1, true);
+    if (i < LISTA.length - 1) { ahora.textContent = '…'; setTimeout(() => pon(i+1, true), 3000); }
     else { sonando = false; relleno.style.width = '0%'; audio.removeAttribute('src'); i = 0; ahora.textContent = '¡Se acabó el disco! ¿Otra vuelta?'; texto.textContent = 'Escuchar el LP entero'; tri.classList.remove('sonando'); }
   });
   /* si alguien pulsa el play de una tarjeta, el LP se detiene */
