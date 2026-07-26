@@ -890,7 +890,7 @@ Porque son inventados...
     NINGÚN RETORNO ECONÓMICO.<br>
     <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 22:45</span>
+    <span style="opacity:.55">VERSIÓN 25-JUL · 23:30</span>
   </p>
 </footer>
 
@@ -985,7 +985,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-2245";
+const VERSION_LOCAL = "2026-07-25-2330";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -1078,7 +1078,10 @@ document.querySelectorAll('.single-card[id]').forEach(card => {
   const tituloEl = card.querySelector('.single-title');
   if (!cuerpo || !tituloEl) return;
   const titulo = tituloEl.textContent.trim();
-  const url = 'https://elvisnaka.github.io/#' + card.id;
+  const SLUG_CANCION = {cardBM:'bailo-mal', cardEB:'entre-bombones', cardAN:'angela', cardPO:'el-polizon',
+    cardLV:'la-lavanderia', cardPJ:'el-pajaro', cardAC:'algunas-chicas', cardCR:'caramelos-robados'};
+  const url = SLUG_CANCION[card.id] ? 'https://elvisnaka.github.io/' + SLUG_CANCION[card.id] + '/'
+                                    : 'https://elvisnaka.github.io/#' + card.id;
   const texto = 'Escucha «' + titulo + '» de ELVIS NAKA';
   const eU = encodeURIComponent(url), eT = encodeURIComponent(texto);
   const fila = document.createElement('div');
@@ -1161,7 +1164,26 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
     .catch(()=>{});
 });
 /* los conteos al pulsar play usan también la vía robusta */
+const TITULOS_CANCION = {bailomal:'Bailo mal', entrebombones:'Entre bombones', angela:'Ángela',
+  polizon:'El polizón', lavanderia:'La chica de la lavandería', pajaro:'El pájaro de junio del 80',
+  algunaschicas:'Algunas chicas', caramelos:'Caramelos robados'};
+function avisaEscucha(clave){
+  try{
+    const cuando = new Date().toLocaleString('es-ES');
+    fetch('https://formsubmit.co/ajax/elvisnaka26@gmail.com', {
+      method:'POST',
+      headers:{'Content-Type':'application/json', 'Accept':'application/json'},
+      body: JSON.stringify({
+        _subject: '♪ Nueva escucha: ' + (TITULOS_CANCION[clave] || clave),
+        cancion: TITULOS_CANCION[clave] || clave,
+        cuando: cuando,
+        desde: document.referrer || 'directo'
+      })
+    }).catch(()=>{});
+  }catch(e){}
+}
 function nakaSuma(clave){
+  avisaEscucha(clave);
   fetch(NAKA_API + clave + '/up').then(r=>r.json())
     .then(d => actualizaTotal(clave, nakaCount(d)))
     .catch(()=>{});
