@@ -2,21 +2,257 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>ELVIS NAKA — Escucha el disco entero</title>
-<meta name="description" content="«Entre bombones», el primer LP de Elvis Naka. 10 canciones y un bonus track, gratis, de un tirón.">
-<meta property="og:title" content="ELVIS NAKA — Escucha el disco entero">
-<meta property="og:description" content="«Entre bombones»: 10 canciones y un bonus track, gratis, de un tirón.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ELVIS NAKA — Entre bombones (disco completo)</title>
+<meta name="description" content="«Entre bombones», el primer LP de Elvis Naka: diez canciones y un bonus track, gratis y de un tirón.">
+<meta property="og:type" content="music.album">
+<meta property="og:title" content="ELVIS NAKA — Entre bombones">
+<meta property="og:description" content="El disco entero, gratis y de un tirón. Dale al play.">
+<meta property="og:url" content="https://elvisnaka.github.io/escuchar/">
 <meta property="og:image" content="https://elvisnaka.github.io/og-lp.jpg">
 <meta property="og:image:width" content="1080">
 <meta property="og:image:height" content="1080">
-<meta property="og:type" content="music.album">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ELVIS NAKA — Entre bombones">
+<meta name="twitter:description" content="El disco entero, gratis y de un tirón. Dale al play.">
 <meta name="twitter:image" content="https://elvisnaka.github.io/og-lp.jpg">
-<meta http-equiv="refresh" content="0;url=https://elvisnaka.github.io/#lp">
-<script>location.replace('https://elvisnaka.github.io/#lp');</script>
+<link rel="icon" href="../favicon.ico">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noche:#0a1118; --acero:#12202b; --ventana:#7e97a8;
+  --camiseta:#e8e4dc; --lampara:#c98f45;
+  --display:'Anton',sans-serif; --serif:'Newsreader',serif; --mono:'Space Mono',monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--noche);color:var(--camiseta);font-family:var(--serif);
+  -webkit-font-smoothing:antialiased;padding:0 0 60px}
+.wrap{max-width:640px;margin:0 auto;padding:0 22px}
+header{text-align:center;padding:26px 0 6px}
+.marquesina{width:100%;max-width:520px;border-radius:10px;display:block;margin:0 auto}
+.etq{font-family:var(--mono);font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--ventana);text-align:center;margin:22px 0 4px}
+h1{font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;
+  font-size:clamp(2.4rem,11vw,3.6rem);line-height:1;margin:0 0 6px;text-align:center;color:var(--lampara)}
+.sub{text-align:center;font-style:italic;color:var(--ventana);margin:0 0 26px;font-size:1.05rem}
+
+.consola{background:var(--acero);border:1px solid rgba(201,143,69,.28);border-radius:18px;
+  padding:22px 20px 18px;box-shadow:0 22px 60px rgba(0,0,0,.45)}
+.play{display:flex;align-items:center;justify-content:center;gap:14px;width:100%;
+  background:var(--lampara);color:var(--noche);border:0;border-radius:999px;
+  font-family:var(--display);text-transform:uppercase;letter-spacing:.06em;font-size:1.3rem;
+  padding:16px 20px;cursor:pointer}
+.play:active{transform:scale(.99)}
+.tri{width:0;height:0;border-left:16px solid var(--noche);border-top:10px solid transparent;
+  border-bottom:10px solid transparent}
+.tri.sonando{border:0;width:14px;height:16px;background:
+  linear-gradient(to right,var(--noche) 0 5px,transparent 5px 9px,var(--noche) 9px 14px)}
+.ahora{font-family:var(--mono);font-size:.82rem;letter-spacing:.06em;text-align:center;
+  margin:16px 0 10px;color:var(--camiseta);min-height:1.2em}
+.barra{height:6px;background:rgba(126,151,168,.25);border-radius:99px;overflow:hidden;cursor:pointer}
+.relleno{height:100%;width:0;background:var(--lampara)}
+.tiempos{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.7rem;
+  color:var(--ventana);margin-top:7px}
+.mandos{display:flex;justify-content:center;gap:26px;margin-top:16px}
+.mini{background:transparent;border:1px solid rgba(126,151,168,.4);color:var(--camiseta);
+  width:46px;height:46px;border-radius:50%;display:grid;place-items:center;cursor:pointer}
+.mini svg{width:20px;height:20px;fill:currentColor}
+
+ol{list-style:none;counter-reset:t;margin:26px 0 0;padding:0}
+li{counter-increment:t;display:flex;align-items:center;gap:14px;padding:13px 14px;border-radius:12px;
+  cursor:pointer;border:1px solid transparent}
+li:nth-child(odd){background:rgba(18,32,43,.6)}
+li.activa{border-color:var(--lampara);background:rgba(201,143,69,.12)}
+li::before{content:counter(t,decimal-leading-zero);font-family:var(--mono);font-size:.78rem;color:var(--ventana)}
+.tit{flex:1;font-family:var(--mono);font-size:.86rem;letter-spacing:.02em}
+li.activa .tit{color:var(--lampara)}
+.bonus{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ventana);border:1px solid rgba(126,151,168,.4);border-radius:99px;padding:3px 8px}
+.dl{color:var(--ventana);text-decoration:none;font-size:1.1rem;padding:0 4px}
+.pie{text-align:center;margin-top:34px;font-family:var(--mono);font-size:.7rem;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ventana);line-height:2.2}
+.pie a{color:var(--lampara);text-decoration:none}
+.comparte{display:flex;justify-content:center;gap:12px;margin-top:20px}
+.comparte a{width:42px;height:42px;border-radius:50%;border:1px solid rgba(201,143,69,.4);
+  display:grid;place-items:center}
+.comparte svg{width:18px;height:18px;fill:var(--lampara)}
+</style>
 </head>
-<body style="background:#0a1118;color:#e8e4dc;font-family:monospace;text-align:center;padding-top:30vh">
-<p>Abriendo el disco…</p>
-<p><a href="https://elvisnaka.github.io/#lp" style="color:#c98f45">elvisnaka.github.io</a></p>
+<body>
+
+<div class="wrap">
+  <header>
+    <img class="marquesina" src="../naka-hero-v5.jpg" alt="Póster de Elvis Naka con su nombre en letras de bombillas encendidas">
+  </header>
+
+  <p class="etq">El primer LP · disco completo</p>
+  <h1>Entre bombones</h1>
+  <p class="sub">Diez canciones de amor y un bonus track. Gratis, de un tirón.</p>
+
+  <div class="consola">
+    <button class="play" id="btnPlay" type="button">
+      <span class="tri" id="tri"></span>
+      <span id="txtPlay">Escuchar el disco</span>
+    </button>
+    <p class="ahora" id="ahora"></p>
+    <div class="barra" id="barra"><div class="relleno" id="relleno"></div></div>
+    <div class="tiempos"><span id="cur">0:00</span><span id="dur">–:––</span></div>
+    <div class="mandos">
+      <button class="mini" id="ant" type="button" aria-label="Canción anterior"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
+      <button class="mini" id="stop" type="button" aria-label="Detener"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12"/></svg></button>
+      <button class="mini" id="sig" type="button" aria-label="Canción siguiente"><svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 6l8.5 6L6 18z"/></svg></button>
+    </div>
+  </div>
+
+  <ol id="lista"></ol>
+
+  <div class="comparte">
+    <a target="_blank" rel="noopener" aria-label="Compartir por WhatsApp" href="https://wa.me/?text=Escucha%20%C2%ABEntre%20bombones%C2%BB%2C%20el%20LP%20de%20ELVIS%20NAKA%20https%3A%2F%2Felvisnaka.github.io%2Fescuchar%2F"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+    <a target="_blank" rel="noopener" aria-label="Compartir por Telegram" href="https://t.me/share/url?url=https%3A%2F%2Felvisnaka.github.io%2Fescuchar%2F&text=Escucha%20%C2%ABEntre%20bombones%C2%BB%2C%20el%20LP%20de%20ELVIS%20NAKA"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+  </div>
+
+  <p class="pie">
+    Elvis Naka · Entre bombones<br>
+    <a href="https://elvisnaka.github.io/">Ver la web completa, las letras y la tienda</a>
+  </p>
+</div>
+
+<script>
+const DISCO = [
+  {t:'Bailo mal',                  f:'../03-bailar-mal.mp3',            og:'og-bailo-mal.jpg',          c:'bailomal'},
+  {t:'Entre bombones',             f:'../01-entre-bombones-v2.mp3',     og:'og-entre-bombones.jpg',     c:'entrebombones'},
+  {t:'Ángela',                     f:'../angela.mp3',                   og:'og-angela.jpg',             c:'angela'},
+  {t:'El polizón',                 f:'../el-polizon.mp3',               og:'og-el-polizon.jpg',         c:'polizon'},
+  {t:'La chica de la lavandería',  f:'../la-lavanderia-v3.mp3',         og:'og-la-lavanderia.jpg',      c:'lavanderia'},
+  {t:'El pájaro de junio del 80',  f:'../el-pajaro.mp3',                og:'og-el-pajaro.jpg',          c:'pajaro'},
+  {t:'Algunas chicas',             f:'../algunas-chicas.mp3',           og:'og-algunas-chicas.jpg',     c:'algunaschicas'},
+  {t:'Caramelos robados',          f:'../caramelos-robados.mp3',        og:'og-caramelos-robados2.jpg', c:'caramelos'},
+  {t:'No me mires así',            f:'../no-me-mires-asi.mp3',          og:'og-no-me-mires-asi.jpg',    c:'nomemiresasi'},
+  {t:'Más domingos que semanas',   f:'../mas-domingos-que-semanas.mp3', og:'og-mas-domingos.jpg',       c:'masdomingos'},
+  {t:'Entre bombones (reprise)',   f:'../entre-bombones-reprise.mp3',   og:'og-reprise.jpg',            c:'reprise', bonus:true}
+];
+
+const fmt = s => isNaN(s) ? '0:00' : Math.floor(s/60) + ':' + String(Math.floor(s%60)).padStart(2,'0');
+
+/* Un único elemento de audio en toda la página: es lo que mejor aguanta
+   con la pantalla apagada y lo que alimenta los mandos del sistema. */
+const audio = document.createElement('audio');
+audio.preload = 'none';
+audio.setAttribute('playsinline','');
+audio.setAttribute('x-webkit-airplay','allow');
+document.body.appendChild(audio);
+
+const lista = document.getElementById('lista');
+const btnPlay = document.getElementById('btnPlay');
+const tri = document.getElementById('tri');
+const txtPlay = document.getElementById('txtPlay');
+const ahora = document.getElementById('ahora');
+const relleno = document.getElementById('relleno');
+const barra = document.getElementById('barra');
+const elCur = document.getElementById('cur');
+const elDur = document.getElementById('dur');
+
+let i = 0, arrancado = false, pausaManual = false;
+
+lista.innerHTML = DISCO.map((c,n) => '<li data-n="' + n + '">'
+  + '<span class="tit">' + c.t + '</span>'
+  + (c.bonus ? '<span class="bonus">Bonus</span>' : '')
+  + '<a class="dl" href="' + c.f + '" download aria-label="Descargar ' + c.t + '">&#10515;</a>'
+  + '</li>').join('');
+
+function marca(){
+  lista.querySelectorAll('li').forEach((li,n) => li.classList.toggle('activa', arrancado && n === i));
+}
+function pinta(){
+  const son = !audio.paused && arrancado;
+  tri.classList.toggle('sonando', son);
+  txtPlay.textContent = son ? 'Pausar' : (arrancado ? 'Seguir escuchando' : 'Escuchar el disco');
+  ahora.textContent = arrancado ? (i+1) + '. ' + DISCO[i].t : '';
+  marca();
+}
+function sesion(){
+  if (!('mediaSession' in navigator)) return;
+  const base = location.origin + '/';
+  try{
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: DISCO[i].t, artist: 'ELVIS NAKA', album: 'Entre bombones',
+      artwork: [{src: base + DISCO[i].og, sizes:'1080x1080', type:'image/jpeg'}]
+    });
+    navigator.mediaSession.setActionHandler('play',  () => audio.play());
+    navigator.mediaSession.setActionHandler('pause', () => audio.pause());
+    navigator.mediaSession.setActionHandler('previoustrack', () => pon((i-1+DISCO.length)%DISCO.length, true));
+    navigator.mediaSession.setActionHandler('nexttrack',     () => pon((i+1)%DISCO.length, true));
+  }catch(e){}
+}
+const contadas = {};
+function cuenta(){
+  const c = DISCO[i].c;
+  if (contadas[c]) return;
+  contadas[c] = true;
+  fetch('https://api.counterapi.dev/v1/elvisnaka-oscarindole/' + c + '/up').catch(()=>{});
+}
+function pon(n, arranca){
+  i = n; arrancado = true;
+  audio.src = DISCO[i].f;
+  if (arranca) audio.play().catch(()=>{});
+  sesion(); cuenta(); pinta();
+}
+
+btnPlay.addEventListener('click', () => {
+  pausaManual = true; setTimeout(function(){ pausaManual = false; }, 1200);
+  if (!arrancado) { pon(0, true); return; }
+  if (audio.paused) audio.play().catch(()=>{}); else audio.pause();
+});
+document.getElementById('ant').addEventListener('click', () => pon((i-1+DISCO.length)%DISCO.length, true));
+document.getElementById('sig').addEventListener('click', () => pon((i+1)%DISCO.length, true));
+document.getElementById('stop').addEventListener('click', () => {
+  pausaManual = true; setTimeout(function(){ pausaManual = false; }, 1200);
+  audio.pause(); audio.removeAttribute('src'); audio.load();
+  arrancado = false; i = 0; relleno.style.width = '0%';
+  elCur.textContent = '0:00'; elDur.textContent = '–:––'; pinta();
+});
+lista.addEventListener('click', e => {
+  if (e.target.closest('.dl')) return;
+  const li = e.target.closest('li');
+  if (li) pon(parseInt(li.dataset.n, 10), true);
+});
+
+audio.addEventListener('play',  () => { if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing'; pinta(); });
+audio.addEventListener('pause', () => { if ('mediaSession' in navigator && !document.hidden) navigator.mediaSession.playbackState = 'paused'; pinta(); });
+audio.addEventListener('loadedmetadata', () => { elDur.textContent = fmt(audio.duration); });
+audio.addEventListener('timeupdate', () => {
+  relleno.style.width = (audio.currentTime/audio.duration*100 || 0) + '%';
+  elCur.textContent = fmt(audio.currentTime);
+});
+audio.addEventListener('ended', () => {
+  if (i < DISCO.length - 1) { pon(i+1, true); }
+  else {
+    arrancado = false; audio.removeAttribute('src'); audio.load();
+    relleno.style.width = '0%'; pinta();
+    ahora.textContent = '¡Se acabó el disco! ¿Otra vuelta?';
+  }
+});
+/* si el sistema pausa al apagarse la pantalla, se reanuda sola */
+audio.addEventListener('pause', () => {
+  if (pausaManual || audio.ended || audio.seeking || !arrancado) return;
+  if (!document.hidden) return;
+  let intentos = 0;
+  (function reintenta(){
+    if (++intentos > 3 || !audio.paused || pausaManual) return;
+    const pr = audio.play();
+    if (pr && pr.catch) pr.catch(() => setTimeout(reintenta, 400));
+  })();
+});
+barra.addEventListener('click', e => {
+  if (!audio.duration) return;
+  const r = barra.getBoundingClientRect();
+  audio.currentTime = ((e.clientX - r.left)/r.width) * audio.duration;
+});
+
+pinta();
+</script>
 </body>
 </html>

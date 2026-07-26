@@ -1042,6 +1042,7 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
           <summary>Ver las 10 canciones + bonus ▾</summary>
           <div class="lp-lista" id="lpLista"></div>
         </details>
+        <a class="badge-single" href="escuchar/" style="display:block;text-align:center;margin-top:16px">▸ Abrir el disco en su propia página</a>
       </div>
     </div>
 
@@ -1334,7 +1335,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-1330";
+const VERSION_LOCAL = "2026-07-26-1420";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
