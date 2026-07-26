@@ -435,6 +435,14 @@ body.menu-abierto{overflow:hidden}
   .menu a .n{margin-bottom:5px}
   .menu-pie{margin-top:34px}
 }
+
+/* Sello psicodélico en la esquina del hero (solo escritorio: en móvil ya va en la foto) */
+.sello-hero{display:none}
+@media(min-width:900px){
+  .sello-hero{display:block;position:absolute;right:clamp(24px,4vw,64px);bottom:clamp(24px,6vh,64px);
+    width:clamp(110px,11vw,170px);z-index:2;opacity:.9;filter:drop-shadow(0 6px 20px rgba(0,0,0,.55));
+    pointer-events:none}
+}
 </style>
 </head>
 <body>
@@ -465,6 +473,7 @@ body.menu-abierto{overflow:hidden}
       <img class="main" src="naka-hero-v5.jpg" alt="Póster de Elvis Naka con su nombre en letras de bombillas encendidas, sobre el escenario con su guitarra">
     </picture>
   </div>
+  <img class="sello-hero" src="logo-naka.png" alt="" aria-hidden="true">
   <div class="hero-inner wrap">
     <h1 class="sr-only">Elvis Naka</h1>
     <p class="eyebrow">Primer LP · 2026</p>
@@ -1529,7 +1538,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-27-0210";
+const VERSION_LOCAL = "2026-07-27-0340";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -1956,11 +1965,13 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
   function bandas(){
     if (!sonando) return {bajo:0, medio:0, alto:0};
     const t = performance.now()/1000;
-    const pulso = Math.pow(Math.abs(Math.sin(t*Math.PI*1.15)), 3);
+    const golpe  = Math.pow(Math.abs(Math.sin(t*Math.PI*1.05)), 6);
+    const contra = Math.pow(Math.abs(Math.sin(t*Math.PI*1.05 + 1.57)), 8) * 0.5;
+    const ruido  = Math.random()*0.05;
     return {
-      bajo:  0.22 + pulso*0.68,
-      medio: 0.26 + Math.abs(Math.sin(t*2.7))*0.34,
-      alto:  0.18 + Math.abs(Math.sin(t*4.3))*0.30
+      bajo:  0.16 + golpe*0.70 + contra*0.20 + ruido,
+      medio: 0.22 + Math.abs(Math.sin(t*2.3))*0.30 + Math.abs(Math.sin(t*5.1))*0.12 + ruido,
+      alto:  0.15 + Math.abs(Math.sin(t*4.7))*0.26 + ruido
     };
   }
 
@@ -2002,7 +2013,7 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
     const cx = w/2, cy = h/2;
     gCtx.clearRect(0,0,w,h);
 
-    if (sonando && analizador){
+    if (sonando){
       const b = bandas();
 
       /* detección de golpe: el grave sube muy por encima de su propia media reciente */
