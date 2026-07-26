@@ -206,6 +206,18 @@ blockquote cite{display:block;margin-top:12px;font-family:var(--mono);font-style
 .lp-barra{height:4px;background:rgba(10,17,24,.25);margin-top:12px;border-radius:2px;overflow:hidden}
 .lp-relleno{height:100%;width:0;background:#0a1118}
 @media(max-width:480px){.lp-entero{flex-direction:column;align-items:center}.lp-medallon{margin-right:0;margin-bottom:-38px;width:110px}.lp-cuerpo{padding:50px 22px 24px}}
+.lp-controles{display:flex;align-items:center;justify-content:center;gap:22px;margin-top:16px}
+.lp-mini{background:none;border:none;cursor:pointer;color:#0a1118;display:grid;place-items:center;opacity:.75;transition:opacity .2s,transform .15s;padding:6px}
+.lp-mini:hover{opacity:1;transform:scale(1.1)}
+.lp-mini svg{width:22px;height:22px;fill:currentColor}
+.lp-mini.lp-stop svg{width:18px;height:18px}
+.lp-pistas{margin-top:14px;text-align:center}
+.lp-pistas summary{cursor:pointer;font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:#3a2a12;list-style:none}
+.lp-pistas summary::-webkit-details-marker{display:none}
+.lp-lista{margin-top:10px;display:flex;flex-direction:column;gap:2px;text-align:left}
+.lp-lista button{background:none;border:none;cursor:pointer;font-family:var(--mono);font-size:.78rem;color:#2a1c0c;padding:6px 4px;text-align:left;border-radius:4px;display:flex;gap:10px}
+.lp-lista button:hover{background:rgba(10,17,24,.08)}
+.lp-lista button.activa{font-weight:700;color:#0a1118}
 
 /* ---------- PASTILLA ÚLTIMA CANCIÓN ---------- */
 .single-card{position:relative}
@@ -782,7 +794,16 @@ Porque son inventados...
           <span id="lpTexto">Escuchar el LP entero</span>
         </button>
         <p class="lp-ahora" id="lpAhora"></p>
-        <div class="lp-barra"><div class="lp-relleno" id="lpRelleno"></div></div>
+        <div class="lp-barra" id="lpBarraClic"><div class="lp-relleno" id="lpRelleno"></div></div>
+        <div class="lp-controles">
+          <button class="lp-mini" id="lpAnt" type="button" aria-label="Canción anterior"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
+          <button class="lp-mini lp-stop" id="lpStop" type="button" aria-label="Detener"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12"/></svg></button>
+          <button class="lp-mini" id="lpSig" type="button" aria-label="Siguiente canción"><svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 6l8.5 6L6 18z"/></svg></button>
+        </div>
+        <details class="lp-pistas">
+          <summary>Ver las 9 canciones ▾</summary>
+          <div class="lp-lista" id="lpLista"></div>
+        </details>
       </div>
     </div>
 
@@ -988,7 +1009,7 @@ Una disculpa para salir de aquí...</strong></div>
     NINGÚN RETORNO ECONÓMICO.<br>
     <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 26-JUL · 02:10</span>
+    <span style="opacity:.55">VERSIÓN 26-JUL · 02:25</span>
   </p>
 </footer>
 
@@ -1083,7 +1104,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-0210";
+const VERSION_LOCAL = "2026-07-26-0225";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -1393,10 +1414,40 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
   });
   audio.addEventListener('ended', () => {
     if (i < LISTA.length - 1) { ahora.textContent = '…'; setTimeout(() => pon(i+1, true), 3000); }
-    else { sonando = false; relleno.style.width = '0%'; audio.removeAttribute('src'); i = 0; ahora.textContent = '¡Se acabó el disco! ¿Otra vuelta?'; texto.textContent = 'Escuchar el LP entero'; tri.classList.remove('sonando'); }
+    else { sonando = false; relleno.style.width = '0%'; audio.removeAttribute('src'); i = 0; ahora.textContent = '¡Se acabó el disco! ¿Otra vuelta?'; texto.textContent = 'Escuchar el LP entero'; tri.classList.remove('sonando'); marcaActiva(); }
   });
   /* si alguien pulsa el play de una tarjeta, el LP se detiene */
   document.querySelectorAll('.player .p-btn').forEach(b => b.addEventListener('click', () => audio.pause()));
+
+  /* controles: anterior / detener / siguiente */
+  document.getElementById('lpAnt').addEventListener('click', () => { if (!audio.src) return; pon((i - 1 + LISTA.length) % LISTA.length, true); });
+  document.getElementById('lpSig').addEventListener('click', () => { if (!audio.src) return; pon((i + 1) % LISTA.length, true); });
+  document.getElementById('lpStop').addEventListener('click', () => {
+    audio.pause(); audio.removeAttribute('src'); i = 0; sonando = false;
+    relleno.style.width = '0%'; ahora.textContent = ''; texto.textContent = 'Escuchar el LP entero'; tri.classList.remove('sonando'); marcaActiva();
+  });
+
+  /* clic en la barra para saltar dentro de la pista actual */
+  document.getElementById('lpBarraClic').addEventListener('click', e => {
+    if (!audio.duration) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
+  });
+
+  /* lista desplegable de las 9 pistas, cada una pinchable */
+  const lista = document.getElementById('lpLista');
+  LISTA.forEach((cancion, n) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.innerHTML = '<span>' + String(n+1).padStart(2,'0') + '</span><span>' + cancion.t + '</span>';
+    b.addEventListener('click', () => pon(n, true));
+    lista.appendChild(b);
+  });
+  function marcaActiva(){
+    lista.querySelectorAll('button').forEach((b,n) => b.classList.toggle('activa', audio.src && n === i));
+  }
+  const pintaOrig = pinta;
+  pinta = function(){ pintaOrig(); marcaActiva(); };
 })();
 
 /* Tarjetas plegables */
