@@ -1554,7 +1554,7 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
     NINGÚN RETORNO ECONÓMICO.<br>
     <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 27-JUL · 18:00</span>
+    <span style="opacity:.55">VERSIÓN 27-JUL · 19:00</span>
   </p>
   <p><a class="pie-insta" href="https://www.instagram.com/elvisnaka_oficial/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><defs>
       <radialGradient id="igGradPie" cx="30%" cy="107%" r="150%">
@@ -1711,7 +1711,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-27-1800";
+const VERSION_LOCAL = "2026-07-27-1900";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -2086,7 +2086,7 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
   audio.addEventListener('pause', () => { sonando = false; pinta(); });
   /* el progreso se dibuja dentro del ecualizador, ver dibujaOnda() */
   audio.addEventListener('ended', () => {
-    if (i < LISTA.length - 1) { ahora.textContent = '…'; setTimeout(() => pon(i+1, true), 3000); }
+    if (i < LISTA.length - 1) { pon(i+1, true); }   // sin pausa: la siguiente entra seguida
     else { sonando = false; relleno.style.width = '0%'; audio.removeAttribute('src'); i = 0; ahora.textContent = '¡Se acabó el disco! ¿Otra vuelta?'; texto.textContent = 'Escuchar el LP entero'; tri.classList.remove('sonando'); marcaActiva(); }
   });
   /* si alguien pulsa el play de una tarjeta, el LP se detiene */
