@@ -259,6 +259,24 @@ blockquote cite{display:block;margin-top:12px;font-family:var(--mono);font-style
 @keyframes late{0%,100%{box-shadow:0 0 0 0 rgba(224,49,47,.5)}50%{box-shadow:0 0 0 12px rgba(224,49,47,0)}}
 @media(min-width:840px){.producto{display:grid;grid-template-columns:1.1fr .9fr;gap:38px;align-items:center}.prod-fotos{margin-bottom:0}}
 
+/* ---------- FORMULARIO DE PEDIDO ---------- */
+.form-camiseta{margin-top:24px;display:flex;flex-direction:column;gap:14px}
+.fc-fila{display:flex;flex-direction:column;gap:6px}
+.fc-dos,.fc-tres{flex-direction:row;gap:14px;display:flex}
+.fc-dos>label,.fc-tres>label{flex:1;min-width:0}
+.form-camiseta label{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ventana);display:flex;flex-direction:column;gap:7px}
+.form-camiseta input,.form-camiseta select,.form-camiseta textarea{background:rgba(255,255,255,.05);border:1px solid rgba(126,151,168,.35);color:#e8e4dc;font-size:.95rem;padding:12px 13px;border-radius:7px;font-family:inherit;width:100%}
+.form-camiseta input:focus,.form-camiseta select:focus,.form-camiseta textarea:focus{outline:none;border-color:var(--lampara);box-shadow:0 0 0 3px rgba(201,143,69,.16)}
+.form-camiseta select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--ventana) 50%),linear-gradient(135deg,var(--ventana) 50%,transparent 50%);background-position:calc(100% - 18px) center,calc(100% - 13px) center;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+.form-camiseta textarea{resize:vertical}
+.fc-nota{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;color:var(--ventana);opacity:.75}
+.fc-msg{font-family:var(--serif);font-style:italic;font-size:1rem;margin-top:4px;min-height:1.4em}
+.fc-msg.ok{color:var(--lampara)}
+.fc-msg.error{color:#e0312f}
+.fc-alt{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;color:var(--ventana);margin-top:2px}
+.fc-alt a{color:var(--lampara)}
+@media(max-width:560px){.fc-dos,.fc-tres{flex-direction:column;gap:14px}}
+
 /* ---------- GRACIAS (banda) ---------- */
 .gracias{position:relative;overflow:hidden}
 .gracias img{width:100%;display:block}
@@ -981,7 +999,58 @@ Una disculpa para salir de aquí...</strong></div>
         <h3 class="prod-nombre">La camiseta</h3>
         <p class="prod-desc">Negra, con el sello psicodélico de ELVIS NAKA en blanco serigrafiado en el pecho. La misma que lleva él. No hay más ropa en el armario de este proyecto: solo esta.</p>
         <p class="prod-detalle">Tallas S · M · L · XL · XXL — Envío a convenir</p>
-        <a class="prod-cta" href="mailto:elvisnaka26@gmail.com?subject=Pedido%20camiseta%20ELVIS%20NAKA&body=Hola%2C%20quiero%20la%20camiseta%20de%20Elvis%20Naka.%0ATalla%3A%20%0ANombre%3A%20%0ADirecci%C3%B3n%20de%20env%C3%ADo%3A%20">Pedir la camiseta</a>
+
+        <form class="form-camiseta" id="formCamiseta">
+          <div class="fc-fila">
+            <label>Nombre y apellidos
+              <input type="text" name="nombre" autocomplete="name" required>
+            </label>
+          </div>
+          <div class="fc-dos">
+            <label>Email
+              <input type="email" name="email" autocomplete="email" required>
+            </label>
+            <label>Talla
+              <select name="talla" required>
+                <option value="">Elige</option>
+                <option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+              </select>
+            </label>
+          </div>
+          <div class="fc-fila">
+            <label>Dirección (calle, número, piso)
+              <input type="text" name="direccion" autocomplete="street-address" required>
+            </label>
+          </div>
+          <div class="fc-tres">
+            <label>Ciudad
+              <input type="text" name="ciudad" autocomplete="address-level2" required>
+            </label>
+            <label>Código postal
+              <input type="text" name="cp" autocomplete="postal-code" required>
+            </label>
+            <label>País
+              <input type="text" name="pais" autocomplete="country-name" value="España" required>
+            </label>
+          </div>
+          <div class="fc-fila">
+            <label>Teléfono (opcional, por si hay que localizarte)
+              <input type="tel" name="telefono" autocomplete="tel">
+            </label>
+          </div>
+          <div class="fc-fila">
+            <label>Algo más que quieras decirnos (opcional)
+              <textarea name="comentarios" rows="2"></textarea>
+            </label>
+          </div>
+          <input type="hidden" name="_subject" value="🎽 Nuevo pedido de camiseta — ELVIS NAKA">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <button class="prod-cta" type="submit" id="fcBtn">Enviar pedido</button>
+          <p class="fc-msg" id="fcMsg"></p>
+          <p class="fc-alt">¿Prefieres el correo de siempre? Escribe a <a href="mailto:elvisnaka26@gmail.com">elvisnaka26@gmail.com</a></p>
+        </form>
+
         <div id="compartirTienda"></div>
       </div>
     </div>
@@ -1101,7 +1170,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-0615";
+const VERSION_LOCAL = "2026-07-26-0650";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -1217,6 +1286,40 @@ document.querySelectorAll('.single-card[id]').forEach(card => {
   }));
   cuerpo.appendChild(fila);
 });
+
+/* Formulario de pedido de camiseta */
+(function(){
+  const form = document.getElementById('formCamiseta');
+  if (!form) return;
+  const btn = document.getElementById('fcBtn');
+  const msg = document.getElementById('fcMsg');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    btn.disabled = true;
+    btn.textContent = 'Enviando…';
+    msg.textContent = '';
+    msg.className = 'fc-msg';
+    const datos = new FormData(form);
+    fetch('https://formsubmit.co/ajax/elvisnaka26@gmail.com', {
+      method: 'POST',
+      headers: {'Accept':'application/json'},
+      body: datos
+    }).then(r => { if (!r.ok) throw new Error(); return r.json(); })
+      .then(() => {
+        msg.textContent = '¡Pedido recibido! Te escribiremos pronto a tu email para confirmar el envío.';
+        msg.classList.add('ok');
+        form.reset();
+        form.querySelectorAll('input,select,textarea,button').forEach(el => el.disabled = true);
+        btn.textContent = 'Pedido enviado ✓';
+      })
+      .catch(() => {
+        msg.textContent = 'No se pudo enviar. Prueba otra vez o escríbenos directamente por correo.';
+        msg.classList.add('error');
+        btn.disabled = false;
+        btn.textContent = 'Enviar pedido';
+      });
+  });
+})();
 
 /* Compartir la tienda */
 (function(){
