@@ -1237,7 +1237,7 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
 
 <!-- ============ LAS LETRAS ============ -->
 <section id="letras" style="background:var(--acero)">
-  <div class="wrap">
+  <div class="wrap two-col">
     <div>
       <p class="sec-label">Las letras</p>
       <h2>Ternura con una ceja levantada</h2>
@@ -1249,6 +1249,10 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
       <p>Debajo de la dulzura, la sombra de siempre sigue ahí: hay una canción para el pájaro que no llegó al verano, y otra para los domingos que se hicieron más largos que las semanas. Este disco no borra el pasado. Lo saca a bailar.</p>
     </div>
 
+    <figure class="col-img">
+      <img src="naka-retrato-letras.jpg" alt="Retrato de Elvis Naka de frente: gorra negra, gafas redondas, barba canosa y pajarita, con el telón rojo al fondo" loading="lazy">
+      <figcaption>ELVIS NAKA · LA CEJA LEVANTADA</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -1293,6 +1297,7 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
         <figure><img src="naka-08-v3.jpg" alt="Elvis Naka con la pajarita deshecha y la Telecaster, entre luces de escenario" loading="lazy"></figure>
         <figure><img src="naka-09-v3.jpg" alt="Elvis Naka cantando con la banda: la bajista a los coros y el bombo con el logo, bajo la marquesina" loading="lazy"></figure>
         <figure><img src="naka-10-v3.jpg" alt="Elvis Naka apoyado en un coche clásico junto al neón de un pub de blues por la noche" loading="lazy"></figure>
+        <figure><img src="naka-retrato-letras.jpg" alt="Retrato de Elvis Naka de frente: gorra negra, gafas redondas, barba canosa y pajarita, con el telón rojo al fondo" loading="lazy"></figure>
         <figure><img src="naka-pasillo.jpg" alt="Elvis Naka mirando atrás en un pasillo de paredes desconchadas, con la Telecaster en la mano y una luz al fondo" loading="lazy"></figure>
         <figure><img src="naka-domingos.jpg" alt="Elvis Naka sentado en el suelo del salón con la guitarra y un vinilo de los Stones entre las manos, rodeado de discos" loading="lazy"></figure>
         <figure><img src="reprise-1.jpg" alt="La banda de Elvis Naka en el estudio de grabación, entre risas, guitarras y cervezas" loading="lazy"></figure>
@@ -1512,7 +1517,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-2300";
+const VERSION_LOCAL = "2026-07-26-2350";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
