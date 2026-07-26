@@ -1101,7 +1101,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-0520";
+const VERSION_LOCAL = "2026-07-26-0535";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -1514,9 +1514,9 @@ function abreTarjeta(){
     c.classList.remove('cerrada');
     const b = c.querySelector('.abrir-btn'); if (b) b.textContent = 'Cerrar';
   }
-  /* Limpia el hash de la barra tras abrir, para que un futuro acceso
+  /* Limpia el hash de la barra al instante, para que un futuro acceso
      desde el mismo marcador/pestaña no reabra la canción por sorpresa */
-  if (id && id !== 'tienda') setTimeout(() => history.replaceState(null, '', location.pathname), 1500);
+  if (id && id !== 'tienda') history.replaceState(null, '', location.pathname);
 }
 window.addEventListener('hashchange', abreTarjeta);
 abreTarjeta();
