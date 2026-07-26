@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Escuchas · ELVIS NAKA</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--noche:#0a1118;--acero:#12202b;--ventana:#7e97a8;--camiseta:#e8e4dc;--lampara:#c98f45;
+  --display:'Anton',sans-serif;--mono:'Space Mono',monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--noche);color:var(--camiseta);font-family:var(--mono);padding:0 0 60px}
+.wrap{max-width:820px;margin:0 auto;padding:0 20px}
+header{padding:40px 0 6px}
+a.volver{font-size:.64rem;letter-spacing:.22em;text-transform:uppercase;color:var(--lampara);text-decoration:none}
+h1{font-family:var(--display);text-transform:uppercase;font-size:clamp(1.9rem,7vw,2.8rem);margin:18px 0 4px}
+.sub{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ventana);margin:0 0 26px}
+.tot{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.tot div{flex:1;min-width:150px;background:var(--acero);border:1px solid rgba(201,143,69,.28);
+  border-radius:12px;padding:16px 18px}
+.tot b{display:block;font-family:var(--display);font-size:2rem;color:var(--lampara);line-height:1.1}
+.tot span{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ventana)}
+table{width:100%;border-collapse:collapse;font-size:.86rem}
+th,td{padding:11px 8px;border-bottom:1px solid rgba(126,151,168,.16);text-align:right}
+th:nth-child(1),td:nth-child(1),th:nth-child(2),td:nth-child(2){text-align:left}
+th{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ventana);font-weight:400}
+td.tit{color:var(--camiseta)}
+td.real{color:var(--lampara);font-weight:700}
+.barra{height:5px;background:rgba(126,151,168,.18);border-radius:99px;overflow:hidden;margin-top:6px}
+.barra i{display:block;height:100%;background:var(--lampara)}
+.nota{font-size:.72rem;line-height:1.9;color:var(--ventana);margin-top:26px}
+button{font-family:var(--mono);font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;
+  padding:12px 20px;border-radius:999px;border:1px solid var(--lampara);background:transparent;
+  color:var(--lampara);cursor:pointer;margin-top:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><a class="volver" href="../">← Volver a la web</a></header>
+  <h1>Escuchas</h1>
+  <p class="sub" id="cuando">Cargando…</p>
+
+  <div class="tot">
+    <div><b id="totReal">…</b><span>Escuchas reales</span></div>
+    <div><b id="totVista">…</b><span>Cifra que se ve en la web</span></div>
+    <div><b id="masOida">…</b><span>La más oída</span></div>
+  </div>
+
+  <table>
+    <thead><tr><th>#</th><th>Canción</th><th>Reales</th><th>Base</th><th>En la web</th></tr></thead>
+    <tbody id="filas"></tbody>
+  </table>
+
+  <button type="button" id="btnEstrellas">Ver también las puntuaciones</button>
+  <div id="estrellas"></div>
+
+  <p class="nota">
+    «Reales» son las escuchas contadas de verdad desde que se puso el contador: una por canción y por visita.<br>
+    «Base» es el número decorativo con el que arranca cada canción en la web.<br>
+    Esta página no está enlazada desde ningún sitio y no la indexan los buscadores.
+  </p>
+</div>
+
+<script>
+const CFG = {
+  bailomal:      {t:'Bailo mal',                 base:350},
+  entrebombones: {t:'Entre bombones',            base:200},
+  angela:        {t:'Ángela',                    base:150},
+  polizon:       {t:'El polizón',                base:120},
+  lavanderia:    {t:'La chica de la lavandería', base:100},
+  pajaro:        {t:'El pájaro de junio del 80', base:90},
+  algunaschicas: {t:'Algunas chicas',            base:80},
+  caramelos:     {t:'Caramelos robados',         base:70},
+  nomemiresasi:  {t:'No me mires así',           base:60},
+  reprise:       {t:'Entre bombones (reprise)',  base:40},
+  masdomingos:   {t:'Más domingos que semanas',  base:30}
+};
+const API = 'https://api.counterapi.dev/v1/elvisnaka-oscarindole/';
+const num = n => n.toLocaleString('es-ES');
+
+function cuenta(d){
+  if (!d) return 0;
+  if (typeof d.count === 'number') return d.count;
+  if (typeof d.Count === 'number') return d.Count;
+  if (typeof d.value === 'number') return d.value;
+  if (d.data && typeof d.data.count === 'number') return d.data.count;
+  return 0;
+}
+async function lee(clave){
+  try{
+    const r = await fetch(API + clave, {cache:'no-store'});
+    return cuenta(await r.json());
+  }catch(e){ return null; }
+}
+
+(async function(){
+  const claves = Object.keys(CFG);
+  const valores = await Promise.all(claves.map(lee));
+  const filas = claves.map((k,i) => ({k, t:CFG[k].t, base:CFG[k].base, real:valores[i]}))
+                      .sort((a,b) => (b.real||0) - (a.real||0));
+  const maximo = Math.max(1, ...filas.map(f => f.real || 0));
+  const totalReal = filas.reduce((a,f) => a + (f.real||0), 0);
+  const totalVista = filas.reduce((a,f) => a + f.base + (f.real||0), 0);
+
+  document.getElementById('filas').innerHTML = filas.map((f,i) => `
+    <tr>
+      <td>${String(i+1).padStart(2,'0')}</td>
+      <td class="tit">${f.t}<div class="barra"><i style="width:${Math.round((f.real||0)/maximo*100)}%"></i></div></td>
+      <td class="real">${f.real === null ? '—' : num(f.real)}</td>
+      <td>${num(f.base)}</td>
+      <td>${f.real === null ? '—' : num(f.base + f.real)}</td>
+    </tr>`).join('');
+
+  document.getElementById('totReal').textContent = num(totalReal);
+  document.getElementById('totVista').textContent = num(totalVista);
+  document.getElementById('masOida').textContent = filas[0] ? filas[0].t : '—';
+  document.getElementById('cuando').textContent = 'Datos del ' + new Date().toLocaleString('es-ES');
+})();
+
+document.getElementById('btnEstrellas').addEventListener('click', async function(){
+  this.disabled = true; this.textContent = 'Consultando…';
+  const claves = Object.keys(CFG);
+  const salida = [];
+  for (const k of claves){
+    const votos = await Promise.all([1,2,3,4,5].map(v => lee(k + '-s' + v)));
+    const total = votos.reduce((a,v) => a + (v||0), 0);
+    const suma = votos.reduce((a,v,i) => a + (v||0)*(i+1), 0);
+    salida.push({t:CFG[k].t, total, media: total ? (suma/total) : null, votos});
+  }
+  salida.sort((a,b) => (b.media||0) - (a.media||0));
+  document.getElementById('estrellas').innerHTML =
+    '<table><thead><tr><th>Canción</th><th>Media</th><th>Votos</th><th>5★</th><th>4★</th><th>3★</th><th>2★</th><th>1★</th></tr></thead><tbody>'
+    + salida.map(s => `<tr><td class="tit">${s.t}</td>
+        <td class="real">${s.media ? s.media.toFixed(2) : '—'}</td>
+        <td>${s.total}</td>
+        <td>${s.votos[4]||0}</td><td>${s.votos[3]||0}</td><td>${s.votos[2]||0}</td><td>${s.votos[1]||0}</td><td>${s.votos[0]||0}</td>
+      </tr>`).join('')
+    + '</tbody></table>';
+  this.textContent = 'Puntuaciones actualizadas';
+});
+</script>
+</body>
+</html>
