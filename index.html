@@ -1009,7 +1009,7 @@ Una disculpa para salir de aquí...</strong></div>
     NINGÚN RETORNO ECONÓMICO.<br>
     <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 26-JUL · 02:40</span>
+    <span style="opacity:.55">VERSIÓN 26-JUL · 02:55</span>
   </p>
 </footer>
 
@@ -1104,7 +1104,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-0240";
+const VERSION_LOCAL = "2026-07-26-0255";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -1368,17 +1368,22 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
 
 /* Escuchar el LP entero */
 (function(){
-  const LISTA = [
-    {f:'01-entre-bombones-v2.mp3', t:'Entre bombones',              c:'entrebombones'},
-    {f:'la-lavanderia-v3.mp3', t:'La chica de la lavandería', c:'lavanderia'},
-    {f:'03-bailar-mal.mp3', t:'Bailo mal',                    c:'bailomal'},
-    {f:'el-pajaro.mp3',     t:'El pájaro de junio del 80',    c:'pajaro'},
-    {f:'caramelos-robados.mp3', t:'Caramelos robados',        c:'caramelos'},
-    {f:'no-me-mires-asi.mp3', t:'No me mires así',           c:'nomemiresasi'},
-    {f:'algunas-chicas.mp3',t:'Algunas chicas',               c:'algunaschicas'},
-    {f:'angela.mp3',        t:'Ángela',                       c:'angela'},
-    {f:'el-polizon.mp3',    t:'El polizón',                   c:'polizon'}
-  ];
+  /* Datos de cada canción, indexados por el id de su tarjeta */
+  const DATOS_CANCION = {
+    cardBM:{f:'03-bailar-mal.mp3',         t:'Bailo mal',                    c:'bailomal'},
+    cardEB:{f:'01-entre-bombones-v2.mp3',  t:'Entre bombones',               c:'entrebombones'},
+    cardAN:{f:'angela.mp3',                t:'Ángela',                       c:'angela'},
+    cardPO:{f:'el-polizon.mp3',            t:'El polizón',                   c:'polizon'},
+    cardLV:{f:'la-lavanderia-v3.mp3',      t:'La chica de la lavandería',    c:'lavanderia'},
+    cardPJ:{f:'el-pajaro.mp3',             t:'El pájaro de junio del 80',    c:'pajaro'},
+    cardAC:{f:'algunas-chicas.mp3',        t:'Algunas chicas',               c:'algunaschicas'},
+    cardCR:{f:'caramelos-robados.mp3',     t:'Caramelos robados',            c:'caramelos'},
+    cardNM:{f:'no-me-mires-asi.mp3',       t:'No me mires así',              c:'nomemiresasi'}
+  };
+  /* El orden de reproducción sigue el orden real de las tarjetas en la página */
+  const LISTA = Array.from(document.querySelectorAll('#single .single-card[id]'))
+    .map(c => DATOS_CANCION[c.id])
+    .filter(Boolean);
   const btn = document.getElementById('lpBtn');
   const tri = document.getElementById('lpTri');
   const texto = document.getElementById('lpTexto');
