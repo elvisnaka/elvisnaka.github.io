@@ -490,8 +490,12 @@ body.galletas-abierto{overflow:hidden}
 
 /* El pie, centrado de verdad: los párrafos heredaban un ancho máximo y se
    quedaban pegados a la izquierda en pantallas grandes */
-footer .foot-line, footer .foot-meta, footer .foot-mast, footer .pie-legal{
+footer .foot-line, footer .foot-meta, footer .foot-mast, footer .pie-legal, footer .pie-firma{
   margin-left:auto;margin-right:auto}
+.pie-firma{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ventana);margin:14px auto 0;opacity:.85}
+.pie-firma a{color:var(--lampara);text-decoration:none}
+.pie-firma a:hover{text-decoration:underline}
 </style>
 </head>
 <body>
@@ -1497,11 +1501,12 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
     NINGÚN RETORNO ECONÓMICO.<br>
     <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 27-JUL · 11:30</span>
+    <span style="opacity:.55">VERSIÓN 27-JUL · 12:20</span>
   </p>
   <p class="pie-legal">
     <a href="aviso-legal/">Aviso legal</a>·<a href="privacidad/">Privacidad</a>·<a href="cookies/">Cookies</a>
   </p>
+  <p class="pie-firma">© Diseño y programación <a href="https://www.indole.es" target="_blank" rel="noopener">Índole Data Technology</a></p>
 </footer>
 
 <div class="visor" id="visor" role="dialog" aria-label="Foto a pantalla completa">
@@ -1643,7 +1648,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-27-1130";
+const VERSION_LOCAL = "2026-07-27-1220";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
