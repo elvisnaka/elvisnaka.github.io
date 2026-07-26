@@ -372,6 +372,8 @@ footer::before{content:"";position:absolute;left:50%;bottom:-140px;transform:tra
   margin:10px 0 0;opacity:.75}
 .lp-lista button span:last-child{margin-left:auto;font-size:.82rem;opacity:.7}
 .lp-lista button span:nth-child(2){margin-left:0}
+.lp-total{font-family:var(--mono);font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
+  color:#2a1c0c;opacity:.6;margin:14px 0 0}
 </style>
 </head>
 <body>
@@ -1115,6 +1117,7 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
           <span class="lp-tri" id="lpTri"><span></span></span>
           <span id="lpTexto">Escuchar el LP entero</span>
         </button>
+        <p class="lp-total">39 min · 11 canciones</p>
         <p class="lp-ahora" id="lpAhora"></p>
         <p class="lp-tiempo"><span id="lpCur">0:00</span> / <span id="lpDur">–:––</span></p>
         <canvas class="lp-onda" id="lpBarraClic"></canvas>
@@ -1424,7 +1427,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-1800";
+const VERSION_LOCAL = "2026-07-26-1840";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
