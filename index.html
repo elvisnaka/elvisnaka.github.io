@@ -873,7 +873,7 @@ Una disculpa para salir de aquí...</strong></div>
       </div>
     </div>
 
-    <div class="lp-entero">
+    <div class="lp-entero" id="lp">
       <div class="lp-medallon"><img src="ilustracion-naka-navy.png" alt="Ilustración de Elvis Naka con la Telecaster"></div>
       <div class="lp-cuerpo">
         <button class="lp-btn" id="lpBtn" type="button">
@@ -1170,7 +1170,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-0725";
+const VERSION_LOCAL = "2026-07-26-0800";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
