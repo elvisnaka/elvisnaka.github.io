@@ -1497,7 +1497,7 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
     NINGÚN RETORNO ECONÓMICO.<br>
     <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 27-JUL · 11:00</span>
+    <span style="opacity:.55">VERSIÓN 27-JUL · 11:30</span>
   </p>
   <p class="pie-legal">
     <a href="aviso-legal/">Aviso legal</a>·<a href="privacidad/">Privacidad</a>·<a href="cookies/">Cookies</a>
@@ -1518,7 +1518,7 @@ window.nakaConsiente = false;
 (function(){
   /* Al subir esta versión, todo el mundo vuelve a ver la ventana de bienvenida
      y tiene que decidir otra vez, en cualquier dispositivo. */
-  const VERSION_AVISO = '2';
+  const VERSION_AVISO = '3';
   let guardado = null;
   try {
     const bruto = localStorage.getItem('naka-cookies');
@@ -1643,7 +1643,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-27-1100";
+const VERSION_LOCAL = "2026-07-27-1130";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
