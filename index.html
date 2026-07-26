@@ -511,12 +511,35 @@ footer .foot-line, footer .foot-meta, footer .foot-mast, footer .pie-legal, foot
   .insta{top:22px;left:26px;padding:11px 20px 11px 13px}
   .insta svg{width:26px;height:26px}
 }
+
+/* Marca fija arriba a la izquierda, en letras de bombilla */
+.marca{position:fixed;top:12px;left:14px;z-index:1400;text-decoration:none;line-height:1;
+  padding:4px 6px;transition:transform .3s,filter .3s}
+.marca .titulo-bombillas{font-size:1.35rem;letter-spacing:.06em;white-space:nowrap;
+  filter:drop-shadow(0 0 10px rgba(247,198,95,.45)) drop-shadow(0 1px 3px rgba(0,0,0,.9))}
+.marca:hover{transform:translateY(-1px);filter:brightness(1.12)}
+
+/* Instagram pasa a la derecha, al lado del menú */
+.insta{top:14px;left:auto;right:74px}
+.insta span{display:none}
+@media(min-width:900px){
+  .marca{top:18px;left:26px}
+  .marca .titulo-bombillas{font-size:1.9rem}
+  .insta{top:22px;right:96px;padding:11px 20px 11px 13px}
+  .insta span{display:inline}
+}
 </style>
 </head>
 <body>
 
 
 
+
+
+<!-- ============ MARCA ============ -->
+<a class="marca" href="#top" id="marca" aria-label="Volver arriba">
+  <span class="titulo-bombillas">Elvis Naka</span>
+</a>
 
 <!-- ============ INSTAGRAM ============ -->
 <a class="insta" href="https://www.instagram.com/elvisnaka_oficial/" target="_blank" rel="noopener" aria-label="Sígueme en Instagram">
@@ -1531,7 +1554,7 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
     NINGÚN RETORNO ECONÓMICO.<br>
     <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 27-JUL · 17:00</span>
+    <span style="opacity:.55">VERSIÓN 27-JUL · 18:00</span>
   </p>
   <p><a class="pie-insta" href="https://www.instagram.com/elvisnaka_oficial/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><defs>
       <radialGradient id="igGradPie" cx="30%" cy="107%" r="150%">
@@ -1688,7 +1711,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-27-1700";
+const VERSION_LOCAL = "2026-07-27-1800";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -2328,6 +2351,12 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
   document.addEventListener('ended', e => { if (e.target.tagName === 'AUDIO') e.target.dataset.debiaSonar = '0'; }, true);
 })();
 
+
+/* La marca lleva arriba del todo, con suavidad */
+(function(){
+  const m = document.getElementById('marca');
+  if (m) m.addEventListener('click', e => { e.preventDefault(); window.scrollTo({top:0, behavior:'smooth'}); });
+})();
 
 /* Menú de móvil */
 (function(){
