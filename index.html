@@ -784,8 +784,7 @@ Porque son inventados...
       </div>
       </div>
     </div>
-
-id="cardNM" style="margin-top:56px">
+    <div class="single-card cerrada" id="cardNM" style="margin-top:56px">
       <span class="ultima">Última canción subida</span>
       <div class="card-cabecera">
         <h3 class="titulo-bombillas">No me mires así</h3>
@@ -876,10 +875,6 @@ Una disculpa para salir de aquí...</strong></div>
         </details>
       </div>
     </div>
-
-
-    <div class="single-card cerrada"
-
   </div>
 </section>
 
@@ -1106,7 +1101,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-0505";
+const VERSION_LOCAL = "2026-07-26-0520";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
