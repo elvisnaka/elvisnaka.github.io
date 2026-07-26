@@ -192,6 +192,17 @@ blockquote cite{display:block;margin-top:12px;font-family:var(--mono);font-style
 .mg-cta{display:inline-block;font-family:var(--mono);font-size:.8rem;letter-spacing:.24em;text-transform:uppercase;padding:15px 28px;border:1px solid #e0312f;color:#fff;background:rgba(224,49,47,.2);text-decoration:none;border-radius:4px;transition:background .3s}
 .mg-cta:hover{background:#e0312f}
 
+/* ---------- ESCUCHAR EL LP ENTERO ---------- */
+.lp-entero{max-width:640px;margin:0 auto 54px;border:1px solid var(--lampara);background:rgba(201,143,69,.08);box-shadow:0 0 44px rgba(201,143,69,.18);padding:26px 22px;text-align:center;border-radius:10px}
+.lp-btn{display:inline-flex;align-items:center;gap:16px;background:none;border:none;cursor:pointer;color:var(--lampara);font-family:var(--mono);font-size:.92rem;letter-spacing:.26em;text-transform:uppercase}
+.lp-tri{width:60px;height:60px;border-radius:50%;border:2px solid var(--lampara);display:grid;place-items:center;flex:0 0 auto;transition:background .3s,color .3s}
+.lp-btn:hover .lp-tri{background:var(--lampara);color:var(--noche)}
+.lp-tri span{width:0;height:0;border-left:19px solid currentColor;border-top:12px solid transparent;border-bottom:12px solid transparent;margin-left:5px}
+.lp-tri.sonando span{width:16px;height:19px;border:none;border-left:5px solid currentColor;border-right:5px solid currentColor;margin-left:0;background:transparent}
+.lp-ahora{font-family:var(--serif);font-style:italic;color:var(--niebla);margin-top:14px;font-size:1rem;min-height:1.4em}
+.lp-barra{height:3px;background:rgba(201,143,69,.25);margin-top:14px;border-radius:2px;overflow:hidden}
+.lp-relleno{height:100%;width:0;background:var(--lampara)}
+
 /* ---------- PASTILLA ÚLTIMA CANCIÓN ---------- */
 .single-card{position:relative}
 .ultima{position:absolute;top:-16px;left:14px;transform:rotate(-6deg);background:#e0312f;color:#fff;font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;padding:9px 18px;border-radius:999px;box-shadow:0 4px 18px rgba(224,49,47,.45);z-index:3}
@@ -273,6 +284,15 @@ footer::before{content:"";position:absolute;left:50%;bottom:-140px;transform:tra
 <!-- ============ SINGLE DE ADELANTO ============ -->
 <section id="single" class="single">
   <div class="wrap">
+    <div class="lp-entero">
+      <button class="lp-btn" id="lpBtn" type="button">
+        <span class="lp-tri" id="lpTri"><span></span></span>
+        <span id="lpTexto">Escuchar el LP entero</span>
+      </button>
+      <p class="lp-ahora" id="lpAhora"></p>
+      <div class="lp-barra"><div class="lp-relleno" id="lpRelleno"></div></div>
+    </div>
+
     <div class="single-card cerrada" id="cardBM">
       <div class="card-cabecera">
         <h3 class="titulo-bombillas">Bailo mal</h3>
@@ -890,7 +910,7 @@ Porque son inventados...
     NINGÚN RETORNO ECONÓMICO.<br>
     <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 25-JUL · 23:30</span>
+    <span style="opacity:.55">VERSIÓN 26-JUL · 00:10</span>
   </p>
 </footer>
 
@@ -985,7 +1005,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-25-2330";
+const VERSION_LOCAL = "2026-07-26-0010";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -1243,6 +1263,59 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
   const comp = cuerpo.querySelector('.compartir');
   if (comp) cuerpo.insertBefore(bloque, comp); else cuerpo.appendChild(bloque);
 });
+
+/* Escuchar el LP entero */
+(function(){
+  const LISTA = [
+    {f:'01-entre-bombones-v2.mp3', t:'Entre bombones',              c:'entrebombones'},
+    {f:'la-lavanderia-v3.mp3', t:'La chica de la lavandería', c:'lavanderia'},
+    {f:'03-bailar-mal.mp3', t:'Bailo mal',                    c:'bailomal'},
+    {f:'el-pajaro.mp3',     t:'El pájaro de junio del 80',    c:'pajaro'},
+    {f:'caramelos-robados.mp3', t:'Caramelos robados',        c:'caramelos'},
+    {f:'algunas-chicas.mp3',t:'Algunas chicas',               c:'algunaschicas'},
+    {f:'angela.mp3',        t:'Ángela',                       c:'angela'},
+    {f:'el-polizon.mp3',    t:'El polizón',                   c:'polizon'}
+  ];
+  const btn = document.getElementById('lpBtn');
+  const tri = document.getElementById('lpTri');
+  const texto = document.getElementById('lpTexto');
+  const ahora = document.getElementById('lpAhora');
+  const relleno = document.getElementById('lpRelleno');
+  if (!btn) return;
+  const audio = document.createElement('audio');
+  audio.preload = 'none';
+  document.body.appendChild(audio);
+  let i = 0, sonando = false;
+  const contadas = {};
+  function pinta(){
+    tri.classList.toggle('sonando', sonando);
+    texto.textContent = sonando ? 'Pausar el LP' : (i === 0 && !audio.src ? 'Escuchar el LP entero' : 'Seguir escuchando el LP');
+    ahora.textContent = audio.src ? (i+1) + '. ' + LISTA[i].t : '';
+  }
+  function pon(n, arranca){
+    i = n;
+    audio.src = LISTA[i].f;
+    if (arranca) audio.play().catch(()=>{});
+    if (!contadas[LISTA[i].c]) { contadas[LISTA[i].c] = true; if (typeof nakaSuma === 'function') nakaSuma(LISTA[i].c); }
+    pinta();
+  }
+  btn.addEventListener('click', () => {
+    if (sonando) { audio.pause(); return; }
+    document.querySelectorAll('audio').forEach(a => { if (a !== audio) a.pause(); });
+    if (!audio.src) pon(0, true); else audio.play().catch(()=>{});
+  });
+  audio.addEventListener('play', () => { sonando = true; pinta(); });
+  audio.addEventListener('pause', () => { sonando = false; pinta(); });
+  audio.addEventListener('timeupdate', () => {
+    if (audio.duration) relleno.style.width = (audio.currentTime/audio.duration*100) + '%';
+  });
+  audio.addEventListener('ended', () => {
+    if (i < LISTA.length - 1) pon(i+1, true);
+    else { sonando = false; relleno.style.width = '0%'; audio.removeAttribute('src'); i = 0; ahora.textContent = '¡Se acabó el disco! ¿Otra vuelta?'; texto.textContent = 'Escuchar el LP entero'; tri.classList.remove('sonando'); }
+  });
+  /* si alguien pulsa el play de una tarjeta, el LP se detiene */
+  document.querySelectorAll('.player .p-btn').forEach(b => b.addEventListener('click', () => audio.pause()));
+})();
 
 /* Tarjetas plegables */
 document.querySelectorAll('.abrir-btn').forEach(b => b.addEventListener('click', () => {
