@@ -1170,7 +1170,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-0650";
+const VERSION_LOCAL = "2026-07-26-0725";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -1559,7 +1559,7 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
     try {
       ctxAudio = new (window.AudioContext || window.webkitAudioContext)();
       analizador = ctxAudio.createAnalyser();
-      analizador.fftSize = 64;
+      analizador.fftSize = 128;
       datos = new Uint8Array(analizador.frequencyBinCount);
       origen = ctxAudio.createMediaElementSource(audio);
       origen.connect(analizador);
@@ -1576,8 +1576,57 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
   const gCtx = onda.getContext('2d');
   let raf = null;
   let particulas = [];
-  let ultimoSpawn = 0;
-  let energia = 0.1;
+  let historialBajo = [];
+  let ultimoGolpe = 0;
+
+  function bandas(){
+    analizador.getByteFrequencyData(datos);
+    const n = datos.length;
+    const finBajo = Math.max(1, Math.floor(n*0.13));
+    const finMedio = Math.floor(n*0.55);
+    let bajo=0, medio=0, alto=0;
+    for (let k=0;k<finBajo;k++) bajo += datos[k];
+    for (let k=finBajo;k<finMedio;k++) medio += datos[k];
+    for (let k=finMedio;k<n;k++) alto += datos[k];
+    return {
+      bajo: (bajo/finBajo)/255,
+      medio: (medio/(finMedio-finBajo))/255,
+      alto: (alto/(n-finMedio))/255
+    };
+  }
+
+  function disparaExplosion(cx, cy, h, intensidad){
+    const n = 2 + Math.floor(intensidad*4);
+    for (let k=0;k<n;k++){
+      const lado = Math.random() < 0.5 ? -1 : 1;
+      const desvio = (Math.random()-0.5) * 0.5;
+      const velPop = (3 + intensidad*10 + Math.random()*2) * dpr;
+      const objetivoR = (9 + intensidad*44 + Math.random()*8) * dpr;
+      particulas.push({
+        x: cx, y: cy + (Math.random()*h*0.22 - h*0.11),
+        vx: Math.cos(desvio) * velPop * lado,
+        vy: Math.sin(desvio) * velPop * 0.45,
+        r: objetivoR*0.22, objetivoR: objetivoR,
+        alpha: 0.95, estado: 'revienta'
+      });
+    }
+  }
+
+  function disparaBrillo(cx, cy, h, intensidad){
+    const esBurbuja = Math.random() < 0.2;
+    particulas.push({
+      x: cx + (Math.random()*8-4)*dpr,
+      y: cy + (Math.random()*h*0.3 - h*0.15),
+      vx: (Math.random()-0.5) * 0.2 * dpr,
+      vy: (Math.random()-0.5) * 0.2 * dpr,
+      r: (1.2 + intensidad*2.2 + Math.random()*1) * dpr,
+      alpha: 0.7,
+      estado: 'flota', edad: 0,
+      vidaFlote: esBurbuja ? (35 + Math.random()*60) : (3 + Math.random()*7),
+      intensidad: intensidad
+    });
+  }
+
   function dibujaOnda(ts){
     ts = ts || performance.now();
     const w = onda.width, h = onda.height;
@@ -1585,63 +1634,50 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
     gCtx.clearRect(0,0,w,h);
 
     if (sonando && analizador){
-      analizador.getByteFrequencyData(datos);
-      const corte = Math.floor(datos.length*0.3);
-      let graves = 0; for (let k=0;k<corte;k++) graves += datos[k];
-      graves = (graves/corte)/255;
-      let agudos = 0; for (let k=corte;k<datos.length;k++) agudos += datos[k];
-      agudos = (agudos/(datos.length-corte))/255;
-      energia = graves*0.65 + agudos*0.35;
+      const b = bandas();
 
-      if (ts - ultimoSpawn > 65){
-        ultimoSpawn = ts;
-        const n = 1 + Math.floor(graves*3);
-        for (let k=0;k<n;k++){
-          const esBurbuja = Math.random() < 0.22;
-          particulas.push({
-            x: cx + (Math.random()*10-5)*dpr,
-            y: cy + (Math.random()*h*0.28 - h*0.14),
-            vx: (Math.random()-0.5) * 0.25 * dpr,
-            vy: (Math.random()-0.5) * 0.25 * dpr,
-            r: (1.4 + Math.random()*1.6) * dpr,
-            alpha: 0.85,
-            estado: 'flota',
-            edad: 0,
-            vidaFlote: esBurbuja ? (40 + Math.random()*70) : (4 + Math.random()*10)
-          });
-        }
+      /* detección de golpe: el grave sube muy por encima de su propia media reciente */
+      historialBajo.push(b.bajo);
+      if (historialBajo.length > 24) historialBajo.shift();
+      const media = historialBajo.reduce((a,x)=>a+x,0) / historialBajo.length;
+      if (b.bajo > media*1.32 + 0.045 && ts - ultimoGolpe > 140){
+        ultimoGolpe = ts;
+        disparaExplosion(cx, cy, h, b.bajo);
       }
-    } else {
-      energia *= 0.9; // se calma poco a poco al pausar
+
+      /* brillo continuo: medios y agudos dibujan la textura melódica (guitarra, armónica, voz) */
+      const textura = b.medio*0.55 + b.alto*0.45;
+      if (Math.random() < textura*0.85 + 0.03){
+        disparaBrillo(cx, cy, h, textura);
+      }
     }
 
     particulas.forEach(p=>{
       if (p.estado === 'flota'){
         p.edad++;
         p.x += p.vx; p.y += p.vy;
-        p.r += Math.sin(p.edad*0.25) * 0.05 * dpr;
-        if (p.r < dpr) p.r = dpr;
+        p.r += Math.sin(p.edad*0.25) * 0.04 * dpr;
+        if (p.r < dpr*0.8) p.r = dpr*0.8;
         if (p.edad >= p.vidaFlote){
           p.estado = 'revienta';
-          const angulo = Math.random() < 0.5 ? Math.PI : 0; // sale hacia la izquierda o la derecha
+          const angulo = Math.random() < 0.5 ? Math.PI : 0;
           const desvio = (Math.random()-0.5) * 0.6;
-          const velPop = (2 + energia*9 + Math.random()*1.5) * dpr;
+          const velPop = (1.6 + (p.intensidad||0.2)*6 + Math.random()*1.2) * dpr;
           p.vx = Math.cos(angulo + desvio) * velPop;
           p.vy = Math.sin(angulo + desvio) * velPop * 0.5;
-          p.objetivoR = p.r + (6 + energia*34 + Math.random()*6) * dpr;
+          p.objetivoR = p.r + (5 + (p.intensidad||0.2)*24 + Math.random()*5) * dpr;
         }
       } else {
         p.x += p.vx; p.y += p.vy;
-        p.r += (p.objetivoR - p.r) * 0.22;
-        p.alpha -= 0.085;
+        p.r += (p.objetivoR - p.r) * 0.24;
+        p.alpha -= 0.08;
       }
     });
     particulas = particulas.filter(p => p.alpha > 0.02 && p.x > -40*dpr && p.x < w+40*dpr);
 
     particulas.forEach(p=>{
       gCtx.beginPath();
-      const alphaDibujo = p.estado === 'flota' ? p.alpha : Math.max(0, p.alpha);
-      gCtx.fillStyle = 'rgba(10,17,24,' + alphaDibujo + ')';
+      gCtx.fillStyle = 'rgba(10,17,24,' + Math.max(0,p.alpha) + ')';
       gCtx.arc(p.x, p.y, p.r, 0, Math.PI*2);
       gCtx.fill();
     });
