@@ -355,6 +355,14 @@ footer::before{content:"";position:absolute;left:50%;bottom:-140px;transform:tra
   .novedad-texto{max-width:42ch}
   .novedad-texto p{margin:0 0 24px}
 }
+
+/* El hero a pantalla completa: en escritorio se usa una versión panorámica
+   que cubre todo el ancho, sin bandas a los lados */
+@media(min-width:900px){
+  .hero-img picture{position:relative;display:block;width:100%;height:100%}
+  .hero-img img.main{object-fit:cover;object-position:50% 30%}
+  .hero-img img.bg{display:none}
+}
 </style>
 </head>
 <body>
@@ -363,7 +371,10 @@ footer::before{content:"";position:absolute;left:50%;bottom:-140px;transform:tra
 <header class="hero">
   <div class="hero-img">
     <img class="bg" src="naka-hero-v5.jpg" alt="" aria-hidden="true">
-    <img class="main" src="naka-hero-v5.jpg" alt="Póster de Elvis Naka con su nombre en letras de bombillas encendidas, apoyado en la pared del pasillo con su guitarra">
+    <picture>
+      <source media="(min-width:900px)" srcset="naka-hero-ancho.jpg">
+      <img class="main" src="naka-hero-v5.jpg" alt="Póster de Elvis Naka con su nombre en letras de bombillas encendidas, sobre el escenario con su guitarra">
+    </picture>
   </div>
   <div class="hero-inner wrap">
     <h1 class="sr-only">Elvis Naka</h1>
@@ -1399,7 +1410,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-1610";
+const VERSION_LOCAL = "2026-07-26-1700";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
