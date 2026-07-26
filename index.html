@@ -383,7 +383,7 @@ footer::before{content:"";position:absolute;left:50%;bottom:-140px;transform:tra
   <div class="hero-img">
     <img class="bg" src="naka-hero-v5.jpg" alt="" aria-hidden="true">
     <picture>
-      <source media="(min-width:900px)" srcset="naka-hero-ancho.jpg">
+      <source media="(min-width:900px)" srcset="naka-hero-escenario.jpg">
       <img class="main" src="naka-hero-v5.jpg" alt="Póster de Elvis Naka con su nombre en letras de bombillas encendidas, sobre el escenario con su guitarra">
     </picture>
   </div>
@@ -1427,7 +1427,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-1840";
+const VERSION_LOCAL = "2026-07-26-1920";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
