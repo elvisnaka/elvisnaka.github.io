@@ -456,10 +456,6 @@ body.menu-abierto{overflow:hidden}
   background:linear-gradient(180deg,#f2cd7f,#c98f45);border:3px solid var(--lampara);
   box-shadow:0 12px 34px rgba(0,0,0,.6),0 0 34px rgba(242,205,127,.3)}
 .galletas-cara img{width:76%;height:auto;display:block}
-.galletas-mano{position:absolute;right:-16px;bottom:2px;font-size:2.6rem;line-height:1;
-  transform-origin:70% 80%;animation:saluda 1.6s ease-in-out infinite;filter:drop-shadow(0 4px 10px rgba(0,0,0,.5))}
-@keyframes saluda{
-  0%,100%{transform:rotate(-8deg)}
   15%{transform:rotate(16deg)}
   30%{transform:rotate(-12deg)}
   45%{transform:rotate(14deg)}
@@ -482,7 +478,6 @@ body.menu-abierto{overflow:hidden}
 .galletas-pie a{color:var(--ventana);text-decoration:none}
 .galletas-pie a:hover{color:var(--lampara)}
 body.galletas-abierto{overflow:hidden}
-@media(prefers-reduced-motion:reduce){.galletas-mano{animation:none}}
 .pie-legal{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
   color:var(--ventana);margin-top:18px;line-height:2.2}
 .pie-legal a{color:var(--ventana);text-decoration:none;margin:0 8px}
@@ -509,7 +504,6 @@ footer .foot-line, footer .foot-meta, footer .foot-mast, footer .pie-legal, foot
   <div class="galletas-caja">
     <div class="galletas-cabeza">
       <span class="galletas-cara"><img src="ilustracion-naka-navy.png" alt="Elvis Naka"></span>
-      <span class="galletas-mano" aria-hidden="true">👋</span>
     </div>
     <p class="galletas-etq">Elvis Naka te da la bienvenida</p>
     <h2 id="galletasTitulo">Pasa, que aquí se escucha gratis</h2>
@@ -1503,7 +1497,7 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
     NINGÚN RETORNO ECONÓMICO.<br>
     <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 27-JUL · 15:20</span>
+    <span style="opacity:.55">VERSIÓN 27-JUL · 16:00</span>
   </p>
   <p class="pie-legal">
     <a href="aviso-legal/">Aviso legal</a>·<a href="privacidad/">Privacidad</a>·<a href="cookies/">Cookies</a>
@@ -1525,7 +1519,7 @@ window.nakaConsiente = false;
 (function(){
   /* Al subir esta versión, todo el mundo vuelve a ver la ventana de bienvenida
      y tiene que decidir otra vez, en cualquier dispositivo. */
-  const VERSION_AVISO = '6';
+  const VERSION_AVISO = '7';
   let guardado = null;
   try {
     const bruto = localStorage.getItem('naka-cookies');
@@ -1650,7 +1644,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-27-1520";
+const VERSION_LOCAL = "2026-07-27-1600";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
