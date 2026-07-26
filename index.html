@@ -84,6 +84,7 @@ blockquote cite{display:block;margin-top:12px;font-family:var(--mono);font-style
 .single-head .single-sub{font-style:italic;color:var(--lampara);font-size:clamp(1rem,2.6vw,1.3rem);margin-top:12px}
 .single-card{display:grid;grid-template-columns:1fr;gap:40px;align-items:center;border:2px solid #e0312f;background:rgba(18,32,43,.6);padding:36px 28px;position:relative;box-shadow:0 0 70px rgba(224,49,47,.22),inset 0 0 60px rgba(224,49,47,.05)}
 @media(min-width:840px){.single-card{grid-template-columns:.9fr 1.1fr;padding:52px}}
+@media(min-width:1400px){.wrap{max-width:1200px}.single-card{padding:60px;gap:52px}.single-desc{font-size:1.18rem}}
 .single-img img{border:1px solid rgba(224,49,47,.3);width:100%}
 .single-title{font-family:var(--display);font-size:clamp(2.4rem,6vw,4rem);line-height:.95;text-transform:uppercase;color:var(--camiseta);margin-bottom:14px}
 .single-desc{font-style:italic;color:#dfe4e8;font-size:1.12rem;margin-bottom:28px;max-width:48ch}
@@ -308,6 +309,15 @@ footer::before{content:"";position:absolute;left:50%;bottom:-140px;transform:tra
 
 :focus-visible{outline:2px solid var(--lampara);outline-offset:3px}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.grid img{transition:none}}
+
+/* --- Ajustes de escritorio (al final para que manden sobre lo anterior) --- */
+@media(min-width:840px){
+  .lp-entero{max-width:780px}
+}
+@media(min-width:1400px){
+  .wrap{max-width:1200px}
+  .single-card{padding:60px}
+}
 </style>
 </head>
 <body>
@@ -1335,7 +1345,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-1420";
+const VERSION_LOCAL = "2026-07-26-1510";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
