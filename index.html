@@ -419,6 +419,12 @@ body.menu-abierto{overflow:hidden}
 @media(min-width:1400px){
   .pasillo-cols{grid-template-columns:minmax(0,1fr) 290px;gap:70px}
 }
+
+/* En móvil, el póster arranca por debajo del botón del menú */
+@media(max-width:899px){
+  .hero-img{top:70px}
+  .hero-img img.bg{top:-70px;height:calc(100% + 70px)}
+}
 </style>
 </head>
 <body>
@@ -1513,7 +1519,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-27-0030";
+const VERSION_LOCAL = "2026-07-27-0120";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
