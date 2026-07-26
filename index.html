@@ -1716,18 +1716,10 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
 
   /* Ecualizador: dibuja el sonido real cuando suena, y el progreso cuando está en pausa */
   let ctxAudio, analizador, datos, origen;
-  function preparaAnalizador(){
-    if (ctxAudio) return;
-    try {
-      ctxAudio = new (window.AudioContext || window.webkitAudioContext)();
-      analizador = ctxAudio.createAnalyser();
-      analizador.fftSize = 128;
-      datos = new Uint8Array(analizador.frequencyBinCount);
-      origen = ctxAudio.createMediaElementSource(audio);
-      origen.connect(analizador);
-      analizador.connect(ctxAudio.destination);
-    } catch(e) { ctxAudio = null; }
-  }
+  /* Sin Web Audio a propósito: enrutar el <audio> por un AudioContext hace que
+     iOS silencie la música al bloquear la pantalla o salir del navegador.
+     El ecualizador se anima con el propio ritmo de la reproducción. */
+  function preparaAnalizador(){ return; }
   const dpr = window.devicePixelRatio || 1;
   function ajustaCanvas(){
     const r = onda.getBoundingClientRect();
@@ -1742,18 +1734,13 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
   let ultimoGolpe = 0;
 
   function bandas(){
-    analizador.getByteFrequencyData(datos);
-    const n = datos.length;
-    const finBajo = Math.max(1, Math.floor(n*0.13));
-    const finMedio = Math.floor(n*0.55);
-    let bajo=0, medio=0, alto=0;
-    for (let k=0;k<finBajo;k++) bajo += datos[k];
-    for (let k=finBajo;k<finMedio;k++) medio += datos[k];
-    for (let k=finMedio;k<n;k++) alto += datos[k];
+    if (!sonando) return {bajo:0, medio:0, alto:0};
+    const t = performance.now()/1000;
+    const pulso = Math.pow(Math.abs(Math.sin(t*Math.PI*1.15)), 3);
     return {
-      bajo: (bajo/finBajo)/255,
-      medio: (medio/(finMedio-finBajo))/255,
-      alto: (alto/(n-finMedio))/255
+      bajo:  0.22 + pulso*0.68,
+      medio: 0.26 + Math.abs(Math.sin(t*2.7))*0.34,
+      alto:  0.18 + Math.abs(Math.sin(t*4.3))*0.30
     };
   }
 
@@ -1854,7 +1841,57 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
     raf = requestAnimationFrame(dibujaOnda);
   }
   dibujaOnda();
-  audio.addEventListener('play', () => { preparaAnalizador(); if (ctxAudio && ctxAudio.state === 'suspended') ctxAudio.resume(); });
+})();
+
+
+/* Pantalla de bloqueo y segundo plano: título, portada y mandos del sistema */
+(function(){
+  const PORTADAS = {
+    'Bailo mal':'og-bailo-mal.jpg',
+    'Entre bombones':'og-entre-bombones.jpg',
+    'Ángela':'og-angela.jpg',
+    'El polizón':'og-el-polizon.jpg',
+    'La chica de la lavandería':'og-la-lavanderia.jpg',
+    'El pájaro de junio del 80':'og-el-pajaro.jpg',
+    'Algunas chicas':'og-algunas-chicas.jpg',
+    'Caramelos robados':'og-caramelos-robados2.jpg',
+    'No me mires así':'og-no-me-mires-asi.jpg',
+    'Más domingos que semanas':'og-mas-domingos.jpg',
+    'Entre bombones (reprise)':'og-reprise.jpg'
+  };
+  if (!('mediaSession' in navigator)) return;
+  const raiz = location.origin + location.pathname.replace(/[^/]*$/, '');
+  document.addEventListener('play', function(e){
+    const a = e.target;
+    if (!a || a.tagName !== 'AUDIO') return;
+    const pl = a.parentElement && a.parentElement.classList.contains('player') ? a.parentElement : null;
+    let titulo;
+    if (pl) {
+      titulo = (pl.querySelector('.p-title')||{}).textContent || '';
+    } else {
+      const ah = document.getElementById('lpAhora');
+      titulo = ((ah && ah.textContent) || '').replace(/^\d+\.\s*/, '');
+    }
+    titulo = titulo.trim() || 'Entre bombones';
+    try {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: titulo,
+        artist: 'ELVIS NAKA',
+        album: 'Entre bombones',
+        artwork: [{src: raiz + (PORTADAS[titulo] || 'og-share3.jpg'), sizes:'1080x1080', type:'image/jpeg'}]
+      });
+      navigator.mediaSession.setActionHandler('play',  () => a.play());
+      navigator.mediaSession.setActionHandler('pause', () => a.pause());
+      if (!pl) {
+        const ant = document.getElementById('lpAnt'), sig = document.getElementById('lpSig');
+        navigator.mediaSession.setActionHandler('previoustrack', ant ? () => ant.click() : null);
+        navigator.mediaSession.setActionHandler('nexttrack',     sig ? () => sig.click() : null);
+      } else {
+        navigator.mediaSession.setActionHandler('previoustrack', null);
+        navigator.mediaSession.setActionHandler('nexttrack', null);
+      }
+    } catch(err){}
+  }, true);
 })();
 
 /* Mini carrusel de fotos (foto grande + miniaturas + flechas) */
