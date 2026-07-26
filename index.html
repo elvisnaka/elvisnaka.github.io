@@ -1170,7 +1170,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-0800";
+const VERSION_LOCAL = "2026-07-26-0840";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -1723,7 +1723,7 @@ function reAncla(){
   const el = document.getElementById(location.hash.slice(1));
   if (el) el.scrollIntoView({block:'start'});
 }
-window.addEventListener('load', () => { reAncla(); setTimeout(reAncla, 600); setTimeout(reAncla, 1500); });
+window.addEventListener('load', () => { reAncla(); setTimeout(reAncla, 300); setTimeout(reAncla, 800); setTimeout(reAncla, 1500); setTimeout(reAncla, 3000); });
 
 /* Pasador */
 const tr = document.getElementById('slTrack');
