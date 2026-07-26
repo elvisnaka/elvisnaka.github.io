@@ -493,11 +493,45 @@ footer .foot-line, footer .foot-meta, footer .foot-mast, footer .pie-legal, foot
   color:var(--ventana);margin:14px auto 0;opacity:.85}
 .pie-firma a{color:var(--lampara);text-decoration:none}
 .pie-firma a:hover{text-decoration:underline}
+
+/* Instagram: arriba a la izquierda y en el pie */
+.insta{position:fixed;top:14px;left:14px;z-index:1400;display:flex;align-items:center;gap:9px;
+  padding:9px 16px 9px 11px;border-radius:999px;text-decoration:none;
+  background:rgba(10,17,24,.72);backdrop-filter:blur(8px);border:1px solid rgba(201,143,69,.45);
+  transition:background .3s,border-color .3s,transform .3s}
+.insta:hover{background:rgba(201,143,69,.16);border-color:var(--lampara);transform:translateY(-1px)}
+.insta svg{width:24px;height:24px;flex:none}
+.insta span{font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--camiseta)}
+.pie-insta{display:inline-flex;align-items:center;gap:10px;margin-top:22px;text-decoration:none;
+  padding:11px 20px 11px 15px;border-radius:999px;border:1px solid rgba(201,143,69,.4)}
+.pie-insta svg{width:22px;height:22px}
+.pie-insta span{font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--camiseta)}
+.pie-insta:hover{background:rgba(201,143,69,.14)}
+@media(min-width:900px){
+  .insta{top:22px;left:26px;padding:11px 20px 11px 13px}
+  .insta svg{width:26px;height:26px}
+}
 </style>
 </head>
 <body>
 
 
+
+
+<!-- ============ INSTAGRAM ============ -->
+<a class="insta" href="https://www.instagram.com/elvisnaka_oficial/" target="_blank" rel="noopener" aria-label="Sígueme en Instagram">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><defs>
+      <radialGradient id="igGrad" cx="30%" cy="107%" r="150%">
+        <stop offset="0%" stop-color="#fdf497"/><stop offset="5%" stop-color="#fdf497"/>
+        <stop offset="45%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/>
+        <stop offset="90%" stop-color="#285aeb"/>
+      </radialGradient></defs>
+      <path fill="url(#igGrad)" d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.72-2.13 1.38C1.35 2.68.93 3.35.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.72 1.46 1.38 2.13.67.66 1.34 1.08 2.13 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.3 1.46-.72 2.13-1.38.66-.67 1.08-1.34 1.38-2.13.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.3-.79-.72-1.46-1.38-2.13C21.32 1.35 20.65.93 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0z"/>
+      <path fill="url(#igGrad)" d="M12 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4z"/>
+      <circle fill="url(#igGrad)" cx="18.41" cy="5.59" r="1.44"/>
+    </svg>
+  <span>Sígueme</span>
+</a>
 
 <!-- ============ AVISO DE COOKIES ============ -->
 <div class="galletas" id="galletas" role="dialog" aria-modal="true" aria-labelledby="galletasTitulo" hidden>
@@ -1497,8 +1531,18 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
     NINGÚN RETORNO ECONÓMICO.<br>
     <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 27-JUL · 16:00</span>
+    <span style="opacity:.55">VERSIÓN 27-JUL · 17:00</span>
   </p>
+  <p><a class="pie-insta" href="https://www.instagram.com/elvisnaka_oficial/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><defs>
+      <radialGradient id="igGradPie" cx="30%" cy="107%" r="150%">
+        <stop offset="0%" stop-color="#fdf497"/><stop offset="5%" stop-color="#fdf497"/>
+        <stop offset="45%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/>
+        <stop offset="90%" stop-color="#285aeb"/>
+      </radialGradient></defs>
+      <path fill="url(#igGradPie)" d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.72-2.13 1.38C1.35 2.68.93 3.35.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.72 1.46 1.38 2.13.67.66 1.34 1.08 2.13 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.3 1.46-.72 2.13-1.38.66-.67 1.08-1.34 1.38-2.13.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.3-.79-.72-1.46-1.38-2.13C21.32 1.35 20.65.93 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0z"/>
+      <path fill="url(#igGradPie)" d="M12 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4z"/>
+      <circle fill="url(#igGradPie)" cx="18.41" cy="5.59" r="1.44"/>
+    </svg><span>Sígueme en Instagram</span></a></p>
   <p class="pie-legal">
     <a href="aviso-legal/">Aviso legal</a>·<a href="privacidad/">Privacidad</a>·<a href="cookies/">Cookies</a>
   </p>
@@ -1644,7 +1688,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-27-1600";
+const VERSION_LOCAL = "2026-07-27-1700";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
