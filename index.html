@@ -1290,6 +1290,8 @@ document.querySelectorAll('.player').forEach(pl => {
     audio.src = src;
   }
   audio.preload = 'metadata';
+  audio.setAttribute('playsinline','');
+  audio.setAttribute('x-webkit-airplay','allow');
   pl.appendChild(audio);
   const btn = pl.querySelector('.p-btn');
   const bar = pl.querySelector('.p-bar');
@@ -1654,6 +1656,8 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
   if (!btn) return;
   const audio = document.createElement('audio');
   audio.preload = 'none';
+  audio.setAttribute('playsinline','');
+  audio.setAttribute('x-webkit-airplay','allow');
   document.body.appendChild(audio);
   let i = 0, sonando = false;
   const contadas = {};
@@ -1892,6 +1896,39 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
       }
     } catch(err){}
   }, true);
+})();
+
+
+/* Red de seguridad: si el sistema pausa la música al apagarse la pantalla,
+   se reanuda sola. Solo respeta las pausas hechas a mano por quien escucha. */
+(function(){
+  let pausaManual = false;
+  document.addEventListener('click', e => {
+    if (e.target.closest('.p-btn, #lpBtn, #lpStop, #lpAnt, #lpSig')) {
+      pausaManual = true;
+      setTimeout(() => { pausaManual = false; }, 1200);
+    }
+  }, true);
+  document.addEventListener('pause', function(e){
+    const a = e.target;
+    if (!a || a.tagName !== 'AUDIO') return;
+    if (pausaManual || a.ended || a.seeking) return;
+    if (!document.hidden && document.visibilityState === 'visible') return;
+    let intentos = 0;
+    (function reintenta(){
+      if (++intentos > 3 || !a.paused || pausaManual) return;
+      const pr = a.play();
+      if (pr && pr.catch) pr.catch(() => setTimeout(reintenta, 400));
+    })();
+  }, true);
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden) return;
+    document.querySelectorAll('audio').forEach(a => {
+      if (a.dataset.debiaSonar === '1' && a.paused) a.play().catch(()=>{});
+    });
+  });
+  document.addEventListener('play',  e => { if (e.target.tagName === 'AUDIO') e.target.dataset.debiaSonar = '1'; }, true);
+  document.addEventListener('ended', e => { if (e.target.tagName === 'AUDIO') e.target.dataset.debiaSonar = '0'; }, true);
 })();
 
 /* Mini carrusel de fotos (foto grande + miniaturas + flechas) */
