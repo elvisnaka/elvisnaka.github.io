@@ -487,6 +487,11 @@ body.galletas-abierto{overflow:hidden}
 .pie-legal a:hover{color:var(--lampara)}
 .fc-legal{font-family:var(--mono);font-size:.66rem;line-height:1.9;color:var(--ventana);margin:6px 0 4px}
 .fc-legal a{color:var(--lampara)}
+
+/* El pie, centrado de verdad: los párrafos heredaban un ancho máximo y se
+   quedaban pegados a la izquierda en pantallas grandes */
+footer .foot-line, footer .foot-meta, footer .foot-mast, footer .pie-legal{
+  margin-left:auto;margin-right:auto}
 </style>
 </head>
 <body>
@@ -1492,7 +1497,7 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
     NINGÚN RETORNO ECONÓMICO.<br>
     <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 27-JUL · 05:00</span>
+    <span style="opacity:.55">VERSIÓN 27-JUL · 11:00</span>
   </p>
   <p class="pie-legal">
     <a href="aviso-legal/">Aviso legal</a>·<a href="privacidad/">Privacidad</a>·<a href="cookies/">Cookies</a>
@@ -1638,7 +1643,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-27-1000";
+const VERSION_LOCAL = "2026-07-27-1100";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
