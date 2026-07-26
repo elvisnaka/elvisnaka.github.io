@@ -443,10 +443,43 @@ body.menu-abierto{overflow:hidden}
     width:clamp(110px,11vw,170px);z-index:2;opacity:.9;filter:drop-shadow(0 6px 20px rgba(0,0,0,.55));
     pointer-events:none}
 }
+
+/* Aviso de cookies */
+.galletas{position:fixed;left:14px;right:14px;bottom:14px;z-index:1500;background:rgba(12,20,28,.97);
+  border:1px solid rgba(201,143,69,.4);border-radius:14px;padding:18px 20px;
+  box-shadow:0 18px 50px rgba(0,0,0,.6);backdrop-filter:blur(8px);
+  display:flex;flex-direction:column;gap:14px}
+.galletas[hidden]{display:none}
+.galletas p{margin:0;font-size:.92rem;color:#cfd5d9;max-width:70ch}
+.galletas a{color:var(--lampara)}
+.galletas-botones{display:flex;gap:10px;flex-wrap:wrap}
+.galletas button{font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;
+  padding:12px 20px;border-radius:999px;border:1px solid var(--lampara);background:var(--lampara);
+  color:var(--noche);cursor:pointer}
+.galletas button.secundaria{background:transparent;color:var(--lampara)}
+.pie-legal{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ventana);margin-top:18px;line-height:2.2}
+.pie-legal a{color:var(--ventana);text-decoration:none;margin:0 8px}
+.pie-legal a:hover{color:var(--lampara)}
+@media(min-width:840px){
+  .galletas{left:auto;right:22px;bottom:22px;max-width:470px}
+}
+.fc-legal{font-family:var(--mono);font-size:.66rem;line-height:1.9;color:var(--ventana);margin:6px 0 4px}
+.fc-legal a{color:var(--lampara)}
 </style>
 </head>
 <body>
 
+
+
+<!-- ============ AVISO DE COOKIES ============ -->
+<div class="galletas" id="galletas" role="dialog" aria-label="Aviso sobre cookies" hidden>
+  <p>Esta web no usa cookies de publicidad ni de analítica. Guarda en tu navegador tu puntuación de las canciones y, si lo aceptas, suma tu escucha al contador público. <a href="cookies/">Más detalles</a>.</p>
+  <div class="galletas-botones">
+    <button type="button" id="galletasSi">Aceptar</button>
+    <button type="button" id="galletasNo" class="secundaria">Solo lo necesario</button>
+  </div>
+</div>
 
 <!-- ============ MENÚ DE MÓVIL ============ -->
 <button class="burger" id="burger" type="button" aria-label="Abrir el menú" aria-expanded="false" aria-controls="menu">
@@ -1390,6 +1423,7 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
               <input type="tel" name="telefono" autocomplete="tel">
             </label>
           </div>
+          <p class="fc-legal">Al enviar aceptas que se traten tus datos para contestarte y enviarte la camiseta, tal y como se explica en la <a href="privacidad/">política de privacidad</a>.</p>
           <div class="fc-fila">
             <label>Algo más que quieras decirnos (opcional)
               <textarea name="comentarios" rows="2"></textarea>
@@ -1427,7 +1461,10 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
     NINGÚN RETORNO ECONÓMICO.<br>
     <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 26-JUL · 03:40</span>
+    <span style="opacity:.55">VERSIÓN 27-JUL · 05:00</span>
+  </p>
+  <p class="pie-legal">
+    <a href="aviso-legal/">Aviso legal</a>·<a href="privacidad/">Privacidad</a>·<a href="cookies/">Cookies</a>
   </p>
 </footer>
 
@@ -1439,6 +1476,28 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
 </div>
 
 <script>
+
+/* Consentimiento de cookies: sin él no se llama al contador externo */
+window.nakaConsiente = false;
+(function(){
+  let guardado = null;
+  try { guardado = localStorage.getItem('naka-cookies'); } catch(e){}
+  window.nakaConsiente = guardado === 'si';
+  document.addEventListener('DOMContentLoaded', function(){
+    const caja = document.getElementById('galletas');
+    if (!caja) return;
+    if (guardado === null) caja.hidden = false;
+    function decide(valor){
+      try { localStorage.setItem('naka-cookies', valor); } catch(e){}
+      window.nakaConsiente = valor === 'si';
+      caja.hidden = true;
+      if (window.nakaConsiente && typeof window.nakaArrancaContadores === 'function') window.nakaArrancaContadores();
+    }
+    document.getElementById('galletasSi').addEventListener('click', () => decide('si'));
+    document.getElementById('galletasNo').addEventListener('click', () => decide('no'));
+  });
+})();
+
 const DURACIONES = {'03-bailar-mal.mp3': '3:33', '01-entre-bombones-v2.mp3': '3:08', 'angela.mp3': '3:57', 'el-polizon.mp3': '4:27', 'la-lavanderia-v3.mp3': '3:38', 'el-pajaro.mp3': '4:07', 'algunas-chicas.mp3': '2:43', 'caramelos-robados.mp3': '3:10', 'no-me-mires-asi.mp3': '3:40', 'mas-domingos-que-semanas.mp3': '3:53', 'entre-bombones-reprise.mp3': '3:16'};
 
 /* ==========================================================
@@ -1538,7 +1597,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-27-0340";
+const VERSION_LOCAL = "2026-07-27-0500";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -1558,6 +1617,7 @@ function pintaEscuchas(n){ if(elNum) elNum.textContent = (BASE_ESCUCHAS + n).toL
 let escuchaContada = false;
 function cuentaEscucha(){
   if (escuchaContada) return; escuchaContada = true;
+  if (!window.nakaConsiente) return;
   fetch(API_CONT + '/up').then(r=>r.json()).then(d=>pintaEscuchas(d.count||0)).catch(()=>{});
 }
 
@@ -1568,6 +1628,7 @@ function pintaPJ(n){ const e=document.getElementById('numPJ'); if(e) e.textConte
 let pjContada = false;
 function cuentaPJ(){
   if (pjContada) return; pjContada = true;
+  if (!window.nakaConsiente) return;
   fetch(API_PJ + '/up').then(r=>r.json()).then(d=>pintaPJ(d.count||0)).catch(()=>{});
 }
 
@@ -1579,6 +1640,7 @@ function pintaLV(n){ const e=document.getElementById('numLV'); if(e) e.textConte
 let lvContada = false;
 function cuentaLV(){
   if (lvContada) return; lvContada = true;
+  if (!window.nakaConsiente) return;
   fetch(API_LV + '/up').then(r=>r.json()).then(d=>pintaLV(d.count||0)).catch(()=>{});
 }
 
@@ -1590,6 +1652,7 @@ function pintaPO(n){ const e=document.getElementById('numPO'); if(e) e.textConte
 let poContada = false;
 function cuentaPO(){
   if (poContada) return; poContada = true;
+  if (!window.nakaConsiente) return;
   fetch(API_PO + '/up').then(r=>r.json()).then(d=>pintaPO(d.count||0)).catch(()=>{});
 }
 
@@ -1601,6 +1664,7 @@ function pintaAN(n){ const e=document.getElementById('numAN'); if(e) e.textConte
 let anContada = false;
 function cuentaAN(){
   if (anContada) return; anContada = true;
+  if (!window.nakaConsiente) return;
   fetch(API_AN + '/up').then(r=>r.json()).then(d=>pintaAN(d.count||0)).catch(()=>{});
 }
 
@@ -1612,6 +1676,7 @@ function pintaEB(n){ const e=document.getElementById('numEB'); if(e) e.textConte
 let ebContada = false;
 function cuentaEB(){
   if (ebContada) return; ebContada = true;
+  if (!window.nakaConsiente) return;
   fetch(API_EB + '/up').then(r=>r.json()).then(d=>pintaEB(d.count||0)).catch(()=>{});
 }
 
@@ -1748,12 +1813,16 @@ function actualizaTotal(clave, n){
   localStorage.setItem('naka-cnt-' + clave, String(n));
   pintaTotal(clave);
 }
-Object.keys(CANCIONES_CFG).forEach(clave => {
-  pintaTotal(clave); // al abrir: base + último recuento conocido
-  fetch(NAKA_API + clave, {cache:'no-store'}).then(r=>r.json())
-    .then(d => actualizaTotal(clave, nakaCount(d)))
-    .catch(()=>{});
-});
+window.nakaArrancaContadores = function(){
+  Object.keys(CANCIONES_CFG).forEach(clave => {
+    pintaTotal(clave); // al abrir: base + último recuento conocido
+    if (!window.nakaConsiente) return;
+    fetch(NAKA_API + clave, {cache:'no-store'}).then(r=>r.json())
+      .then(d => actualizaTotal(clave, nakaCount(d)))
+      .catch(()=>{});
+  });
+};
+window.nakaArrancaContadores();
 /* los conteos al pulsar play usan también la vía robusta */
 const TITULOS_CANCION = {bailomal:'Bailo mal', entrebombones:'Entre bombones', angela:'Ángela',
   polizon:'El polizón', lavanderia:'La chica de la lavandería', pajaro:'El pájaro de junio del 80',
@@ -1776,6 +1845,7 @@ function avisaEscucha(clave){
 }
 function nakaSuma(clave){
   avisaEscucha(clave);
+  if (!window.nakaConsiente) return;
   fetch(NAKA_API + clave + '/up').then(r=>r.json())
     .then(d => actualizaTotal(clave, nakaCount(d)))
     .catch(()=>{});
@@ -1835,6 +1905,7 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
     pinta(v);
     localStorage.setItem('naka-voto-' + clave, String(v));
     bloque.querySelector('.punt-etq').textContent = 'Tu puntuación';
+    if (!window.nakaConsiente) return;
     fetch(NAKA_API + clave + '-s' + v + '/up').catch(()=>{});
     modalG.classList.add('abierta');
   }));

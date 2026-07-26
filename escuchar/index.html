@@ -50,6 +50,17 @@ h1{font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;
   border-bottom:10px solid transparent}
 .tri.sonando{border:0;width:14px;height:16px;background:
   linear-gradient(to right,var(--noche) 0 5px,transparent 5px 9px,var(--noche) 9px 14px)}
+.galletas{position:fixed;left:14px;right:14px;bottom:14px;z-index:1500;background:rgba(12,20,28,.97);
+  border:1px solid rgba(201,143,69,.4);border-radius:14px;padding:18px 20px;
+  box-shadow:0 18px 50px rgba(0,0,0,.6);display:flex;flex-direction:column;gap:14px}
+.galletas[hidden]{display:none}
+.galletas p{margin:0;font-size:.92rem;color:#cfd5d9}
+.galletas-botones{display:flex;gap:10px;flex-wrap:wrap}
+.galletas button{font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;
+  padding:12px 20px;border-radius:999px;border:1px solid var(--lampara);background:var(--lampara);
+  color:var(--noche);cursor:pointer}
+.galletas button.secundaria{background:transparent;color:var(--lampara)}
+@media(min-width:840px){.galletas{left:auto;right:22px;bottom:22px;max-width:440px}}
 .total{font-family:var(--mono);font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;
   color:var(--ventana);text-align:center;margin:14px 0 0}
 .ahora{font-family:var(--mono);font-size:.82rem;letter-spacing:.06em;text-align:center;
@@ -146,6 +157,7 @@ li.activa .tit{color:var(--lampara)}
   </div>
 
   <p class="pie">
+    <a href="../aviso-legal/">Aviso legal</a> · <a href="../privacidad/">Privacidad</a> · <a href="../cookies/">Cookies</a><br>
     Elvis Naka · Entre bombones<br>
     <a href="https://elvisnaka.github.io/">Ver la web completa, las letras y la tienda</a>
   </p>
@@ -167,6 +179,25 @@ const DISCO = [
   {t:'Más domingos que semanas',   f:'../mas-domingos-que-semanas.mp3', d:'3:53', og:'og-mas-domingos.jpg',       c:'masdomingos'},
   {t:'Entre bombones (reprise)',   f:'../entre-bombones-reprise.mp3', d:'3:16',   og:'og-reprise.jpg',            c:'reprise', bonus:true}
 ];
+
+let nakaConsiente = false;
+(function(){
+  let guardado = null;
+  try { guardado = localStorage.getItem('naka-cookies'); } catch(e){}
+  nakaConsiente = guardado === 'si';
+  document.addEventListener('DOMContentLoaded', function(){
+    const caja = document.getElementById('galletas');
+    if (!caja) return;
+    if (guardado === null) caja.hidden = false;
+    function decide(v){
+      try { localStorage.setItem('naka-cookies', v); } catch(e){}
+      nakaConsiente = v === 'si';
+      caja.hidden = true;
+    }
+    document.getElementById('galletasSi').addEventListener('click', () => decide('si'));
+    document.getElementById('galletasNo').addEventListener('click', () => decide('no'));
+  });
+})();
 
 const fmt = s => isNaN(s) ? '0:00' : Math.floor(s/60) + ':' + String(Math.floor(s%60)).padStart(2,'0');
 
@@ -226,6 +257,7 @@ function cuenta(){
   const c = DISCO[i].c;
   if (contadas[c]) return;
   contadas[c] = true;
+  if (!nakaConsiente) return;
   fetch('https://api.counterapi.dev/v1/elvisnaka-oscarindole/' + c + '/up').catch(()=>{});
 }
 function pon(n, arranca){
@@ -290,5 +322,12 @@ barra.addEventListener('click', e => {
 elDur.textContent = DISCO[0].d;
 pinta();
 </script>
+<div class="galletas" id="galletas" role="dialog" aria-label="Aviso sobre cookies" hidden>
+  <p>Esta web no usa cookies de publicidad ni de analítica. Si lo aceptas, tu escucha suma en el contador público. <a href="../cookies/">Más detalles</a>.</p>
+  <div class="galletas-botones">
+    <button type="button" id="galletasSi">Aceptar</button>
+    <button type="button" id="galletasNo" class="secundaria">Solo lo necesario</button>
+  </div>
+</div>
 </body>
 </html>
