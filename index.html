@@ -703,7 +703,6 @@ Some girls... some girls...</div>
     </div>
 
     <div class="single-card cerrada" id="cardCR" style="margin-top:56px">
-      <span class="ultima">Última canción subida</span>
       <div class="card-cabecera">
         <h3 class="titulo-bombillas">Caramelos robados</h3>
         <button class="abrir-btn" type="button">Abrir</button>
@@ -780,6 +779,77 @@ Porque son inventados...
       <div class="lp-barra"><div class="lp-relleno" id="lpRelleno"></div></div>
     </div>
 
+
+    <div class="single-card cerrada" id="cardNM" style="margin-top:56px">
+      <span class="ultima">Última canción subida</span>
+      <div class="card-cabecera">
+        <h3 class="titulo-bombillas">No me mires así</h3>
+        <button class="abrir-btn" type="button">Abrir</button>
+      </div>
+      <div class="card-contenido">
+      <figure class="single-img">
+        <img src="naka-06-v3.jpg" alt="Elvis Naka en el disco, mirando a cámara con la Telecaster">
+      </figure>
+      <div>
+        <h3 class="single-title">No me mires así</h3>
+        <p class="single-desc">«Estoy buscando una disculpa para salir de aquí.» El tren swamp-rock del que se quedó sin excusas: una noche, una esquina, y otra mariposa en la mano.</p>
+        <p class="single-cta">Para escucharla, pincha aquí <span class="cta-arrow">↓</span></p>
+        <div class="player" data-src="no-me-mires-asi.mp3">
+          <div class="p-row">
+            <button class="p-btn" aria-label="Reproducir No me mires así"><span class="tri"></span></button>
+            <h3 class="p-title">No me mires así</h3>
+          </div>
+          <div class="p-body">
+            <div class="p-bar"><div class="p-fill"></div></div>
+            <div class="p-time"><span class="p-cur">0:00</span><span class="p-dur">–:––</span></div>
+            <a class="p-dl" href="no-me-mires-asi.mp3" download>Descargar la canción</a>
+            <div class="contador" aria-live="polite">♪ <span class="num" id="numNM">…</span> escuchas</div>
+          </div>
+        </div>
+        <div class="letra">
+          <h4>La letra</h4>
+          <div class="letra-cols">Un sábado con ganas de sábado:
+la barra, tu risa, mi suerte.
+La noche cerró por nosotros
+y tiró la llave al día siguiente.
+
+No quisimos saber los nombres
+—los nombres pesan al volar—:
+fuimos dos huéspedes sin maletas
+en un hotel llamado "qué más da".
+
+<strong>No me mires así:
+vivimos el momento... y lo volvería a repetir.
+No me mires a mí,
+que estoy buscando una disculpa
+para salir de aquí.</strong>
+
+Una semana después, sábado de nuevo
+—el azar es un camarero indiscreto—:
+nos cruzamos en la esquina de siempre
+y en mi mano dormía otra mariposa.
+
+<strong>No me mires así:
+vivimos el momento... y lo volvería a repetir.
+No me mires a mí,
+que estoy buscando una disculpa
+para salir de aquí.</strong>
+
+No me mires... no me mires...
+no me mires... no me mires así...
+"¿De qué os conocéis?" — pregunta un ángel.
+"Del tráfico" — respondo sin mirar.
+
+<strong>No me mires así:
+vivimos el momento... y lo volvería a repetir.
+No me mires a mí,
+que estoy buscando una disculpa
+para salir de aquí.
+Una disculpa para salir de aquí...</strong></div>
+        </div>
+      </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -911,7 +981,7 @@ Porque son inventados...
     NINGÚN RETORNO ECONÓMICO.<br>
     <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 26-JUL · 01:05</span>
+    <span style="opacity:.55">VERSIÓN 26-JUL · 01:30</span>
   </p>
 </footer>
 
@@ -935,7 +1005,7 @@ const tracks = [
   {n:"04", t:"El pájaro de junio del 80",   d:"Yo guardo el invierno, tú guarda el volar.",               audio:"", single:false, arriba:"#cardPJ"},
   {n:"05", t:"Domingo sin guerra",          d:"La primera mañana en calma de su vida.",                   audio:"", single:false},
   {n:"06", t:"Caramelos robados",           d:"Porque son inventados.",                                   audio:"", single:false, arriba:"#cardCR"},
-  {n:"07", t:"No me mires así",             d:"Miedo a que te quieran de verdad.",                        audio:"", single:false},
+  {n:"07", t:"No me mires así",             d:"Una disculpa para salir de aquí.",                        audio:"", single:false, arriba:"#cardNM"},
   {n:"08", t:"Algunas chicas",              d:"No recuerdo todos sus nombres.",                           audio:"", single:false, arriba:"#cardAC"},
   {n:"09", t:"Entre bombones (reprise)",    d:"El cierre, en directo, con risas al final.",               audio:"", single:false},
   {n:"10", t:"Ángela",                      d:"Nadie dirá que no lo intentamos.",                         audio:"", single:false, arriba:"#cardAN"},
@@ -992,7 +1062,7 @@ document.querySelectorAll('.player').forEach(pl => {
     if (current && current !== audio){ current.pause(); document.querySelectorAll('.p-btn').forEach(b=>b.classList.remove('playing')); }
     if (audio.paused){
       const p = audio.play();
-      if (p) p.then(()=>{ btn.classList.add('playing'); current = audio; if (pl.dataset.src.includes('bailar-mal')) cuentaEscucha(); else if (pl.dataset.src.includes('entre-bombones')) cuentaEB(); else if (pl.dataset.src.includes('angela')) cuentaAN(); else if (pl.dataset.src.includes('polizon')) cuentaPO(); else if (pl.dataset.src.includes('lavanderia')) cuentaLV(); else if (pl.dataset.src.includes('pajaro')) cuentaPJ(); else if (pl.dataset.src.includes('algunas-chicas')) cuentaAC(); else if (pl.dataset.src.includes('caramelos')) cuentaCR(); })
+      if (p) p.then(()=>{ btn.classList.add('playing'); current = audio; if (pl.dataset.src.includes('bailar-mal')) cuentaEscucha(); else if (pl.dataset.src.includes('entre-bombones')) cuentaEB(); else if (pl.dataset.src.includes('angela')) cuentaAN(); else if (pl.dataset.src.includes('polizon')) cuentaPO(); else if (pl.dataset.src.includes('lavanderia')) cuentaLV(); else if (pl.dataset.src.includes('pajaro')) cuentaPJ(); else if (pl.dataset.src.includes('algunas-chicas')) cuentaAC(); else if (pl.dataset.src.includes('caramelos')) cuentaCR(); else if (pl.dataset.src.includes('no-me-mires-asi')) cuentaNM(); })
              .catch(err => { console.error('No se pudo reproducir:', err); alert('No se pudo reproducir el audio. Comprueba que la carpeta "audio" está junto a index.html.'); });
       else { btn.classList.add('playing'); current = audio; }
     }
@@ -1006,7 +1076,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-0105";
+const VERSION_LOCAL = "2026-07-26-0130";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -1156,7 +1226,8 @@ const CANCIONES_CFG = {
   lavanderia:    {base:100, num:'numLV',       card:'cardLV'},
   pajaro:        {base:90,  num:'numPJ',       card:'cardPJ'},
   algunaschicas: {base:80,  num:'numAC',       card:'cardAC'},
-  caramelos:     {base:70,  num:'numCR',       card:'cardCR'}
+  caramelos:     {base:70,  num:'numCR',       card:'cardCR'},
+  nomemiresasi:  {base:60,  num:'numNM',       card:'cardNM'}
 };
 function nakaCount(d){
   if (!d) return null;
@@ -1187,7 +1258,7 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
 /* los conteos al pulsar play usan también la vía robusta */
 const TITULOS_CANCION = {bailomal:'Bailo mal', entrebombones:'Entre bombones', angela:'Ángela',
   polizon:'El polizón', lavanderia:'La chica de la lavandería', pajaro:'El pájaro de junio del 80',
-  algunaschicas:'Algunas chicas', caramelos:'Caramelos robados'};
+  algunaschicas:'Algunas chicas', caramelos:'Caramelos robados', nomemiresasi:'No me mires así'};
 function avisaEscucha(clave){
   try{
     const cuando = new Date().toLocaleString('es-ES');
@@ -1219,6 +1290,8 @@ let acContada = false;
 function cuentaAC(){ if (acContada) return; acContada = true; nakaSuma('algunaschicas'); }
 let crContada = false;
 function cuentaCR(){ if (crContada) return; crContada = true; nakaSuma('caramelos'); }
+let nmContada = false;
+function cuentaNM(){ if (nmContada) return; nmContada = true; nakaSuma('nomemiresasi'); }
 
 /* Puntuación con estrellas + ventana de gracias */
 const modalG = document.createElement('div');
@@ -1273,6 +1346,7 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
     {f:'03-bailar-mal.mp3', t:'Bailo mal',                    c:'bailomal'},
     {f:'el-pajaro.mp3',     t:'El pájaro de junio del 80',    c:'pajaro'},
     {f:'caramelos-robados.mp3', t:'Caramelos robados',        c:'caramelos'},
+    {f:'no-me-mires-asi.mp3', t:'No me mires así',           c:'nomemiresasi'},
     {f:'algunas-chicas.mp3',t:'Algunas chicas',               c:'algunaschicas'},
     {f:'angela.mp3',        t:'Ángela',                       c:'angela'},
     {f:'el-polizon.mp3',    t:'El polizón',                   c:'polizon'}
