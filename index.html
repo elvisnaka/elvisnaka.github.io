@@ -1279,27 +1279,34 @@ let current = null;
 document.querySelectorAll('.player').forEach(pl => {
   const audio = document.createElement('audio');
   const src = pl.dataset.src;
-  if (src.startsWith('data:')) {
-    // Safari iOS no reproduce data-URIs: decodificación síncrona a blob al cargar
-    const b64 = src.split(',')[1];
-    const bin = atob(b64);
-    const bytes = new Uint8Array(bin.length);
-    for (let j = 0; j < bin.length; j++) bytes[j] = bin.charCodeAt(j);
-    audio.src = URL.createObjectURL(new Blob([bytes], {type:'mpeg'}));
-  } else {
-    audio.src = src;
-  }
+  audio.dataset.fuente = src;
+  audio.src = src;                // se carga para leer la duración y luego se libera
   audio.preload = 'metadata';
   audio.setAttribute('playsinline','');
   audio.setAttribute('x-webkit-airplay','allow');
   pl.appendChild(audio);
+  function cargaSiHaceFalta(){
+    if (!audio.getAttribute('src') && audio.dataset.fuente) audio.src = audio.dataset.fuente;
+  }
+  function liberaLasDemas(){
+    document.querySelectorAll('.player audio').forEach(a => {
+      if (a === audio) return;
+      a.dataset.enUso = '0';
+      if (a.getAttribute('src')) { a.pause(); a.removeAttribute('src'); a.load(); }
+    });
+  }
   const btn = pl.querySelector('.p-btn');
   const bar = pl.querySelector('.p-bar');
   const fill = pl.querySelector('.p-fill');
   const cur = pl.querySelector('.p-cur');
   const dur = pl.querySelector('.p-dur');
 
-  audio.addEventListener('loadedmetadata', () => dur.textContent = fmt(audio.duration));
+  audio.addEventListener('loadedmetadata', () => {
+    dur.textContent = fmt(audio.duration);
+    /* leída la duración, se suelta el archivo: iOS solo mantiene bien la
+       reproducción en segundo plano si hay un único audio cargado */
+    if (audio.dataset.enUso !== '1' && audio.paused) { audio.removeAttribute('src'); audio.load(); }
+  });
   audio.addEventListener('timeupdate', () => {
     fill.style.width = (audio.currentTime/audio.duration*100||0) + '%';
     cur.textContent = fmt(audio.currentTime);
@@ -1309,6 +1316,9 @@ document.querySelectorAll('.player').forEach(pl => {
   btn.addEventListener('click', () => {
     if (current && current !== audio){ current.pause(); document.querySelectorAll('.p-btn').forEach(b=>b.classList.remove('playing')); }
     if (audio.paused){
+      audio.dataset.enUso = '1';
+      liberaLasDemas();
+      cargaSiHaceFalta();
       const p = audio.play();
       if (p) p.then(()=>{ btn.classList.add('playing'); current = audio; if (pl.dataset.src.includes('bailar-mal')) cuentaEscucha(); else if (pl.dataset.src.includes('mas-domingos')) cuentaMD(); else if (pl.dataset.src.includes('entre-bombones-reprise')) cuentaEBR(); else if (pl.dataset.src.includes('entre-bombones')) cuentaEB(); else if (pl.dataset.src.includes('angela')) cuentaAN(); else if (pl.dataset.src.includes('polizon')) cuentaPO(); else if (pl.dataset.src.includes('lavanderia')) cuentaLV(); else if (pl.dataset.src.includes('pajaro')) cuentaPJ(); else if (pl.dataset.src.includes('algunas-chicas')) cuentaAC(); else if (pl.dataset.src.includes('caramelos')) cuentaCR(); else if (pl.dataset.src.includes('no-me-mires-asi')) cuentaNM(); else if (pl.dataset.src.includes('entre-bombones-reprise')) cuentaEBR(); })
              .catch(err => { console.error('No se pudo reproducir:', err); alert('No se pudo reproducir el audio. Comprueba que la carpeta "audio" está junto a index.html.'); });
@@ -1324,7 +1334,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-1240";
+const VERSION_LOCAL = "2026-07-26-1330";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -1927,7 +1937,15 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
       if (a.dataset.debiaSonar === '1' && a.paused) a.play().catch(()=>{});
     });
   });
-  document.addEventListener('play',  e => { if (e.target.tagName === 'AUDIO') e.target.dataset.debiaSonar = '1'; }, true);
+  document.addEventListener('play',  e => {
+    if (e.target.tagName !== 'AUDIO') return;
+    e.target.dataset.debiaSonar = '1';
+    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
+  }, true);
+  document.addEventListener('pause', e => {
+    if (e.target.tagName === 'AUDIO' && 'mediaSession' in navigator && !document.hidden)
+      navigator.mediaSession.playbackState = 'paused';
+  }, true);
   document.addEventListener('ended', e => { if (e.target.tagName === 'AUDIO') e.target.dataset.debiaSonar = '0'; }, true);
 })();
 
