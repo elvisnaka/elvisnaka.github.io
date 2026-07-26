@@ -1101,7 +1101,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-0535";
+const VERSION_LOCAL = "2026-07-26-0555";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -1472,26 +1472,56 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
   window.addEventListener('resize', ajustaCanvas);
   const gCtx = onda.getContext('2d');
   let raf = null;
-  function dibujaOnda(){
+  let particulas = [];
+  let ultimoSpawn = 0;
+  function dibujaOnda(ts){
+    ts = ts || performance.now();
     const w = onda.width, h = onda.height;
+    const cx = w/2, cy = h/2;
     gCtx.clearRect(0,0,w,h);
-    const progreso = (audio.duration ? audio.currentTime/audio.duration : 0);
-    const N = 40;
-    const anchoBarra = w / N;
-    for (let n = 0; n < N; n++){
-      let nivel;
-      if (sonando && analizador){
-        analizador.getByteFrequencyData(datos);
-        const idx = Math.floor((n / N) * datos.length);
-        nivel = (datos[idx] / 255);
-      } else {
-        nivel = 0.14 + 0.10 * Math.sin(n * 0.9);
+
+    if (sonando && analizador){
+      analizador.getByteFrequencyData(datos);
+      const corte = Math.floor(datos.length*0.3);
+      let graves = 0; for (let k=0;k<corte;k++) graves += datos[k];
+      graves = (graves/corte)/255;
+      let agudos = 0; for (let k=corte;k<datos.length;k++) agudos += datos[k];
+      agudos = (agudos/(datos.length-corte))/255;
+
+      if (ts - ultimoSpawn > 70){
+        ultimoSpawn = ts;
+        const n = 1 + Math.floor(graves*3);
+        for (let k=0;k<n;k++){
+          const r0 = (3 + graves*15 + Math.random()*4) * dpr;
+          const vel = (1.1 + agudos*6.5 + Math.random()*1.3) * dpr;
+          const cre = (Math.random() > 0.5 ? 1 : -1) * (0.5 + Math.random()*0.7);
+          const y = cy + (Math.random()*h*0.3 - h*0.15);
+          particulas.push({x:cx, y:y, vx: vel, r:r0, alpha:0.85, cre:cre});
+          particulas.push({x:cx, y:y, vx:-vel, r:r0, alpha:0.85, cre:cre});
+        }
       }
-      const barH = Math.max(h * 0.08, nivel * h);
-      const x = n * anchoBarra;
-      const activa = (n / N) <= progreso;
-      gCtx.fillStyle = activa ? 'rgba(10,17,24,.9)' : 'rgba(10,17,24,.32)';
-      gCtx.fillRect(x + anchoBarra*0.22, (h - barH) / 2, anchoBarra*0.56, barH);
+    }
+
+    particulas.forEach(p=>{
+      p.x += p.vx;
+      p.alpha -= 0.013;
+      p.r += p.cre * 0.16 * dpr;
+      if (p.r < 0.6*dpr) p.r = 0.6*dpr;
+    });
+    particulas = particulas.filter(p => p.alpha > 0 && p.x > -30*dpr && p.x < w+30*dpr && p.r > 0);
+    particulas.forEach(p=>{
+      gCtx.beginPath();
+      gCtx.fillStyle = 'rgba(10,17,24,' + Math.max(0,p.alpha) + ')';
+      gCtx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      gCtx.fill();
+    });
+
+    if (!sonando && particulas.length === 0){
+      const pulso = (4 + Math.sin(ts/500)*1.6) * dpr;
+      gCtx.beginPath();
+      gCtx.fillStyle = 'rgba(10,17,24,.28)';
+      gCtx.arc(cx, cy, pulso, 0, Math.PI*2);
+      gCtx.fill();
     }
     raf = requestAnimationFrame(dibujaOnda);
   }
