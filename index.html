@@ -363,6 +363,15 @@ footer::before{content:"";position:absolute;left:50%;bottom:-140px;transform:tra
   .hero-img img.main{object-fit:cover;object-position:50% 30%}
   .hero-img img.bg{display:none}
 }
+
+/* Duraciones y tiempo transcurrido */
+.t-title{display:flex;align-items:baseline;justify-content:space-between;gap:18px}
+.t-dur{font-family:var(--mono);font-size:.8rem;letter-spacing:.08em;color:var(--ventana);
+  text-transform:none;flex:none}
+.lp-tiempo{font-family:var(--mono);font-size:.82rem;letter-spacing:.1em;color:#2a1c0c;
+  margin:10px 0 0;opacity:.75}
+.lp-lista button span:last-child{margin-left:auto;font-size:.82rem;opacity:.7}
+.lp-lista button span:nth-child(2){margin-left:0}
 </style>
 </head>
 <body>
@@ -1107,6 +1116,7 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
           <span id="lpTexto">Escuchar el LP entero</span>
         </button>
         <p class="lp-ahora" id="lpAhora"></p>
+        <p class="lp-tiempo"><span id="lpCur">0:00</span> / <span id="lpDur">–:––</span></p>
         <canvas class="lp-onda" id="lpBarraClic"></canvas>
         <div class="lp-controles">
           <button class="lp-mini" id="lpAnt" type="button" aria-label="Canción anterior"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
@@ -1315,23 +1325,25 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
 </div>
 
 <script>
+const DURACIONES = {'03-bailar-mal.mp3': '3:33', '01-entre-bombones-v2.mp3': '3:08', 'angela.mp3': '3:57', 'el-polizon.mp3': '4:27', 'la-lavanderia-v3.mp3': '3:38', 'el-pajaro.mp3': '4:07', 'algunas-chicas.mp3': '2:43', 'caramelos-robados.mp3': '3:10', 'no-me-mires-asi.mp3': '3:40', 'mas-domingos-que-semanas.mp3': '3:53', 'entre-bombones-reprise.mp3': '3:16'};
+
 /* ==========================================================
    TRACKLIST — canciones con audio propio:
    añade el campo  audio:"xx-nombre.mp3"  a la pista
    y aparecerán reproductor y botón de descarga.
    ========================================================== */
 const tracks = [
-  {n:"01", t:"Bailo mal",                  d:"Nadie en esta pista se lo toma tan en serio.",             audio:"", single:true},
-  {n:"02", t:"Entre bombones",              d:"Un lobo perdido en la confitería.",                        audio:"", single:false, arriba:"#cardEB"},
-  {n:"03", t:"Ángela",                      d:"Nadie dirá que no lo intentamos.",                         audio:"", single:false, arriba:"#cardAN"},
-  {n:"04", t:"El polizón",                  d:"El que aprendió a viajar escondido.",                      audio:"", single:false, arriba:"#cardPO"},
-  {n:"05", t:"La chica de la lavandería",   d:"Lava penas con las sábanas.",                              audio:"", single:false, arriba:"#cardLV"},
-  {n:"06", t:"El pájaro de junio del 80",   d:"Yo guardo el invierno, tú guarda el volar.",               audio:"", single:false, arriba:"#cardPJ"},
-  {n:"07", t:"Algunas chicas",              d:"No recuerdo todos sus nombres.",                           audio:"", single:false, arriba:"#cardAC"},
-  {n:"08", t:"Caramelos robados",           d:"Porque son inventados.",                                   audio:"", single:false, arriba:"#cardCR"},
-  {n:"09", t:"No me mires así",             d:"Una disculpa para salir de aquí.",                         audio:"", single:false, arriba:"#cardNM"},
-  {n:"10", t:"Más domingos que semanas",    d:"Tenías estilo, belleza y porvenir.",                       audio:"", single:false, arriba:"#cardMD"},
-  {n:"11", t:"Entre bombones (reprise)",    d:"Bonus track: para, para, para... esto no es así.",         audio:"", single:false, arriba:"#cardEBR"}
+  {n:"01", t:"Bailo mal",                  d:"Nadie en esta pista se lo toma tan en serio.",             audio:"", f:"03-bailar-mal.mp3", single:true},
+  {n:"02", t:"Entre bombones",              d:"Un lobo perdido en la confitería.",                        audio:"", f:"01-entre-bombones-v2.mp3", single:false, arriba:"#cardEB"},
+  {n:"03", t:"Ángela",                      d:"Nadie dirá que no lo intentamos.",                         audio:"", f:"angela.mp3", single:false, arriba:"#cardAN"},
+  {n:"04", t:"El polizón",                  d:"El que aprendió a viajar escondido.",                      audio:"", f:"el-polizon.mp3", single:false, arriba:"#cardPO"},
+  {n:"05", t:"La chica de la lavandería",   d:"Lava penas con las sábanas.",                              audio:"", f:"la-lavanderia-v3.mp3", single:false, arriba:"#cardLV"},
+  {n:"06", t:"El pájaro de junio del 80",   d:"Yo guardo el invierno, tú guarda el volar.",               audio:"", f:"el-pajaro.mp3", single:false, arriba:"#cardPJ"},
+  {n:"07", t:"Algunas chicas",              d:"No recuerdo todos sus nombres.",                           audio:"", f:"algunas-chicas.mp3", single:false, arriba:"#cardAC"},
+  {n:"08", t:"Caramelos robados",           d:"Porque son inventados.",                                   audio:"", f:"caramelos-robados.mp3", single:false, arriba:"#cardCR"},
+  {n:"09", t:"No me mires así",             d:"Una disculpa para salir de aquí.",                         audio:"", f:"no-me-mires-asi.mp3", single:false, arriba:"#cardNM"},
+  {n:"10", t:"Más domingos que semanas",    d:"Tenías estilo, belleza y porvenir.",                       audio:"", f:"mas-domingos-que-semanas.mp3", single:false, arriba:"#cardMD"},
+  {n:"11", t:"Entre bombones (reprise)",    d:"Bonus track: para, para, para... esto no es así.",         audio:"", f:"entre-bombones-reprise.mp3", single:false, arriba:"#cardEBR"}
 ];
 
 const fmt = s => isNaN(s) ? "0:00" : `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,"0")}`;
@@ -1340,7 +1352,7 @@ document.getElementById('tracks').innerHTML = tracks.map((tr,i) => `
   <article class="track" tabindex="0">
     <span class="t-num">${tr.n}</span>
     <div>
-      <h3 class="t-title">${tr.t}</h3>
+      <h3 class="t-title"><span>${tr.t}</span><span class="t-dur">${DURACIONES[tr.f] || ''}</span></h3>
       <p class="t-desc">${tr.d}</p>
       ${tr.single
         ? `<a class="badge-single" href="#single">▲ Single de adelanto — escúchalo arriba</a>`
@@ -1376,6 +1388,8 @@ document.querySelectorAll('.player').forEach(pl => {
   const fill = pl.querySelector('.p-fill');
   const cur = pl.querySelector('.p-cur');
   const dur = pl.querySelector('.p-dur');
+  const nombreArchivo = (pl.dataset.src || '').split('/').pop();
+  if (DURACIONES[nombreArchivo]) dur.textContent = DURACIONES[nombreArchivo];
 
   audio.addEventListener('loadedmetadata', () => {
     dur.textContent = fmt(audio.duration);
@@ -1410,7 +1424,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-1700";
+const VERSION_LOCAL = "2026-07-26-1800";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -1738,6 +1752,9 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
   const tri = document.getElementById('lpTri');
   const texto = document.getElementById('lpTexto');
   const ahora = document.getElementById('lpAhora');
+  const elCur = document.getElementById('lpCur');
+  const elDur = document.getElementById('lpDur');
+  const reloj = s => isNaN(s) ? '0:00' : Math.floor(s/60) + ':' + String(Math.floor(s%60)).padStart(2,'0');
   const onda = document.getElementById('lpBarraClic');
   if (!btn) return;
   const audio = document.createElement('audio');
@@ -1745,6 +1762,8 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
   audio.setAttribute('playsinline','');
   audio.setAttribute('x-webkit-airplay','allow');
   document.body.appendChild(audio);
+  audio.addEventListener('timeupdate', () => { elCur.textContent = reloj(audio.currentTime); });
+  audio.addEventListener('loadedmetadata', () => { elDur.textContent = reloj(audio.duration); });
   let i = 0, sonando = false;
   const contadas = {};
   function pinta(){
@@ -1794,7 +1813,8 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
   LISTA.forEach((cancion, n) => {
     const b = document.createElement('button');
     b.type = 'button';
-    b.innerHTML = '<span>' + String(n+1).padStart(2,'0') + '</span><span>' + cancion.t + '</span>';
+    b.innerHTML = '<span>' + String(n+1).padStart(2,'0') + '</span><span>' + cancion.t + '</span>'
+                + '<span>' + (DURACIONES[cancion.f] || '') + '</span>';
     b.addEventListener('click', () => pon(n, true));
     lista.appendChild(b);
   });
@@ -1802,7 +1822,12 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
     lista.querySelectorAll('button').forEach((b,n) => b.classList.toggle('activa', audio.src && n === i));
   }
   const pintaOrig = pinta;
-  pinta = function(){ pintaOrig(); marcaActiva(); };
+  pinta = function(){
+    pintaOrig(); marcaActiva();
+    const d = LISTA[i] && DURACIONES[LISTA[i].f];
+    if (d && (!audio.getAttribute('src') || elDur.textContent === '–:––')) elDur.textContent = d;
+  };
+  pinta();
 
   /* Ecualizador: dibuja el sonido real cuando suena, y el progreso cuando está en pausa */
   let ctxAudio, analizador, datos, origen;
