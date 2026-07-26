@@ -1511,15 +1511,24 @@ ES-TE-BAN... estás siempre aquí.</strong></div>
 /* Consentimiento de cookies: sin él no se llama al contador externo */
 window.nakaConsiente = false;
 (function(){
+  /* Al subir esta versión, todo el mundo vuelve a ver la ventana de bienvenida
+     y tiene que decidir otra vez, en cualquier dispositivo. */
+  const VERSION_AVISO = '2';
   let guardado = null;
-  try { guardado = localStorage.getItem('naka-cookies'); } catch(e){}
+  try {
+    const bruto = localStorage.getItem('naka-cookies');
+    if (bruto){
+      const d = JSON.parse(bruto);
+      guardado = (d && d.v === VERSION_AVISO) ? d.valor : null;
+    }
+  } catch(e){ guardado = null; }
   window.nakaConsiente = guardado === 'si';
   document.addEventListener('DOMContentLoaded', function(){
     const caja = document.getElementById('galletas');
     if (!caja) return;
     if (guardado === null){ caja.hidden = false; document.body.classList.add('galletas-abierto'); }
     function decide(valor){
-      try { localStorage.setItem('naka-cookies', valor); } catch(e){}
+      try { localStorage.setItem('naka-cookies', JSON.stringify({v:VERSION_AVISO, valor:valor})); } catch(e){}
       window.nakaConsiente = valor === 'si';
       caja.hidden = true;
       document.body.classList.remove('galletas-abierto');
@@ -1629,7 +1638,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-27-0730";
+const VERSION_LOCAL = "2026-07-27-0900";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {

@@ -200,15 +200,22 @@ const DISCO = [
 
 let nakaConsiente = false;
 (function(){
+  const VERSION_AVISO = '2';
   let guardado = null;
-  try { guardado = localStorage.getItem('naka-cookies'); } catch(e){}
+  try {
+    const bruto = localStorage.getItem('naka-cookies');
+    if (bruto){
+      const d = JSON.parse(bruto);
+      guardado = (d && d.v === VERSION_AVISO) ? d.valor : null;
+    }
+  } catch(e){ guardado = null; }
   nakaConsiente = guardado === 'si';
   document.addEventListener('DOMContentLoaded', function(){
     const caja = document.getElementById('galletas');
     if (!caja) return;
     if (guardado === null){ caja.hidden = false; document.body.classList.add('galletas-abierto'); }
     function decide(v){
-      try { localStorage.setItem('naka-cookies', v); } catch(e){}
+      try { localStorage.setItem('naka-cookies', JSON.stringify({v:VERSION_AVISO, valor:v})); } catch(e){}
       nakaConsiente = v === 'si';
       caja.hidden = true;
       document.body.classList.remove('galletas-abierto');
