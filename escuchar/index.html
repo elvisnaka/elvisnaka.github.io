@@ -65,6 +65,7 @@ h1{font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;
   color:var(--ventana);text-align:center;margin:14px 0 0}
 .ahora{font-family:var(--mono);font-size:.82rem;letter-spacing:.06em;text-align:center;
   margin:16px 0 10px;color:var(--camiseta);min-height:1.2em}
+.onda{display:block;width:100%;height:56px;margin:2px 0 12px;border-radius:6px}
 .barra{height:6px;background:rgba(126,151,168,.25);border-radius:99px;overflow:hidden;cursor:pointer}
 .relleno{height:100%;width:0;background:var(--lampara)}
 .tiempos{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.7rem;
@@ -138,6 +139,7 @@ li.activa .tit{color:var(--lampara)}
     </button>
     <p class="total">39 min · 11 canciones</p>
     <p class="ahora" id="ahora"></p>
+    <canvas class="onda" id="onda"></canvas>
     <div class="barra" id="barra"><div class="relleno" id="relleno"></div></div>
     <div class="tiempos"><span id="cur">0:00</span><span id="dur">–:––</span></div>
     <div class="mandos">
@@ -321,6 +323,106 @@ barra.addEventListener('click', e => {
 
 elDur.textContent = DISCO[0].d;
 pinta();
+
+/* Burbujas: el mismo visualizador de la portada, con el color de esta página */
+(function(){
+  const onda = document.getElementById('onda');
+  if (!onda) return;
+  const dpr = window.devicePixelRatio || 1;
+  const g = onda.getContext('2d');
+  function ajusta(){
+    const r = onda.getBoundingClientRect();
+    onda.width = Math.max(1, r.width * dpr);
+    onda.height = Math.max(1, r.height * dpr);
+  }
+  ajusta();
+  window.addEventListener('resize', ajusta);
+
+  let particulas = [], historialBajo = [], ultimoGolpe = 0;
+  function suena(){ return arrancado && !audio.paused; }
+
+  function bandas(){
+    if (!suena()) return {bajo:0, medio:0, alto:0};
+    const t = performance.now()/1000;
+    const golpe  = Math.pow(Math.abs(Math.sin(t*Math.PI*1.05)), 6);
+    const contra = Math.pow(Math.abs(Math.sin(t*Math.PI*1.05 + 1.57)), 8) * 0.5;
+    const ruido  = Math.random()*0.05;
+    return {
+      bajo:  0.16 + golpe*0.70 + contra*0.20 + ruido,
+      medio: 0.22 + Math.abs(Math.sin(t*2.3))*0.30 + Math.abs(Math.sin(t*5.1))*0.12 + ruido,
+      alto:  0.15 + Math.abs(Math.sin(t*4.7))*0.26 + ruido
+    };
+  }
+  function explota(cx, cy, alto, fuerza){
+    const n = 2 + Math.floor(fuerza*4);
+    for (let k=0;k<n;k++){
+      const lado = Math.random() < 0.5 ? -1 : 1;
+      const desvio = (Math.random()-0.5) * 0.5;
+      const vel = (3 + fuerza*10 + Math.random()*2) * dpr;
+      const objetivoR = (9 + fuerza*44 + Math.random()*8) * dpr;
+      particulas.push({x:cx, y:cy + (Math.random()*alto*0.22 - alto*0.11),
+        vx:Math.cos(desvio)*vel*lado, vy:Math.sin(desvio)*vel*0.45,
+        r:objetivoR*0.22, objetivoR:objetivoR, alpha:0.95, estado:'revienta'});
+    }
+  }
+  function brilla(cx, cy, alto, fuerza){
+    const burbuja = Math.random() < 0.2;
+    particulas.push({x:cx + (Math.random()*8-4)*dpr, y:cy + (Math.random()*alto*0.3 - alto*0.15),
+      vx:(Math.random()-0.5)*0.2*dpr, vy:(Math.random()-0.5)*0.2*dpr,
+      r:(1.2 + fuerza*2.2 + Math.random())*dpr, alpha:0.7,
+      estado:'flota', edad:0, vidaFlote: burbuja ? (35+Math.random()*60) : (3+Math.random()*7),
+      intensidad:fuerza});
+  }
+  function dibuja(ts){
+    ts = ts || performance.now();
+    const w = onda.width, alto = onda.height, cx = w/2, cy = alto/2;
+    g.clearRect(0,0,w,alto);
+    if (suena()){
+      const b = bandas();
+      historialBajo.push(b.bajo);
+      if (historialBajo.length > 24) historialBajo.shift();
+      const media = historialBajo.reduce((a,x)=>a+x,0) / historialBajo.length;
+      if (b.bajo > media*1.32 + 0.045 && ts - ultimoGolpe > 140){ ultimoGolpe = ts; explota(cx, cy, alto, b.bajo); }
+      const textura = b.medio*0.55 + b.alto*0.45;
+      if (Math.random() < textura*0.85 + 0.03) brilla(cx, cy, alto, textura);
+    }
+    particulas.forEach(p=>{
+      if (p.estado === 'flota'){
+        p.edad++; p.x += p.vx; p.y += p.vy;
+        p.r += Math.sin(p.edad*0.25) * 0.04 * dpr;
+        if (p.r < dpr*0.8) p.r = dpr*0.8;
+        if (p.edad >= p.vidaFlote){
+          p.estado = 'revienta';
+          const angulo = Math.random() < 0.5 ? Math.PI : 0;
+          const desvio = (Math.random()-0.5) * 0.6;
+          const vel = (1.6 + (p.intensidad||0.2)*6 + Math.random()*1.2) * dpr;
+          p.vx = Math.cos(angulo+desvio)*vel; p.vy = Math.sin(angulo+desvio)*vel*0.5;
+          p.objetivoR = p.r + (5 + (p.intensidad||0.2)*24 + Math.random()*5) * dpr;
+        }
+      } else {
+        p.x += p.vx; p.y += p.vy;
+        p.r += (p.objetivoR - p.r) * 0.24;
+        p.alpha -= 0.08;
+      }
+    });
+    particulas = particulas.filter(p => p.alpha > 0.02 && p.x > -40*dpr && p.x < w+40*dpr);
+    particulas.forEach(p=>{
+      g.beginPath();
+      g.fillStyle = 'rgba(201,143,69,' + Math.max(0,p.alpha)*0.85 + ')';
+      g.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      g.fill();
+    });
+    if (!suena() && particulas.length === 0){
+      const pulso = (4 + Math.sin(ts/500)*1.6) * dpr;
+      g.beginPath();
+      g.fillStyle = 'rgba(126,151,168,.3)';
+      g.arc(cx, cy, pulso, 0, Math.PI*2);
+      g.fill();
+    }
+    requestAnimationFrame(dibuja);
+  }
+  dibuja();
+})();
 </script>
 <div class="galletas" id="galletas" role="dialog" aria-label="Aviso sobre cookies" hidden>
   <p>Esta web no usa cookies de publicidad ni de analítica. Si lo aceptas, tu escucha suma en el contador público. <a href="../cookies/">Más detalles</a>.</p>
