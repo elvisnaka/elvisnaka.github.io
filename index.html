@@ -204,8 +204,7 @@ blockquote cite{display:block;margin-top:12px;font-family:var(--mono);font-style
 .lp-tri span{width:0;height:0;border-left:17px solid currentColor;border-top:11px solid transparent;border-bottom:11px solid transparent;margin-left:4px}
 .lp-tri.sonando span{width:14px;height:17px;border:none;border-left:4px solid currentColor;border-right:4px solid currentColor;margin-left:0;background:transparent}
 .lp-ahora{font-family:var(--serif);font-style:italic;color:#2a1c0c;margin-top:14px;font-size:clamp(1.15rem,4.4vw,1.4rem);min-height:1.5em;font-weight:600}
-.lp-barra{height:4px;background:rgba(10,17,24,.25);margin-top:12px;border-radius:2px;overflow:hidden}
-.lp-relleno{height:100%;width:0;background:#0a1118}
+.lp-onda{display:block;width:100%;height:56px;margin-top:16px;cursor:pointer;border-radius:6px}
 .lp-controles{display:flex;align-items:center;justify-content:center;gap:clamp(28px,8vw,44px);margin-top:22px}
 .lp-mini{background:rgba(10,17,24,.1);border:none;cursor:pointer;color:#0a1118;display:grid;place-items:center;opacity:.85;transition:opacity .2s,transform .15s,background .2s;padding:0;width:clamp(52px,13vw,64px);height:clamp(52px,13vw,64px);border-radius:50%}
 .lp-mini:hover{opacity:1;transform:scale(1.08);background:rgba(10,17,24,.18)}
@@ -794,7 +793,7 @@ Porque son inventados...
           <span id="lpTexto">Escuchar el LP entero</span>
         </button>
         <p class="lp-ahora" id="lpAhora"></p>
-        <div class="lp-barra" id="lpBarraClic"><div class="lp-relleno" id="lpRelleno"></div></div>
+        <canvas class="lp-onda" id="lpBarraClic"></canvas>
         <div class="lp-controles">
           <button class="lp-mini" id="lpAnt" type="button" aria-label="Canción anterior"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
           <button class="lp-mini lp-stop" id="lpStop" type="button" aria-label="Detener"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12"/></svg></button>
@@ -1104,7 +1103,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-0410";
+const VERSION_LOCAL = "2026-07-26-0445";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -1388,7 +1387,7 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
   const tri = document.getElementById('lpTri');
   const texto = document.getElementById('lpTexto');
   const ahora = document.getElementById('lpAhora');
-  const relleno = document.getElementById('lpRelleno');
+  const onda = document.getElementById('lpBarraClic');
   if (!btn) return;
   const audio = document.createElement('audio');
   audio.preload = 'none';
@@ -1414,9 +1413,7 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
   });
   audio.addEventListener('play', () => { sonando = true; pinta(); });
   audio.addEventListener('pause', () => { sonando = false; pinta(); });
-  audio.addEventListener('timeupdate', () => {
-    if (audio.duration) relleno.style.width = (audio.currentTime/audio.duration*100) + '%';
-  });
+  /* el progreso se dibuja dentro del ecualizador, ver dibujaOnda() */
   audio.addEventListener('ended', () => {
     if (i < LISTA.length - 1) { ahora.textContent = '…'; setTimeout(() => pon(i+1, true), 3000); }
     else { sonando = false; relleno.style.width = '0%'; audio.removeAttribute('src'); i = 0; ahora.textContent = '¡Se acabó el disco! ¿Otra vuelta?'; texto.textContent = 'Escuchar el LP entero'; tri.classList.remove('sonando'); marcaActiva(); }
@@ -1429,13 +1426,13 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
   document.getElementById('lpSig').addEventListener('click', () => { if (!audio.src) return; pon((i + 1) % LISTA.length, true); });
   document.getElementById('lpStop').addEventListener('click', () => {
     audio.pause(); audio.removeAttribute('src'); i = 0; sonando = false;
-    relleno.style.width = '0%'; ahora.textContent = ''; texto.textContent = 'Escuchar el LP entero'; tri.classList.remove('sonando'); marcaActiva();
+    ahora.textContent = ''; texto.textContent = 'Escuchar el LP entero'; tri.classList.remove('sonando'); marcaActiva();
   });
 
   /* clic en la barra para saltar dentro de la pista actual */
-  document.getElementById('lpBarraClic').addEventListener('click', e => {
+  onda.addEventListener('click', e => {
     if (!audio.duration) return;
-    const r = e.currentTarget.getBoundingClientRect();
+    const r = onda.getBoundingClientRect();
     audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
   });
 
@@ -1453,6 +1450,55 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
   }
   const pintaOrig = pinta;
   pinta = function(){ pintaOrig(); marcaActiva(); };
+
+  /* Ecualizador: dibuja el sonido real cuando suena, y el progreso cuando está en pausa */
+  let ctxAudio, analizador, datos, origen;
+  function preparaAnalizador(){
+    if (ctxAudio) return;
+    try {
+      ctxAudio = new (window.AudioContext || window.webkitAudioContext)();
+      analizador = ctxAudio.createAnalyser();
+      analizador.fftSize = 64;
+      datos = new Uint8Array(analizador.frequencyBinCount);
+      origen = ctxAudio.createMediaElementSource(audio);
+      origen.connect(analizador);
+      analizador.connect(ctxAudio.destination);
+    } catch(e) { ctxAudio = null; }
+  }
+  const dpr = window.devicePixelRatio || 1;
+  function ajustaCanvas(){
+    const r = onda.getBoundingClientRect();
+    onda.width = r.width * dpr; onda.height = r.height * dpr;
+  }
+  ajustaCanvas();
+  window.addEventListener('resize', ajustaCanvas);
+  const gCtx = onda.getContext('2d');
+  let raf = null;
+  function dibujaOnda(){
+    const w = onda.width, h = onda.height;
+    gCtx.clearRect(0,0,w,h);
+    const progreso = (audio.duration ? audio.currentTime/audio.duration : 0);
+    const N = 40;
+    const anchoBarra = w / N;
+    for (let n = 0; n < N; n++){
+      let nivel;
+      if (sonando && analizador){
+        analizador.getByteFrequencyData(datos);
+        const idx = Math.floor((n / N) * datos.length);
+        nivel = (datos[idx] / 255);
+      } else {
+        nivel = 0.14 + 0.10 * Math.sin(n * 0.9);
+      }
+      const barH = Math.max(h * 0.08, nivel * h);
+      const x = n * anchoBarra;
+      const activa = (n / N) <= progreso;
+      gCtx.fillStyle = activa ? 'rgba(10,17,24,.9)' : 'rgba(10,17,24,.32)';
+      gCtx.fillRect(x + anchoBarra*0.22, (h - barH) / 2, anchoBarra*0.56, barH);
+    }
+    raf = requestAnimationFrame(dibujaOnda);
+  }
+  dibujaOnda();
+  audio.addEventListener('play', () => { preparaAnalizador(); if (ctxAudio && ctxAudio.state === 'suspended') ctxAudio.resume(); });
 })();
 
 /* Tarjetas plegables */
