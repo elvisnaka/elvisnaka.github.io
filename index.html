@@ -318,6 +318,43 @@ footer::before{content:"";position:absolute;left:50%;bottom:-140px;transform:tra
   .wrap{max-width:1200px}
   .single-card{padding:60px}
 }
+
+/* --- Portada del disco: la funda ladeada con su pegatina de novedad --- */
+.novedad{padding:70px 0 20px;position:relative}
+.novedad-caja{display:flex;flex-direction:column;align-items:center;gap:38px;text-align:center}
+.funda{position:relative;width:min(84vw,340px);flex:none;transform:rotate(-6deg);
+  transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.funda:hover{transform:rotate(-2deg) scale(1.02)}
+.funda img{width:100%;border-radius:2px;
+  box-shadow:0 30px 70px rgba(0,0,0,.65), 0 0 0 1px rgba(232,228,220,.08)}
+.pegatina{position:absolute;top:-18px;right:-10px;width:112px;height:112px;border-radius:50%;
+  background:radial-gradient(circle at 50% 40%, #ffd84d 0%, #f2b90f 62%, #d99a05 100%);
+  color:#1a1206;display:grid;place-content:center;text-align:center;line-height:1;
+  transform:rotate(14deg);box-shadow:0 8px 26px rgba(0,0,0,.55);
+  border:3px solid #fff3c4;padding:8px}
+.pegatina b{display:block;font-family:var(--display);text-transform:uppercase;
+  font-size:1.32rem;letter-spacing:.02em;color:#c0140f}
+.pegatina small{display:block;margin-top:5px;font-family:var(--mono);font-size:.44rem;
+  letter-spacing:.14em;text-transform:uppercase}
+.novedad-texto{max-width:36ch}
+.novedad-texto h2{font-family:var(--display);text-transform:uppercase;font-size:clamp(2.1rem,7vw,3rem);
+  line-height:1;margin:6px 0 14px;color:var(--camiseta)}
+.novedad-texto p{margin:0 auto 22px;color:#cfd5d9}
+.sello-disco{font-family:var(--mono);font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ventana)}
+.boton-disco{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--noche);background:var(--lampara);
+  padding:15px 26px;border-radius:999px;text-decoration:none;transition:transform .3s,filter .3s}
+.boton-disco:hover{transform:translateY(-2px);filter:brightness(1.08)}
+@media(min-width:840px){
+  .novedad{padding:96px 0 30px}
+  .novedad-caja{flex-direction:row;justify-content:center;align-items:center;gap:70px;text-align:left}
+  .funda{width:min(38vw,400px)}
+  .pegatina{width:140px;height:140px;top:-32px;right:-34px}
+  .pegatina b{font-size:1.6rem}
+  .pegatina small{font-size:.5rem}
+  .novedad-texto{max-width:42ch}
+  .novedad-texto p{margin:0 0 24px}
+}
 </style>
 </head>
 <body>
@@ -336,6 +373,23 @@ footer::before{content:"";position:absolute;left:50%;bottom:-140px;transform:tra
     </div>
   </div>
 </header>
+
+
+<!-- ============ NUEVO DISCO ============ -->
+<section class="novedad" id="portada">
+  <div class="wrap novedad-caja">
+    <div class="funda">
+      <img src="portada-lp.jpg" alt="Portada del LP «Entre bombones»: Elvis Naka con esmoquin blanco y su Telecaster, con el nombre en letras psicodélicas">
+      <span class="pegatina"><b>Nuevo<br>disco</b><small>Incluye «Bailo mal»</small></span>
+    </div>
+    <div class="novedad-texto">
+      <p class="sello-disco">Naka Records · NR-001 · 33⅓ r.p.m.</p>
+      <h2>Entre bombones</h2>
+      <p>Diez canciones de amor y un bonus track, grabadas de un tirón. Ya se puede escuchar entero, gratis.</p>
+      <a class="boton-disco" href="escuchar/">Escuchar el disco</a>
+    </div>
+  </div>
+</section>
 
 <!-- ============ SINGLE DE ADELANTO ============ -->
 <section id="single" class="single">
@@ -1345,7 +1399,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-1510";
+const VERSION_LOCAL = "2026-07-26-1610";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
