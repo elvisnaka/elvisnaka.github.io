@@ -374,9 +374,51 @@ footer::before{content:"";position:absolute;left:50%;bottom:-140px;transform:tra
 .lp-lista button span:nth-child(2){margin-left:0}
 .lp-total{font-family:var(--mono);font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
   color:#2a1c0c;opacity:.6;margin:14px 0 0}
+
+/* ---------- MENÚ DE MÓVIL ---------- */
+.burger{position:fixed;top:14px;right:14px;z-index:1400;width:48px;height:48px;border-radius:50%;
+  border:1px solid rgba(201,143,69,.55);background:rgba(10,17,24,.72);backdrop-filter:blur(8px);
+  display:none;place-items:center;cursor:pointer;padding:0}
+.burger span{display:block;width:20px;height:2px;background:var(--lampara);margin:3px auto;
+  transition:transform .35s, opacity .25s}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(5px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
+.menu{position:fixed;inset:0;z-index:1300;background:rgba(8,12,18,.97);backdrop-filter:blur(6px);
+  display:none;flex-direction:column;justify-content:center;padding:80px 30px 40px;
+  opacity:0;transition:opacity .3s}
+.menu.abierto{display:flex;opacity:1}
+.menu a{display:block;font-family:var(--display);text-transform:uppercase;letter-spacing:.03em;
+  font-size:1.55rem;color:var(--camiseta);text-decoration:none;padding:13px 0;
+  border-bottom:1px solid rgba(126,151,168,.14)}
+.menu a:last-of-type{border-bottom:0}
+.menu a .n{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;color:var(--lampara);
+  display:block;margin-bottom:3px}
+.menu .destacado{color:var(--lampara)}
+.menu-pie{font-family:var(--mono);font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--ventana);margin-top:26px;text-align:center}
+body.menu-abierto{overflow:hidden}
+@media(max-width:899px){ .burger{display:grid} }
 </style>
 </head>
 <body>
+
+
+<!-- ============ MENÚ DE MÓVIL ============ -->
+<button class="burger" id="burger" type="button" aria-label="Abrir el menú" aria-expanded="false" aria-controls="menu">
+  <span></span><span></span><span></span>
+</button>
+<nav class="menu" id="menu" aria-label="Secciones de la web">
+  <a href="#portada"><span class="n">01</span>El disco</a>
+  <a href="#single"><span class="n">02</span>Las canciones</a>
+  <a href="#lp" class="destacado"><span class="n">03</span>Escuchar el LP entero</a>
+  <a href="#tracklist"><span class="n">04</span>El listado</a>
+  <a href="#letras"><span class="n">05</span>Las letras</a>
+  <a href="#proceso"><span class="n">06</span>Cómo se hizo</a>
+  <a href="#galeria"><span class="n">07</span>La galería</a>
+  <a href="#tienda"><span class="n">08</span>La tienda</a>
+  <p class="menu-pie">Elvis Naka · Entre bombones</p>
+</nav>
 
 <!-- ============ HERO ============ -->
 <header class="hero">
@@ -1427,7 +1469,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-1920";
+const VERSION_LOCAL = "2026-07-26-2010";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
@@ -2051,6 +2093,23 @@ Object.keys(CANCIONES_CFG).forEach(clave => {
       navigator.mediaSession.playbackState = 'paused';
   }, true);
   document.addEventListener('ended', e => { if (e.target.tagName === 'AUDIO') e.target.dataset.debiaSonar = '0'; }, true);
+})();
+
+
+/* Menú de móvil */
+(function(){
+  const btn = document.getElementById('burger');
+  const menu = document.getElementById('menu');
+  if (!btn || !menu) return;
+  function abre(si){
+    menu.classList.toggle('abierto', si);
+    btn.setAttribute('aria-expanded', si ? 'true' : 'false');
+    btn.setAttribute('aria-label', si ? 'Cerrar el menú' : 'Abrir el menú');
+    document.body.classList.toggle('menu-abierto', si);
+  }
+  btn.addEventListener('click', () => abre(!menu.classList.contains('abierto')));
+  menu.addEventListener('click', e => { if (e.target.tagName === 'A' || e.target === menu) abre(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') abre(false); });
 })();
 
 /* Mini carrusel de fotos (foto grande + miniaturas + flechas) */
