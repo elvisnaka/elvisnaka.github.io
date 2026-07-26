@@ -193,15 +193,19 @@ blockquote cite{display:block;margin-top:12px;font-family:var(--mono);font-style
 .mg-cta:hover{background:#e0312f}
 
 /* ---------- ESCUCHAR EL LP ENTERO ---------- */
-.lp-entero{max-width:640px;margin:64px auto 0;background:linear-gradient(180deg,#f2cd7f,#c98f45);box-shadow:0 0 50px rgba(201,143,69,.35);padding:28px 22px;text-align:center;border-radius:12px}
-.lp-btn{display:inline-flex;align-items:center;gap:20px;background:none;border:none;cursor:pointer;color:#0a1118;font-family:var(--display);font-size:clamp(1.5rem,6vw,2.4rem);line-height:1.05;letter-spacing:.04em;text-transform:uppercase;text-align:left}
-.lp-tri{width:74px;height:74px;border-radius:50%;background:#0a1118;display:grid;place-items:center;flex:0 0 auto;color:#f2cd7f;transition:transform .25s}
+.lp-entero{max-width:640px;margin:64px auto 0;display:flex;align-items:stretch}
+.lp-medallon{flex:0 0 auto;width:clamp(96px,26vw,150px);background:#0a1118;border-radius:50%;display:grid;place-items:center;box-shadow:0 0 0 6px #c98f45,0 0 40px rgba(201,143,69,.4);position:relative;z-index:2;margin-right:clamp(-34px,-8vw,-46px)}
+.lp-medallon img{width:78%;height:78%;object-fit:contain;border-radius:50%}
+.lp-cuerpo{flex:1 1 auto;background:linear-gradient(180deg,#f2cd7f,#c98f45);box-shadow:0 0 50px rgba(201,143,69,.35);padding:26px clamp(20px,6vw,30px) 26px clamp(52px,11vw,70px);border-radius:16px;text-align:left}
+.lp-btn{display:flex;align-items:center;gap:18px;background:none;border:none;cursor:pointer;color:#0a1118;font-family:var(--display);font-size:clamp(1.35rem,5.4vw,2.1rem);line-height:1.05;letter-spacing:.03em;text-transform:uppercase;text-align:left;width:100%}
+.lp-tri{width:clamp(52px,11vw,64px);height:clamp(52px,11vw,64px);border-radius:50%;background:#0a1118;display:grid;place-items:center;flex:0 0 auto;color:#f2cd7f;transition:transform .25s}
 .lp-btn:hover .lp-tri{transform:scale(1.07)}
-.lp-tri span{width:0;height:0;border-left:20px solid currentColor;border-top:13px solid transparent;border-bottom:13px solid transparent;margin-left:5px}
-.lp-tri.sonando span{width:16px;height:20px;border:none;border-left:5px solid currentColor;border-right:5px solid currentColor;margin-left:0;background:transparent}
-.lp-ahora{font-family:var(--serif);font-style:italic;color:#2a1c0c;margin-top:16px;font-size:clamp(1.05rem,3.4vw,1.25rem);min-height:1.4em}
-.lp-barra{height:4px;background:rgba(10,17,24,.25);margin-top:14px;border-radius:2px;overflow:hidden}
+.lp-tri span{width:0;height:0;border-left:17px solid currentColor;border-top:11px solid transparent;border-bottom:11px solid transparent;margin-left:4px}
+.lp-tri.sonando span{width:14px;height:17px;border:none;border-left:4px solid currentColor;border-right:4px solid currentColor;margin-left:0;background:transparent}
+.lp-ahora{font-family:var(--serif);font-style:italic;color:#2a1c0c;margin-top:14px;font-size:clamp(.92rem,3vw,1.1rem);min-height:1.4em}
+.lp-barra{height:4px;background:rgba(10,17,24,.25);margin-top:12px;border-radius:2px;overflow:hidden}
 .lp-relleno{height:100%;width:0;background:#0a1118}
+@media(max-width:480px){.lp-entero{flex-direction:column;align-items:center}.lp-medallon{margin-right:0;margin-bottom:-38px;width:110px}.lp-cuerpo{padding:50px 22px 24px}}
 
 /* ---------- PASTILLA ÚLTIMA CANCIÓN ---------- */
 .single-card{position:relative}
@@ -771,12 +775,15 @@ Porque son inventados...
     </div>
 
     <div class="lp-entero">
-      <button class="lp-btn" id="lpBtn" type="button">
-        <span class="lp-tri" id="lpTri"><span></span></span>
-        <span id="lpTexto">Escuchar el LP entero</span>
-      </button>
-      <p class="lp-ahora" id="lpAhora"></p>
-      <div class="lp-barra"><div class="lp-relleno" id="lpRelleno"></div></div>
+      <div class="lp-medallon"><img src="ilustracion-naka.png" alt="Ilustración de Elvis Naka con la Telecaster"></div>
+      <div class="lp-cuerpo">
+        <button class="lp-btn" id="lpBtn" type="button">
+          <span class="lp-tri" id="lpTri"><span></span></span>
+          <span id="lpTexto">Escuchar el LP entero</span>
+        </button>
+        <p class="lp-ahora" id="lpAhora"></p>
+        <div class="lp-barra"><div class="lp-relleno" id="lpRelleno"></div></div>
+      </div>
     </div>
 
 
@@ -981,7 +988,7 @@ Una disculpa para salir de aquí...</strong></div>
     NINGÚN RETORNO ECONÓMICO.<br>
     <span class="meta-sep">—</span><br>
     © 2026 · ELIGE EL QUE TE VA A MATAR<br>
-    <span style="opacity:.55">VERSIÓN 26-JUL · 01:30</span>
+    <span style="opacity:.55">VERSIÓN 26-JUL · 01:55</span>
   </p>
 </footer>
 
@@ -1076,7 +1083,7 @@ document.querySelectorAll('.player').forEach(pl => {
 });
 
 /* Auto-actualizador: si hay versión nueva publicada, recarga la página fresca */
-const VERSION_LOCAL = "2026-07-26-0130";
+const VERSION_LOCAL = "2026-07-26-0155";
 fetch('version.json?t=' + Date.now(), {cache:'no-store'})
   .then(r => r.json())
   .then(d => {
